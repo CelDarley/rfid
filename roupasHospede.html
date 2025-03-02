@@ -142,6 +142,19 @@
                 background-position: center;
                 cursor: pointer;
             }
+            .icone-adicionar-header {
+                display: inline-block;
+                width: 32px;
+                height: 32px;
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%234a6ee0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>');
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: 24px 24px;
+                cursor: pointer;
+                border: none;
+                outline: none;
+                transition: background-color 0.3s ease;
+            }
             
             /* Botão de ler tag */
             .btn-ler-tag {
@@ -262,11 +275,8 @@
                 </nav>
                 <nav id="menuCompras" class="nav-maior separador">
                   
-                    <a href="tipomovimentacao.html"  class="ativo">tipo de movimentações</a>
-                    <a href="#">Movimentações</a>
-                    <a href="#">Receber Lavanderia</a>
-                    <a href="#">Enviar reparo</a>
-                    <a href="#">Receber reparo</a>
+                    <!-- <a href="tipomovimentacao.html"  class="ativo">tipo de movimentações</a> -->
+                    <a href="movimentacao.html">Movimentações</a>
                     <a href="#">Relatório de roupas</a>
                     <a href="#">Descartar roupas</a>
                 </nav>
@@ -593,6 +603,18 @@ function associarRoupa() {
                         openModal(hospedeId);
                     });
                 });
+                 // Recuperar o estado do menu do localStorage
+                 const menuAtivo = localStorage.getItem('menuAtivo') || 'Compras'; // 'Compras' é o padrão
+                
+                // Aplicar o estado do menu
+                document.getElementById('Compras').classList.remove('ativo');
+                document.getElementById('Apontamento').classList.remove('ativo');
+                document.getElementById('Gestao').classList.remove('ativo');
+                document.getElementById('menuCompras').classList.add('none');
+                document.getElementById('menuApontamento').classList.add('none');
+                document.getElementById('menuGestao').classList.add('none');
+                document.getElementById(menuAtivo).classList.add('ativo');
+                document.getElementById('menu' + menuAtivo).classList.remove('none');
                 
                 // Fechar a modal ao clicar fora dela (no overlay)
                 document.querySelector('.modal-overlay').addEventListener('click', function(e) {

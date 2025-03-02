@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sistema de Gestão de Lavanderia</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* Login Screen */
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+            background-color: #fff;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 30px;
+            background-color: #4a6ee0;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+        }
+        
+        .login-form {
+            width: 100%;
+            max-width: 320px;
+        }
+        
+        .input-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .input-field:focus {
+            border-color: #4a6ee0;
+            outline: none;
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: 15px;
+            background-color: #4a6ee0;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: #3a5bc0;
+        }
+        
+        .btn-secondary {
+            width: 100%;
+            padding: 15px;
+            background-color: #f5f5f5;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e5e5e5;
+        }
+        
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .forgot-password a {
+            color: #4a6ee0;
+            text-decoration: none;
+        }
+        
+        /* Home Screen */
+        .home-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+        
+        .header {
+            background-color: #4a6ee0;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .greeting {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .date {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .cards-container {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .card-icon {
+            background-color: #f0f4ff;
+            color: #4a6ee0;
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .card-description {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .bottom-nav {
+            display: flex;
+            background-color: white;
+            border-top: 1px solid #eee;
+        }
+        
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            color: #999;
+            cursor: pointer;
+        }
+        
+        .nav-item.active {
+            color: #4a6ee0;
+        }
+        
+        .nav-text {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        /* Functionality Screens */
+        .functionality-screen {
+            display: none;
+            height: 100vh;
+            background-color: #f5f5f5;
+            flex-direction: column;
+        }
+        
+        .screen-header {
+            background-color: #4a6ee0;
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-button {
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        
+        .screen-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .screen-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        /* Room List Styles */
+        .room-list {
+            margin-top: 20px;
+        }
+        
+        .room-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        
+        .room-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .room-number {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .room-guest {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Tag Reader Styles */
+        .tag-reader-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            background-color: #4a6ee0;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: background-color 0.3s;
+        }
+        
+        .tag-reader-button.reading {
+            background-color: #e53935;
+        }
+        
+        .tag-reader-button i {
+            margin-right: 10px;
+        }
+        
+        .tags-list {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .tag-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .tag-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .tag-id {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .tag-type, .tag-timestamp {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .tag-remove {
+            color: #e53935;
+            cursor: pointer;
+        }
+        
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+        
+        /* Entrada de Roupas Styles */
+        #roomListContainer, #tagReaderContainer {
+            padding: 20px;
+        }
+        
+        /* Chips */
+        .chip {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .bg-ok {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .bg-ausente {
+            background-color: #fff3e0;
+            color: #e65100;
+        }
+        
+        /* Table Styles */
+        .tabela {
+            overflow-x: auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        /* Estilos para etapas */
+        .step-container {
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        /* Estilos para embalagens */
+        .embalagens-list {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .embalagem-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .embalagem-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .embalagem-id {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .embalagem-count {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .embalagem-actions {
+            display: flex;
+        }
+        
+        .btn-icon {
+            background: none;
+            border: none;
+            color: #4a6ee0;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .btn-sm {
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+        
+        .empty-message {
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        /* Estilos para comparação de itens */
+        .comparison-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .missing-items-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #fff3e0;
+            border-radius: 8px;
+        }
+        
+        .missing-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: white;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .missing-item-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .missing-item-type {
+            font-weight: bold;
+        }
+        
+        .missing-item-guest {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Estilos para subheaders */
+        .screen-subheader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="logo">L</div>
+        <div class="login-form">
+            <div class="input-container">
+                <i class="material-icons input-icon">person</i>
+                <input type="text" id="username" class="input-field" placeholder="Nome de usuário">
+            </div>
+            <div class="input-container">
+                <i class="material-icons input-icon">lock</i>
+                <input type="password" id="password" class="input-field" placeholder="Senha">
+            </div>
+            <button type="button" class="btn-primary" onclick="login()">Entrar</button>
+            <div class="forgot-password">
+                <a href="#">Esqueceu a senha?</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Home Screen -->
+    <div id="homeScreen" class="home-container" style="display: none;">
+        <div class="header">
+            <div class="greeting">Olá, Operador</div>
+            <div class="date" id="currentDate"></div>
+        </div>
+        <div class="cards-container">
+            <div class="card" onclick="navigateTo('entradaRoupas')">
+                <div class="card-icon">
+                    <i class="material-icons">add_circle</i>
+                </div>
+                <div class="card-title">Entrada de Roupas</div>
+                <div class="card-description">Registrar roupas recebidas dos hóspedes</div>
+            </div>
+            
+            <div class="card" onclick="navigateTo('saidaLavanderia')">
+                <div class="card-icon">
+                    <i class="material-icons">local_shipping</i>
+                </div>
+                <div class="card-title">Saída para Lavanderia</div>
+                <div class="card-description">Registrar roupas enviadas para lavagem</div>
+            </div>
+            
+            <div class="card" onclick="navigateTo('retornoLavanderia')">
+                <div class="card-icon">
+                    <i class="material-icons">assignment_return</i>
+                </div>
+                <div class="card-title">Retorno da Lavanderia</div>
+                <div class="card-description">Registrar roupas que retornaram da lavagem</div>
+            </div>
+            
+            <div class="card" onclick="navigateTo('devolucaoHospede')">
+                <div class="card-icon">
+                    <i class="material-icons">person</i>
+                </div>
+                <div class="card-title">Devolução para o Hóspede</div>
+                <div class="card-description">Registrar roupas devolvidas aos hóspedes</div>
+            </div>
+        </div>
+        <div class="bottom-nav">
+            <div class="nav-item active">
+                <i class="material-icons">home</i>
+                <span class="nav-text">Início</span>
+            </div>
+            <div class="nav-item">
+                <i class="material-icons">history</i>
+                <span class="nav-text">Histórico</span>
+            </div>
+            <div class="nav-item">
+                <i class="material-icons">notifications</i>
+                <span class="nav-text">Notificações</span>
+            </div>
+            <div class="nav-item">
+                <i class="material-icons">person</i>
+                <span class="nav-text">Perfil</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tela de Entrada de Roupas -->
+    <div id="entradaRoupasScreen" class="functionality-screen">
+        <div class="screen-header">
+            <i class="material-icons back-button" onclick="voltarParaHome()">arrow_back</i>
+            <h2 class="screen-title">Entrada de Roupas</h2>
+        </div>
+        
+        <!-- Lista de Quartos -->
+        <div id="roomListContainer" class="screen-content">
+            <div class="form-group">
+                <label for="searchRoom">Buscar quarto ou hóspede</label>
+                <div class="input-container">
+                    <i class="material-icons input-icon">search</i>
+                    <input type="text" id="searchRoom" class="input-field" placeholder="Digite o número do quarto ou nome do hóspede">
+                </div>
+            </div>
+            
+            <div class="room-list">
+                <div class="room-item" onclick="selecionarQuarto('101', 'João Silva')">
+                    <div class="room-info">
+                        <span class="room-number">Quarto 101</span>
+                        <span class="room-guest">João Silva</span>
+                    </div>
+                    <i class="material-icons">chevron_right</i>
+                </div>
+                
+                <div class="room-item" onclick="selecionarQuarto('203', 'Maria Oliveira')">
+                    <div class="room-info">
+                        <span class="room-number">Quarto 203</span>
+                        <span class="room-guest">Maria Oliveira</span>
+                    </div>
+                    <i class="material-icons">chevron_right</i>
+                </div>
+                
+                <div class="room-item" onclick="selecionarQuarto('305', 'Pedro Santos')">
+                    <div class="room-info">
+                        <span class="room-number">Quarto 305</span>
+                        <span class="room-guest">Pedro Santos</span>
+                    </div>
+                    <i class="material-icons">chevron_right</i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Leitor de Tags -->
+        <div id="tagReaderContainer" class="screen-content" style="display: none;">
+            <div class="screen-subheader">
+                <h3>Quarto <span id="selectedRoomNumber">101</span></h3>
+                <p>Hóspede: <strong id="selectedGuestName">João Silva</strong></p>
+            </div>
+            
+            <button id="readTagButton" class="tag-reader-button" onclick="toggleTagReading()">
+                <i class="material-icons">nfc</i> Ler Tag RFID
+            </button>
+            
+            <div id="tagsList" class="tags-list">
+                <!-- Tags lidas serão adicionadas aqui dinamicamente -->
+            </div>
+            
+            <div class="buttons-container">
+                <button class="btn-primary" onclick="finalizarLeitura()">Finalizar</button>
+                <button class="btn-secondary" onclick="voltarParaListaQuartos()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tela de Saída para Lavanderia -->
+    <div id="saidaLavanderiaScreen" class="functionality-screen">
+        <div class="screen-header">
+            <i class="material-icons back-button" onclick="voltarParaHome()">arrow_back</i>
+            <h2 class="screen-title">Saída para Lavanderia</h2>
+        </div>
+        
+        <!-- Etapa 1: Seleção de lavanderia e data -->
+        <div id="saidaLavanderiaStep1" class="step-container">
+            <div class="form-group">
+                <label for="lavanderia">Lavanderia</label>
+                <select id="lavanderia" class="form-control">
+                    <option value="">Selecione a lavanderia</option>
+                    <option value="1">Lavanderia Express</option>
+                    <option value="2">Clean & Fast</option>
+                    <option value="3">Lavanderia do Hotel</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="dataEnvio">Data de Envio</label>
+                <input type="date" id="dataEnvio" class="form-control">
+            </div>
+            
+            <button type="button" class="btn-primary" onclick="iniciarLeituraEmbalagens()">Continuar</button>
+        </div>
+        
+        <!-- Etapa 2: Leitura de embalagens -->
+        <div id="saidaLavanderiaStep2" class="step-container" style="display: none;">
+            <div class="screen-subheader">
+                <h3>Embalagens para envio</h3>
+                <button type="button" class="btn-secondary btn-sm" onclick="adicionarNovaEmbalagem()">
+                    <i class="material-icons">add</i> Nova Embalagem
+                </button>
+            </div>
+            
+            <div id="embalagensList" class="embalagens-list">
+                <!-- Embalagens serão adicionadas aqui dinamicamente -->
+            </div>
+            
+            <div class="buttons-container">
+                <button class="btn-primary" onclick="finalizarEnvioLavanderia()">Finalizar Envio</button>
+                <button class="btn-secondary" onclick="voltarParaStep1Lavanderia()">Voltar</button>
+            </div>
+        </div>
+        
+        <!-- Etapa 3: Leitura de itens para uma embalagem específica -->
+        <div id="saidaLavanderiaStep3" class="step-container" style="display: none;">
+            <div class="screen-subheader">
+                <h3>Embalagem <span id="currentEmbalagem">1</span></h3>
+            </div>
+            
+            <button id="readTagEmbalagem" class="tag-reader-button" onclick="toggleTagReadingEmbalagem()">
+                <i class="material-icons">nfc</i> Ler Tag RFID
+            </button>
+            
+            <div id="tagsEmbalagemList" class="tags-list">
+                <!-- Tags lidas serão adicionadas aqui dinamicamente -->
+            </div>
+            
+            <div class="buttons-container">
+                <button class="btn-primary" onclick="concluirEmbalagem()">Concluir Embalagem</button>
+                <button class="btn-secondary" onclick="voltarParaListaEmbalagens()">Voltar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tela de Retorno da Lavanderia -->
+    <div id="retornoLavanderiaScreen" class="functionality-screen">
+        <div class="screen-header">
+            <i class="material-icons back-button" onclick="voltarParaHome()">arrow_back</i>
+            <h2 class="screen-title">Retorno da Lavanderia</h2>
+        </div>
+        
+        <!-- Etapa 1: Seleção de lavanderia e data -->
+        <div id="retornoLavanderiaStep1" class="step-container">
+            <div class="form-group">
+                <label for="lavanderiaRetorno">Lavanderia</label>
+                <select id="lavanderiaRetorno" class="form-control">
+                    <option value="">Selecione a lavanderia</option>
+                    <option value="1">Lavanderia Express</option>
+                    <option value="2">Clean & Fast</option>
+                    <option value="3">Lavanderia do Hotel</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="dataRetorno">Data de Retorno</label>
+                <input type="date" id="dataRetorno" class="form-control">
+            </div>
+            
+            <button type="button" class="btn-primary" onclick="iniciarLeituraRetorno()">Continuar</button>
+        </div>
+        
+        <!-- Etapa 2: Leitura de tags retornadas -->
+        <div id="retornoLavanderiaStep2" class="step-container" style="display: none;">
+            <button id="readTagRetorno" class="tag-reader-button" onclick="toggleTagReadingRetorno()">
+                <i class="material-icons">nfc</i> Ler Tag RFID
+            </button>
+            
+            <div class="comparison-container">
+                <h3>Comparação com Envio</h3>
+                <div class="tabela">
+                    <table style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Enviado</th>
+                                <th>Retornado</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="comparisonTableBody">
+                            <!-- Itens serão adicionados aqui dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="missingItemsContainer" class="missing-items-container" style="display: none;">
+                <h3>Itens Não Retornados</h3>
+                <div id="missingItemsList" class="missing-items-list">
+                    <!-- Itens não retornados serão listados aqui -->
+                </div>
+            </div>
+            
+            <div class="buttons-container">
+                <button class="btn-primary" onclick="finalizarRetornoLavanderia()">Finalizar Retorno</button>
+                <button class="btn-secondary" onclick="voltarParaStep1Retorno()">Voltar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tela de Devolução ao Hóspede -->
+    <div id="devolucaoHospedeScreen" class="functionality-screen">
+        <div class="screen-header">
+            <i class="material-icons back-button" onclick="voltarParaHome()">arrow_back</i>
+            <h2 class="screen-title">Devolução ao Hóspede</h2>
+        </div>
+        
+        <!-- Etapa 1: Seleção de quarto -->
+        <div id="devolucaoHospedeStep1" class="step-container">
+            <div class="form-group">
+                <label for="searchRoomDevolucao">Buscar quarto ou hóspede</label>
+                <div class="input-container">
+                    <i class="material-icons input-icon">search</i>
+                    <input type="text" id="searchRoomDevolucao" class="input-field" placeholder="Digite o número do quarto ou nome do hóspede">
+                </div>
+            </div>
+            
+            <div class="room-list">
+                <div class="room-item" onclick="selecionarQuartoDevolucao('101', 'João Silva')">
+                    <div class="room-info">
+                        <span class="room-number">Quarto 101</span>
+                        <span class="room-guest">João Silva</span>
+                    </div>
+                    <i class="material-icons">chevron_right</i>
+                </div>
+                
+                <div class="room-item" onclick="selecionarQuartoDevolucao('203', 'Maria Oliveira')">
+                    <div class="room-info">
+                        <span class="room-number">Quarto 203</span>
+                        <span class="room-guest">Maria Oliveira</span>
+                    </div>
+                    <i class="material-icons">chevron_right</i>
+                </div>
+                
+                <div class="room-item" onclick="selecionarQuartoDevolucao('305', 'Pedro Santos')">
+                    <div class="room-info">
+                        <span class="room-number">Quarto 305</span>
+                        <span class="room-guest">Pedro Santos</span>
+                    </div>
+                    <i class="material-icons">chevron_right</i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Etapa 2: Leitura de tags para devolução -->
+        <div id="devolucaoHospedeStep2" class="step-container" style="display: none;">
+            <div class="screen-subheader">
+                <h3>Quarto <span id="selectedRoomNumberDevolucao">101</span></h3>
+                <p>Hóspede: <strong id="selectedGuestNameDevolucao">João Silva</strong></p>
+            </div>
+            
+            <button id="readTagDevolucao" class="tag-reader-button" onclick="toggleTagReadingDevolucao()">
+                <i class="material-icons">nfc</i> Ler Tag RFID
+            </button>
+            
+            <div id="tagsDevolucaoList" class="tags-list">
+                <!-- Tags lidas serão adicionadas aqui dinamicamente -->
+            </div>
+            
+            <div class="form-group">
+                <label for="assinatura">Assinatura do Hóspede</label>
+                <div id="assinaturaCanvas" style="border: 1px solid #ddd; height: 100px; border-radius: 8px; background-color: #fff;"></div>
+                <button type="button" class="btn-secondary btn-sm" onclick="limparAssinatura()" style="margin-top: 5px;">
+                    Limpar Assinatura
+                </button>
+            </div>
+            
+            <div class="buttons-container">
+                <button class="btn-primary" onclick="finalizarDevolucao()">Finalizar Devolução</button>
+                <button class="btn-secondary" onclick="voltarParaListaQuartosDevolucao()">Voltar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variáveis globais
+        let isReading = false;
+        let isReadingEmbalagem = false;
+        let isReadingRetorno = false;
+        let isReadingDevolucao = false;
+        let tagsLidas = [];
+        let embalagensList = [];
+        let currentEmbalagemIndex = -1;
+        let tagsEnviadas = [
+            { id: 'TAG00123', tipo: 'Camisa', quarto: '101', hospede: 'João Silva' },
+            { id: 'TAG00456', tipo: 'Calça', quarto: '101', hospede: 'João Silva' },
+            { id: 'TAG00789', tipo: 'Vestido', quarto: '203', hospede: 'Maria Oliveira' },
+            { id: 'TAG01012', tipo: 'Terno', quarto: '305', hospede: 'Pedro Santos' },
+            { id: 'TAG01345', tipo: 'Jaqueta', quarto: '305', hospede: 'Pedro Santos' }
+        ];
+        let tagsRetornadas = [];
+        let tagsDevolucao = [];
+        
+        // Atualizar data atual
+        document.addEventListener('DOMContentLoaded', function() {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const today = new Date();
+            document.getElementById('currentDate').textContent = today.toLocaleDateString('pt-BR', options);
+            
+            // Inicializa a data atual nos campos de data
+            const dateInputs = document.querySelectorAll('input[type="date"]');
+            dateInputs.forEach(input => {
+                input.value = today.toISOString().split('T')[0];
+            });
+        });
+        
+        // Função de login
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (!username || !password) {
+                alert('Por favor, preencha todos os campos');
+                return;
+            }
+            
+            // Simulação de login bem-sucedido
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('homeScreen').style.display = 'flex';
+        }
+        
+        // Função para navegar entre telas
+        function navigateTo(screen) {
+            // Esconder todas as telas
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('homeScreen').style.display = 'none';
+            document.getElementById('entradaRoupasScreen').style.display = 'none';
+            document.getElementById('saidaLavanderiaScreen').style.display = 'none';
+            document.getElementById('retornoLavanderiaScreen').style.display = 'none';
+            document.getElementById('devolucaoHospedeScreen').style.display = 'none';
+            
+            // Mostrar a tela selecionada
+            switch(screen) {
+                case 'login':
+                    document.getElementById('loginScreen').style.display = 'flex';
+                    break;
+                case 'home':
+                    document.getElementById('homeScreen').style.display = 'flex';
+                    break;
+                case 'entradaRoupas':
+                    document.getElementById('entradaRoupasScreen').style.display = 'flex';
+                    // Resetar para a lista de quartos
+                    document.getElementById('roomListContainer').style.display = 'block';
+                    document.getElementById('tagReaderContainer').style.display = 'none';
+                    break;
+                case 'saidaLavanderia':
+                    document.getElementById('saidaLavanderiaScreen').style.display = 'flex';
+                    // Resetar para a etapa 1
+                    document.getElementById('saidaLavanderiaStep1').style.display = 'block';
+                    document.getElementById('saidaLavanderiaStep2').style.display = 'none';
+                    document.getElementById('saidaLavanderiaStep3').style.display = 'none';
+                    break;
+                case 'retornoLavanderia':
+                    document.getElementById('retornoLavanderiaScreen').style.display = 'flex';
+                    // Resetar para a etapa 1
+                    document.getElementById('retornoLavanderiaStep1').style.display = 'block';
+                    document.getElementById('retornoLavanderiaStep2').style.display = 'none';
+                    break;
+                case 'devolucaoHospede':
+                    document.getElementById('devolucaoHospedeScreen').style.display = 'flex';
+                    // Resetar para a etapa 1
+                    document.getElementById('devolucaoHospedeStep1').style.display = 'block';
+                    document.getElementById('devolucaoHospedeStep2').style.display = 'none';
+                    break;
+                default:
+                    document.getElementById('homeScreen').style.display = 'flex';
+            }
+        }
+        
+        // Função para voltar para a tela home
+        function voltarParaHome() {
+            navigateTo('home');
+        }
+        
+        // ===== FUNÇÕES PARA ENTRADA DE ROUPAS =====
+        
+        // Função para selecionar quarto e mostrar leitor de tags
+        function selecionarQuarto(numeroQuarto, nomeHospede) {
+            document.getElementById('selectedRoomNumber').textContent = numeroQuarto;
+            document.getElementById('selectedGuestName').textContent = nomeHospede;
+            
+            document.getElementById('roomListContainer').style.display = 'none';
+            document.getElementById('tagReaderContainer').style.display = 'block';
+            
+            // Limpar tags lidas anteriormente
+            tagsLidas = [];
+            document.getElementById('tagsList').innerHTML = '';
+        }
+        
+        // Função para voltar para a lista de quartos
+        function voltarParaListaQuartos() {
+            document.getElementById('roomListContainer').style.display = 'block';
+            document.getElementById('tagReaderContainer').style.display = 'none';
+            
+            // Resetar estado do leitor
+            isReading = false;
+            const readTagButton = document.getElementById('readTagButton');
+            readTagButton.classList.remove('reading');
+            readTagButton.innerHTML = '<i class="material-icons">nfc</i> Ler Tag RFID';
+        }
+        
+        // Função para alternar leitura de tags
+        function toggleTagReading() {
+            const readTagButton = document.getElementById('readTagButton');
+            
+            if (!isReading) {
+                // Iniciar leitura
+                isReading = true;
+                readTagButton.classList.add('reading');
+                readTagButton.innerHTML = '<i class="material-icons">stop</i> Parar Leitura';
+                
+                // Simular leitura de tag após 1 segundo
+                setTimeout(simularLeituraTag, 1000);
+            } else {
+                // Parar leitura
+                isReading = false;
+                readTagButton.classList.remove('reading');
+                readTagButton.innerHTML = '<i class="material-icons">nfc</i> Ler Tag RFID';
+            }
+        }
+        
+        // Função para simular leitura de tag
+        function simularLeituraTag() {
+            if (!isReading) return;
+            
+            // Gerar ID de tag aleatório
+            const tagId = 'TAG' + Math.floor(Math.random() * 10000).toString().padStart(5, '0');
+            
+            // Tipos de roupas possíveis
+            const tiposRoupas = ['Camisa', 'Calça', 'Vestido', 'Terno', 'Jaqueta', 'Blusa', 'Saia', 'Shorts'];
+            const tipoRoupa = tiposRoupas[Math.floor(Math.random() * tiposRoupas.length)];
+            
+            // Data e hora atual
+            const agora = new Date();
+            const timestamp = agora.toLocaleTimeString();
+            
+            // Adicionar tag à lista
+            adicionarTagLida(tagId, tipoRoupa, timestamp);
+            
+            // Se ainda estiver lendo, agendar próxima leitura
+            if (isReading) {
+                setTimeout(simularLeituraTag, Math.random() * 2000 + 1000); // Entre 1 e 3 segundos
+            }
+        }
+        
+        // Função para adicionar tag lida à lista
+        function adicionarTagLida(tagId, tipoRoupa, timestamp) {
+            // Verificar se a tag já foi lida
+            if (tagsLidas.some(tag => tag.id === tagId)) {
+                return;
+            }
+            
+            // Adicionar à lista de tags lidas
+            tagsLidas.push({
+                id: tagId,
+                tipo: tipoRoupa,
+                timestamp: timestamp
+            });
+            
+            // Criar elemento HTML para a tag
+            const tagElement = document.createElement('div');
+            tagElement.className = 'tag-item';
+            tagElement.innerHTML = `
+                <div class="tag-info">
+                    <span class="tag-id">${tagId}</span>
+                    <span class="tag-type">${tipoRoupa}</span>
+                    <span class="tag-timestamp">${timestamp}</span>
+                </div>
+                <i class="material-icons tag-remove" onclick="removerTag('${tagId}')">delete</i>
+            `;
+            
+            // Adicionar à lista na interface
+            document.getElementById('tagsList').appendChild(tagElement);
+        }
+        
+        // Função para remover tag da lista
+        function removerTag(tagId) {
+            // Remover da lista de tags lidas
+            tagsLidas = tagsLidas.filter(tag => tag.id !== tagId);
+            
+            // Atualizar interface
+            const tagsList = document.getElementById('tagsList');
+            const tagElements = tagsList.querySelectorAll('.tag-item');
+            
+            tagElements.forEach(element => {
+                const id = element.querySelector('.tag-id').textContent;
+                if (id === tagId) {
+                    tagsList.removeChild(element);
+                }
+            });
+        }
+        
+        // Função para finalizar leitura de tags
+        function finalizarLeitura() {
+            if (tagsLidas.length === 0) {
+                alert('Nenhuma tag foi lida. Por favor, leia pelo menos uma tag.');
+                return;
+            }
+            
+            // Parar leitura se estiver ativa
+            if (isReading) {
+                toggleTagReading();
+            }
+            
+            // Exibir resumo
+            let mensagem = `Entrada registrada com sucesso!\n\n`;
+            mensagem += `Quarto: ${document.getElementById('selectedRoomNumber').textContent}\n`;
+            mensagem += `Hóspede: ${document.getElementById('selectedGuestName').textContent}\n\n`;
+            mensagem += `Itens registrados:\n`;
+            
+            // Agrupar itens por tipo
+            const itensPorTipo = {};
+            tagsLidas.forEach(tag => {
+                if (!itensPorTipo[tag.tipo]) {
+                    itensPorTipo[tag.tipo] = 0;
+                }
+                itensPorTipo[tag.tipo]++;
+            });
+            
+            // Adicionar itens à mensagem
+            for (const tipo in itensPorTipo) {
+                mensagem += `- ${tipo}: ${itensPorTipo[tipo]}\n`;
+            }
+            
+            alert(mensagem);
+            
+            // Voltar para a tela inicial
+            voltarParaHome();
+        }
+        
+        // ===== FUNÇÕES PARA SAÍDA PARA LAVANDERIA =====
+        
+        // Iniciar leitura de embalagens
+        function iniciarLeituraEmbalagens() {
+            const lavanderia = document.getElementById('lavanderia').value;
+            const dataEnvio = document.getElementById('dataEnvio').value;
+            
+            if (!lavanderia || !dataEnvio) {
+                alert('Por favor, preencha todos os campos obrigatórios');
+                return;
+            }
+            
+            // Limpar lista de embalagens
+            embalagensList = [];
+            document.getElementById('embalagensList').innerHTML = '';
+            
+            // Mostrar etapa 2
+            document.getElementById('saidaLavanderiaStep1').style.display = 'none';
+            document.getElementById('saidaLavanderiaStep2').style.display = 'block';
+        }
+        
+        // Adicionar nova embalagem
+        function adicionarNovaEmbalagem() {
+            const novaEmbalagem = {
+                id: 'EMB' + (embalagensList.length + 1).toString().padStart(3, '0'),
+                tags: []
+            };
+            
+            embalagensList.push(novaEmbalagem);
+            atualizarListaEmbalagens();
+            
+            // Selecionar a nova embalagem automaticamente
+            selecionarEmbalagem(embalagensList.length - 1);
+        }
+        
+        // Atualizar lista de embalagens na interface
+        function atualizarListaEmbalagens() {
+            const container = document.getElementById('embalagensList');
+            container.innerHTML = '';
+            
+            if (embalagensList.length === 0) {
+                const emptyMessage = document.createElement('div');
+                emptyMessage.className = 'empty-message';
+                emptyMessage.textContent = 'Nenhuma embalagem adicionada. Clique em "Nova Embalagem" para começar.';
+                container.appendChild(emptyMessage);
+                return;
+            }
+            
+            embalagensList.forEach((embalagem, index) => {
+                const embalagemElement = document.createElement('div');
+                embalagemElement.className = 'embalagem-item';
+                
+                const itemsCount = embalagem.tags.length;
+                const itemsText = itemsCount === 1 ? '1 item' : `${itemsCount} itens`;
+                
+                embalagemElement.innerHTML = `
+                    <div class="embalagem-info">
+                        <span class="embalagem-id">${embalagem.id}</span>
+                        <span class="embalagem-count">${itemsText}</span>
+                    </div>
+                    <div class="embalagem-actions">
+                        <button class="btn-icon" onclick="selecionarEmbalagem(${index})">
+                            <i class="material-icons">edit</i>
+                        </button>
+                        <button class="btn-icon" onclick="removerEmbalagem(${index})">
+                            <i class="material-icons">delete</i>
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(embalagemElement);
+            });
+        }
+        
+        // Selecionar embalagem para edição
+        function selecionarEmbalagem(index) {
+            currentEmbalagemIndex = index;
+            document.getElementById('currentEmbalagem').textContent = embalagensList[index].id;
+            
+            // Limpar lista de tags
+            document.getElementById('tagsEmbalagemList').innerHTML = '';
+            
+            // Mostrar tags da embalagem selecionada
+            embalagensList[index].tags.forEach(tag => {
+                adicionarTagLidaEmbalagem(tag.id, tag.tipo, tag.timestamp);
+            });
+            
+            // Mostrar etapa 3
+            document.getElementById('saidaLavanderiaStep2').style.display = 'none';
+            document.getElementById('saidaLavanderiaStep3').style.display = 'block';
+        }
+        
+        // Remover embalagem
+        function removerEmbalagem(index) {
+            if (confirm(`Deseja realmente remover a embalagem ${embalagensList[index].id}?`)) {
+                embalagensList.splice(index, 1);
+                atualizarListaEmbalagens();
+            }
+        }
+        
+        // Alternar leitura de tags para embalagem
+        function toggleTagReadingEmbalagem() {
+            const readTagButton = document.getElementById('readTagEmbalagem');
+            
+            if (!isReadingEmbalagem) {
+                // Iniciar leitura
+                isReadingEmbalagem = true;
+                readTagButton.classList.add('reading');
+                readTagButton.innerHTML = '<i class="material-icons">stop</i> Parar Leitura';
+                
+                // Simular leitura de tag após 1 segundo
+                setTimeout(simularLeituraTagEmbalagem, 1000);
+            } else {
+                // Parar leitura
+                isReadingEmbalagem = false;
+                readTagButton.classList.remove('reading');
+                readTagButton.innerHTML = '<i class="material-icons">nfc</i> Ler Tag RFID';
+            }
+        }
+        
+        // Simular leitura de tag para embalagem
+        function simularLeituraTagEmbalagem() {
+            if (!isReadingEmbalagem) return;
+            
+            // Gerar ID de tag aleatório
+            const tagId = 'TAG' + Math.floor(Math.random() * 10000).toString().padStart(5, '0');
+            
+            // Tipos de roupas possíveis
+            const tiposRoupas = ['Camisa', 'Calça', 'Vestido', 'Terno', 'Jaqueta', 'Blusa', 'Saia', 'Shorts'];
+            const tipoRoupa = tiposRoupas[Math.floor(Math.random() * tiposRoupas.length)];
+            
+            // Data e hora atual
+            const agora = new Date();
+            const timestamp = agora.toLocaleTimeString();
+            
+            // Adicionar tag à embalagem
+            adicionarTagEmbalagem(tagId, tipoRoupa, timestamp);
+            
+            // Se ainda estiver lendo, agendar próxima leitura
+            if (isReadingEmbalagem) {
+                setTimeout(simularLeituraTagEmbalagem, Math.random() * 2000 + 1000); // Entre 1 e 3 segundos
+            }
+        }
+        
+        // Adicionar tag à embalagem atual
+        function adicionarTagEmbalagem(tagId, tipoRoupa, timestamp) {
+            // Verificar se a tag já foi adicionada a alguma embalagem
+            let tagJaAdicionada = false;
+            
+            embalagensList.forEach((embalagem, index) => {
+                if (embalagem.tags.some(tag => tag.id === tagId)) {
+                    tagJaAdicionada = true;
+                    
+                    // Se a tag está em outra embalagem, perguntar se deseja movê-la
+                    if (index !== currentEmbalagemIndex) {
+                        if (confirm(`Esta tag já está na embalagem ${embalagem.id}. Deseja movê-la para a embalagem atual?`)) {
+                            // Remover da embalagem anterior
+                            embalagem.tags = embalagem.tags.filter(tag => tag.id !== tagId);
+                            
+                            // Adicionar à embalagem atual
+                            embalagensList[currentEmbalagemIndex].tags.push({
+                                id: tagId,
+                                tipo: tipoRoupa,
+                                timestamp: timestamp
+                            });
+                            
+                            // Atualizar interface
+                            adicionarTagLidaEmbalagem(tagId, tipoRoupa, timestamp);
+                        }
+                    }
+                }
+            });
+            
+            // Se a tag não foi adicionada a nenhuma embalagem, adicionar à embalagem atual
+            if (!tagJaAdicionada) {
+                embalagensList[currentEmbalagemIndex].tags.push({
+                    id: tagId,
+                    tipo: tipoRoupa,
+                    timestamp: timestamp
+                });
+                
+                // Atualizar interface
+                adicionarTagLidaEmbalagem(tagId, tipoRoupa, timestamp);
+            }
+        }
+        
+        // Adicionar tag lida à lista na interface
+        function adicionarTagLidaEmbalagem(tagId, tipoRoupa, timestamp) {
+            // Verificar se a tag já está na lista
+            const existingTag = document.querySelector(`.tag-item[data-id="${tagId}"]`);
+            if (existingTag) return;
+            
+            // Criar elemento HTML para a tag
+            const tagElement = document.createElement('div');
+            tagElement.className = 'tag-item';
+            tagElement.setAttribute('data-id', tagId);
+            tagElement.innerHTML = `
+                <div class="tag-info">
+                    <span class="tag-id">${tagId}</span>
+                    <span class="tag-type">${tipoRoupa}</span>
+                    <span class="tag-timestamp">${timestamp}</span>
+                </div>
+                <i class="material-icons tag-remove" onclick="removerTagEmbalagem('${tagId}')">delete</i>
+            `;
+            
+            // Adicionar à lista na interface
+            document.getElementById('tagsEmbalagemList').appendChild(tagElement);
+        }
+        
+        // Remover tag da embalagem
+        function removerTagEmbalagem(tagId) {
+            // Remover da lista de tags da embalagem
+            embalagensList[currentEmbalagemIndex].tags = embalagensList[currentEmbalagemIndex].tags.filter(tag => tag.id !== tagId);
+            
+            // Atualizar interface
+            const tagElement = document.querySelector(`.tag-item[data-id="${tagId}"]`);
+            if (tagElement) {
+                tagElement.parentNode.removeChild(tagElement);
+            }
+        }
+        
+        // Concluir embalagem atual
+        function concluirEmbalagem() {
+            if (embalagensList[currentEmbalagemIndex].tags.length === 0) {
+                alert('A embalagem está vazia. Adicione pelo menos um item.');
+                return;
+            }
+            
+            // Voltar para a lista de embalagens
+            document.getElementById('saidaLavanderiaStep3').style.display = 'none';
+            document.getElementById('saidaLavanderiaStep2').style.display = 'block';
+            
+            // Atualizar lista de embalagens
+            atualizarListaEmbalagens();
+        }
+        
+        // Voltar para a etapa 1 da saída para lavanderia
+        function voltarParaStep1Lavanderia() {
+            document.getElementById('saidaLavanderiaStep2').style.display = 'none';
+            document.getElementById('saidaLavanderiaStep1').style.display = 'block';
+        }
+        
+        // Voltar para a lista de embalagens
+        function voltarParaListaEmbalagens() {
+            // Parar leitura se estiver ativa
+            if (isReadingEmbalagem) {
+                toggleTagReadingEmbalagem();
+            }
+            
+            document.getElementById('saidaLavanderiaStep3').style.display = 'none';
+            document.getElementById('saidaLavanderiaStep2').style.display = 'block';
+        }
+        
+        // Finalizar envio para lavanderia
+        function finalizarEnvioLavanderia() {
+            if (embalagensList.length === 0) {
+                alert('Nenhuma embalagem foi adicionada. Adicione pelo menos uma embalagem.');
+                return;
+            }
+            
+            // Contar total de itens
+            let totalItens = 0;
+            embalagensList.forEach(embalagem => {
+                totalItens += embalagem.tags.length;
+            });
+            
+            // Exibir resumo
+            let mensagem = `Envio para lavanderia registrado com sucesso!\n\n`;
+            mensagem += `Lavanderia: ${document.getElementById('lavanderia').options[document.getElementById('lavanderia').selectedIndex].text}\n`;
+            mensagem += `Data: ${document.getElementById('dataEnvio').value}\n\n`;
+            mensagem += `Total de embalagens: ${embalagensList.length}\n`;
+            mensagem += `Total de itens: ${totalItens}\n\n`;
+            mensagem += `Detalhes:\n`;
+            
+            embalagensList.forEach(embalagem => {
+                mensagem += `- Embalagem ${embalagem.id}: ${embalagem.tags.length} itens\n`;
+            });
+            
+            alert(mensagem);
+            
+            // Voltar para a tela inicial
+            voltarParaHome();
+        }
+        
+        // ===== FUNÇÕES PARA RETORNO DA LAVANDERIA =====
+        
+        // Iniciar leitura de retorno
+        function iniciarLeituraRetorno() {
+            const lavanderia = document.getElementById('lavanderiaRetorno').value;
+            const dataRetorno = document.getElementById('dataRetorno').value;
+            
+            if (!lavanderia || !dataRetorno) {
+                alert('Por favor, preencha todos os campos obrigatórios');
+                return;
+            }
+            
+            // Limpar lista de tags retornadas
+            tagsRetornadas = [];
+            
+            // Inicializar tabela de comparação
+            atualizarTabelaComparacao();
+            
+            // Mostrar etapa 2
+            document.getElementById('retornoLavanderiaStep1').style.display = 'none';
+            document.getElementById('retornoLavanderiaStep2').style.display = 'block';
+        }
+        
+        // Alternar leitura de tags para retorno
+        function toggleTagReadingRetorno() {
+            const readTagButton = document.getElementById('readTagRetorno');
+            
+            if (!isReadingRetorno) {
+                // Iniciar leitura
+                isReadingRetorno = true;
+                readTagButton.classList.add('reading');
+                readTagButton.innerHTML = '<i class="material-icons">stop</i> Parar Leitura';
+                
+                // Simular leitura de tag após 1 segundo
+                setTimeout(simularLeituraTagRetorno, 1000);
+            } else {
+                // Parar leitura
+                isReadingRetorno = false;
+                readTagButton.classList.remove('reading');
+                readTagButton.innerHTML = '<i class="material-icons">nfc</i> Ler Tag RFID';
+            }
+        }
+        
+        // Simular leitura de tag para retorno
+        function simularLeituraTagRetorno() {
+            if (!isReadingRetorno) return;
+            
+            // Selecionar uma tag aleatória da lista de tags enviadas
+            const tagIndex = Math.floor(Math.random() * tagsEnviadas.length);
+            const tag = tagsEnviadas[tagIndex];
+            
+            // Verificar se a tag já foi retornada
+            if (!tagsRetornadas.some(t => t.id === tag.id)) {
+                // Adicionar à lista de tags retornadas
+                tagsRetornadas.push(tag);
+                
+                // Atualizar tabela de comparação
+                atualizarTabelaComparacao();
+            }
+            
+            // Se ainda estiver lendo, agendar próxima leitura
+            if (isReadingRetorno) {
+                setTimeout(simularLeituraTagRetorno, Math.random() * 2000 + 1000); // Entre 1 e 3 segundos
+            }
+        }
+        
+        // Atualizar tabela de comparação
+        function atualizarTabelaComparacao() {
+            const tableBody = document.getElementById('comparisonTableBody');
+            tableBody.innerHTML = '';
+            
+            // Criar uma entrada na tabela para cada tag enviada
+            tagsEnviadas.forEach(tagEnviada => {
+                const row = document.createElement('tr');
+                
+                // Verificar se a tag foi retornada
+                const tagRetornada = tagsRetornadas.some(tag => tag.id === tagEnviada.id);
+                
+                row.innerHTML = `
+                    <td>${tagEnviada.tipo} (${tagEnviada.hospede})</td>
+                    <td><i class="material-icons" style="color: #4CAF50;">check_circle</i></td>
+                    <td>${tagRetornada ? '<i class="material-icons" style="color: #4CAF50;">check_circle</i>' : '<i class="material-icons" style="color: #FFA726;">error</i>'}</td>
+                    <td><span class="chip ${tagRetornada ? 'bg-ok' : 'bg-ausente'}">${tagRetornada ? 'OK' : 'Pendente'}</span></td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // Verificar se há itens não retornados
+            const itensFaltantes = tagsEnviadas.filter(tagEnviada => 
+                !tagsRetornadas.some(tagRetornada => tagRetornada.id === tagEnviada.id)
+            );
+            
+            if (itensFaltantes.length > 0) {
+                document.getElementById('missingItemsContainer').style.display = 'block';
+                
+                const missingItemsList = document.getElementById('missingItemsList');
+                missingItemsList.innerHTML = '';
+                
+                itensFaltantes.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'missing-item';
+                    itemElement.innerHTML = `
+                        <div class="missing-item-info">
+                            <span class="missing-item-type">${item.tipo}</span>
+                            <span class="missing-item-guest">Hóspede: ${item.hospede} (Quarto ${item.quarto})</span>
+                        </div>
+                        <span class="chip bg-ausente">Não Retornado</span>
+                    `;
+                    
+                    missingItemsList.appendChild(itemElement);
+                });
+            } else {
+                document.getElementById('missingItemsContainer').style.display = 'none';
+            }
+        }
+        
+        // Voltar para a etapa 1 do retorno da lavanderia
+        function voltarParaStep1Retorno() {
+            // Parar leitura se estiver ativa
+            if (isReadingRetorno) {
+                toggleTagReadingRetorno();
+            }
+            document.getElementById('retornoLavanderiaStep2').style.display = 'none';
+            document.getElementById('retornoLavanderiaStep1').style.display = 'block';
+        }
+        
+        // Finalizar retorno da lavanderia
+        function finalizarRetornoLavanderia() {
+            if (tagsRetornadas.length === 0) {
+                alert('Nenhuma tag foi lida. Por favor, leia pelo menos uma tag.');
+                return;
+            }
+            
+            // Parar leitura se estiver ativa
+            if (isReadingRetorno) {
+                toggleTagReadingRetorno();
+            }
+            
+            // Contar itens retornados e faltantes
+            const totalRetornados = tagsRetornadas.length;
+            const totalFaltantes = tagsEnviadas.length - totalRetornados;
+            
+            // Exibir resumo
+            let mensagem = `Retorno da lavanderia registrado com sucesso!\n\n`;
+            mensagem += `Lavanderia: ${document.getElementById('lavanderiaRetorno').options[document.getElementById('lavanderiaRetorno').selectedIndex].text}\n`;
+            mensagem += `Data: ${document.getElementById('dataRetorno').value}\n\n`;
+            mensagem += `Total de itens retornados: ${totalRetornados}\n`;
+            
+            if (totalFaltantes > 0) {
+                mensagem += `Total de itens faltantes: ${totalFaltantes}\n\n`;
+                mensagem += `Itens faltantes:\n`;
+                
+                const itensFaltantes = tagsEnviadas.filter(tagEnviada => 
+                    !tagsRetornadas.some(tagRetornada => tagRetornada.id === tagEnviada.id)
+                );
+                
+                itensFaltantes.forEach(item => {
+                    mensagem += `- ${item.tipo} (Hóspede: ${item.hospede}, Quarto: ${item.quarto})\n`;
+                });
+            } else {
+                mensagem += `Todos os itens foram retornados corretamente!\n`;
+            }
+            
+            alert(mensagem);
+            
+            // Voltar para a tela inicial
+            voltarParaHome();
+        }
+        
+        // ===== FUNÇÕES PARA DEVOLUÇÃO AO HÓSPEDE =====
+        
+        // Selecionar quarto para devolução
+        function selecionarQuartoDevolucao(numeroQuarto, nomeHospede) {
+            document.getElementById('selectedRoomNumberDevolucao').textContent = numeroQuarto;
+            document.getElementById('selectedGuestNameDevolucao').textContent = nomeHospede;
+            
+            // Limpar lista de tags
+            tagsDevolucao = [];
+            document.getElementById('tagsDevolucaoList').innerHTML = '';
+            
+            // Mostrar etapa 2
+            document.getElementById('devolucaoHospedeStep1').style.display = 'none';
+            document.getElementById('devolucaoHospedeStep2').style.display = 'block';
+        }
+        
+        // Alternar leitura de tags para devolução
+        function toggleTagReadingDevolucao() {
+            const readTagButton = document.getElementById('readTagDevolucao');
+            
+            if (!isReadingDevolucao) {
+                // Iniciar leitura
+                isReadingDevolucao = true;
+                readTagButton.classList.add('reading');
+                readTagButton.innerHTML = '<i class="material-icons">stop</i> Parar Leitura';
+                
+                // Simular leitura de tag após 1 segundo
+                setTimeout(simularLeituraTagDevolucao, 1000);
+            } else {
+                // Parar leitura
+                isReadingDevolucao = false;
+                readTagButton.classList.remove('reading');
+                readTagButton.innerHTML = '<i class="material-icons">nfc</i> Ler Tag RFID';
+            }
+        }
+        
+        // Simular leitura de tag para devolução
+        function simularLeituraTagDevolucao() {
+            if (!isReadingDevolucao) return;
+            
+            // Obter quarto selecionado
+            const quartoSelecionado = document.getElementById('selectedRoomNumberDevolucao').textContent;
+            
+            // Filtrar tags que pertencem ao quarto selecionado
+            const tagsDoQuarto = tagsEnviadas.filter(tag => tag.quarto === quartoSelecionado);
+            
+            if (tagsDoQuarto.length > 0) {
+                // Selecionar uma tag aleatória do quarto
+                const tagIndex = Math.floor(Math.random() * tagsDoQuarto.length);
+                const tag = tagsDoQuarto[tagIndex];
+                
+                // Verificar se a tag já foi adicionada
+                if (!tagsDevolucao.some(t => t.id === tag.id)) {
+                    // Adicionar à lista de tags para devolução
+                    tagsDevolucao.push(tag);
+                    
+                    // Adicionar à interface
+                    adicionarTagDevolucao(tag.id, tag.tipo);
+                }
+            }
+            
+            // Se ainda estiver lendo, agendar próxima leitura
+            if (isReadingDevolucao) {
+                setTimeout(simularLeituraTagDevolucao, Math.random() * 2000 + 1000); // Entre 1 e 3 segundos
+            }
+        }
+        
+        // Adicionar tag à lista de devolução
+        function adicionarTagDevolucao(tagId, tipoRoupa) {
+            // Criar elemento HTML para a tag
+            const tagElement = document.createElement('div');
+            tagElement.className = 'tag-item';
+            tagElement.innerHTML = `
+                <div class="tag-info">
+                    <span class="tag-id">${tagId}</span>
+                    <span class="tag-type">${tipoRoupa}</span>
+                    <span class="tag-status"><span class="chip bg-ok">Limpo</span></span>
+                </div>
+                <i class="material-icons tag-remove" onclick="removerTagDevolucao('${tagId}')">delete</i>
+            `;
+            
+            // Adicionar à lista na interface
+            document.getElementById('tagsDevolucaoList').appendChild(tagElement);
+        }
+        
+        // Remover tag da lista de devolução
+        function removerTagDevolucao(tagId) {
+            // Remover da lista de tags
+            tagsDevolucao = tagsDevolucao.filter(tag => tag.id !== tagId);
+            
+            // Atualizar interface
+            const tagsList = document.getElementById('tagsDevolucaoList');
+            const tagElements = tagsList.querySelectorAll('.tag-item');
+            
+            tagElements.forEach(element => {
+                const id = element.querySelector('.tag-id').textContent;
+                if (id === tagId) {
+                    tagsList.removeChild(element);
+                }
+            });
+        }
+        
+        // Limpar assinatura
+        function limparAssinatura() {
+            // Em um aplicativo real, isso limparia o canvas de assinatura
+            alert('Assinatura limpa');
+        }
+        
+        // Voltar para a lista de quartos (devolução)
+        function voltarParaListaQuartosDevolucao() {
+            // Parar leitura se estiver ativa
+            if (isReadingDevolucao) {
+                toggleTagReadingDevolucao();
+            }
+            
+            document.getElementById('devolucaoHospedeStep2').style.display = 'none';
+            document.getElementById('devolucaoHospedeStep1').style.display = 'block';
+        }
+        
+        // Finalizar devolução ao hóspede
+        function finalizarDevolucao() {
+            if (tagsDevolucao.length === 0) {
+                alert('Nenhuma tag foi lida. Por favor, leia pelo menos uma tag.');
+                return;
+            }
+            
+            // Parar leitura se estiver ativa
+            if (isReadingDevolucao) {
+                toggleTagReadingDevolucao();
+            }
+            
+            // Exibir resumo
+            let mensagem = `Devolução ao hóspede registrada com sucesso!\n\n`;
+            mensagem += `Quarto: ${document.getElementById('selectedRoomNumberDevolucao').textContent}\n`;
+            mensagem += `Hóspede: ${document.getElementById('selectedGuestNameDevolucao').textContent}\n\n`;
+            mensagem += `Itens devolvidos:\n`;
+            
+            // Agrupar itens por tipo
+            const itensPorTipo = {};
+            tagsDevolucao.forEach(tag => {
+                if (!itensPorTipo[tag.tipo]) {
+                    itensPorTipo[tag.tipo] = 0;
+                }
+                itensPorTipo[tag.tipo]++;
+            });
+            
+            // Adicionar itens à mensagem
+            for (const tipo in itensPorTipo) {
+                mensagem += `- ${tipo}: ${itensPorTipo[tipo]}\n`;
+            }
+            
+            alert(mensagem);
+            
+            // Voltar para a tela inicial
+            voltarParaHome();
+        }
+    </script>
+</body>
+</html>

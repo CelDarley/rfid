@@ -224,7 +224,7 @@
                 display: inline-block;
                 width: 32px;
                 height: 32px;
-                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%234a6ee0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>');
+                    /* background-image: url('./img/add.svg'); */
                 background-repeat: no-repeat;
                 background-position: center;
                 background-size: 24px 24px;
@@ -233,11 +233,19 @@
                 outline: none;
                 transition: background-color 0.3s ease;
             }
+            .icone-adicionar-header:focus {
+                outline: none; /* Remove a borda de foco padrão */
+                background-color: transparent; /* Remove qualquer cor de fundo */
+                }
+                .icone-adicionar-header:hover {
+                    background-color: #f0f5ff; /* Cor de fundo ao passar o mouse */
+                }
 
-            .icone-adicionar-header:hover {
-                background-color: #f0f5ff;
-                border-radius: 4px;
-            }
+                .icone-adicionar-header:active {
+                    background-color: #e0e0e0; /* Cor de fundo ao clicar */
+                }
+
+  
             
             /* Estilos para o formulário */
             .form-group {
@@ -709,10 +717,20 @@
             // Inicializar quando a página carregar
             document.addEventListener('DOMContentLoaded', function() {
                 renderizarTabela();
+                 // Recuperar o estado do menu do localStorage
+                 const menuAtivo = localStorage.getItem('menuAtivo') || 'Compras'; // 'Compras' é o padrão
                 
-                // Configurar o menu inicial
-                document.getElementById('menuCompras').classList.remove('none');
-                document.getElementById('Compras').classList.add('ativo');
+                // Aplicar o estado do menu
+                document.getElementById('Compras').classList.remove('ativo');
+                document.getElementById('Apontamento').classList.remove('ativo');
+                document.getElementById('Gestao').classList.remove('ativo');
+                
+                document.getElementById('menuCompras').classList.add('none');
+                document.getElementById('menuApontamento').classList.add('none');
+                document.getElementById('menuGestao').classList.add('none');
+                
+                document.getElementById(menuAtivo).classList.add('ativo');
+                document.getElementById('menu' + menuAtivo).classList.remove('none');
                 
                 // Adicionar máscaras aos campos
                 document.getElementById('cnpj').addEventListener('input', function() {
@@ -762,7 +780,6 @@
                     <a href="#" class="icone-avancar negrito com-texto" onclick="document.getElementById('menu').classList.toggle('none');this.classList.toggle('ativo');return false">Gestão de Lavanderias</a>
                 </div>
                 <div class="coluna direita">
-                    <button class="icone-adicionar-header" id="btnAdicionarHeader" title="Adicionar Lavanderia" onclick="abrirModal()"></button>
                     <a href="#" class="avatar" onclick="document.getElementById('usuario').classList.toggle('none');this.classList.toggle('ativo');return false" title="Usuário">
                         <img src="img/avatar.png"/>
                     </a>
@@ -793,11 +810,8 @@
                                 </div>
                                 <nav id="menuCompras" class="nav-maior separador">
                   
-                                    <a href="tipomovimentacao.html"  class="ativo">tipo de movimentações</a>
-                                    <a href="#">Movimentações</a>
-                                    <a href="#">Receber Lavanderia</a>
-                                    <a href="#">Enviar reparo</a>
-                                    <a href="#">Receber reparo</a>
+                                    <!-- <a href="tipomovimentacao.html"  class="ativo">tipo de movimentações</a> -->
+                                    <a href="movimentacao.html">Movimentações</a>
                                     <a href="#">Relatório de roupas</a>
                                     <a href="#">Descartar roupas</a>
                                 </nav>
@@ -830,7 +844,7 @@
                                                 <input type="text" placeholder="Pesquise aqui" id="searchInput" onkeyup="pesquisarLavanderias()">
                                                 <a href="#" class="icone-pesquisa" title="Pesquise"></a>
                                             </div>
-                                            <button class="icone-adicionar-header" title="Adicionar Lavanderia" onclick="abrirModal()"></button>
+                                            <a href="#"  class="icone-inc" title="Adicionar Lavanderia" onclick="abrirModal()"></a>
                                         </div>
                                         <h2>Lavanderias</h2> 
                                     </div>

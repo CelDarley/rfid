@@ -288,11 +288,8 @@
                 </nav>
                 <nav id="menuCompras" class="nav-maior separador">
                   
-                    <a href="tipomovimentacao.html"  class="ativo">tipo de movimentações</a>
-                    <a href="#">Movimentações</a>
-                    <a href="#">Receber Lavanderia</a>
-                    <a href="#">Enviar reparo</a>
-                    <a href="#">Receber reparo</a>
+                    <!-- <a href="tipomovimentacao.html"  class="ativo">tipo de movimentações</a> -->
+                    <a href="movimentacao.html">Movimentações</a>
                     <a href="#">Relatório de roupas</a>
                     <a href="#">Descartar roupas</a>
                 </nav>
@@ -449,19 +446,25 @@
             let editandoId = null;
 
             // Função para controlar o menu lateral
-            function abaMenu(aba) {
-                document.getElementById('Compras').classList.remove('ativo');
-                document.getElementById('Apontamento').classList.remove('ativo');
-                document.getElementById('Gestao').classList.remove('ativo');
-                
-                document.getElementById('menuCompras').classList.add('none');
-                document.getElementById('menuApontamento').classList.add('none');
-                document.getElementById('menuGestao').classList.add('none');
-                
-                document.getElementById(aba).classList.add('ativo');
-                document.getElementById('menu' + aba).classList.remove('none');
-            }
-
+    function abaMenu(aba) {
+        // Primeiro, remova todas as classes ativas dos ícones
+        document.getElementById('Compras').classList.remove('ativo');
+        document.getElementById('Apontamento').classList.remove('ativo');
+        document.getElementById('Gestao').classList.remove('ativo');
+        
+        // Em seguida, esconda todos os menus
+        document.getElementById('menuCompras').classList.add('none');
+        document.getElementById('menuApontamento').classList.add('none');
+        document.getElementById('menuGestao').classList.add('none');
+        
+        // Por fim, ative o ícone e mostre o menu correspondente
+        document.getElementById(aba).classList.add('ativo');
+        document.getElementById('menu' + aba).classList.remove('none');
+        
+        // Salvar o estado do menu no localStorage
+        localStorage.setItem('menuAtivo', aba);
+    }    
+            
             // Função para renderizar a tabela
             function renderizarTabela() {
                 const tbody = document.getElementById('tabelaHospedes');
@@ -647,18 +650,27 @@ function fecharModal() {
                 return idade;
             }
 
-            // Inicializar quando a página carregar
             document.addEventListener('DOMContentLoaded', function() {
                 renderizarTabela();
                 
-                // Configurar o menu inicial
-                document.getElementById('menuCompras').classList.remove('none');
-                document.getElementById('Compras').classList.add('ativo');
+                // Recuperar o estado do menu do localStorage
+                const menuAtivo = localStorage.getItem('menuAtivo') || 'Compras'; // 'Compras' é o padrão
+                
+                // Aplicar o estado do menu
+                document.getElementById('Compras').classList.remove('ativo');
+                document.getElementById('Apontamento').classList.remove('ativo');
+                document.getElementById('Gestao').classList.remove('ativo');
+                
+                document.getElementById('menuCompras').classList.add('none');
+                document.getElementById('menuApontamento').classList.add('none');
+                document.getElementById('menuGestao').classList.add('none');
+                
+                document.getElementById(menuAtivo).classList.add('ativo');
+                document.getElementById('menu' + menuAtivo).classList.remove('none');
                 
                 // Adicionar máscaras aos campos (opcional)
                 // Você pode incluir uma biblioteca de máscaras como vanilla-masker se necessário
-            });
-
+});
             // Adicionar evento de fechar modal ao clicar fora
             document.querySelector('.modal-overlay').addEventListener('click', function(e) {
                 if(e.target === this) {

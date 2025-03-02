@@ -191,6 +191,7 @@
 
             
             // Função para controle do menu
+
             function abaMenu(aba) {
                 document.getElementById('Compras').classList.remove('ativo');
                 document.getElementById('Apontamento').classList.remove('ativo');
@@ -200,7 +201,10 @@
                 document.getElementById('menuGestao').classList.add('none');
                 document.getElementById(aba).classList.add('ativo');
                 document.getElementById('menu' + aba).classList.remove('none');
-            }
+                
+                // Salvar o estado do menu no localStorage
+                localStorage.setItem('menuAtivo', aba);
+    }    
 
             // Função para pesquisa de hóspedes
             function pesquisarHospedes() {
@@ -238,9 +242,20 @@
             
             // Obter o ID do ícone correspondente à página atual
             const abaAtiva = mapaPaginas[paginaAtual] || 'Compras'; // 'Compras' como padrão
-            
+            const menuAtivo = localStorage.getItem('menuAtivo') || 'Compras'; // 'Compras' é o padrão
+                
+                // Aplicar o estado do menu
+                document.getElementById('Compras').classList.remove('ativo');
+                document.getElementById('Apontamento').classList.remove('ativo');
+                document.getElementById('Gestao').classList.remove('ativo');
+                
+                document.getElementById('menuCompras').classList.add('none');
+                document.getElementById('menuApontamento').classList.add('none');
+                document.getElementById('menuGestao').classList.add('none');
+                
+                document.getElementById(menuAtivo).classList.add('ativo');
+                document.getElementById('menu' + menuAtivo).classList.remove('none');
             // Chamar a função abaMenu com a aba correta
-            abaMenu(abaAtiva);
             });
         </script>
     </head>
@@ -304,11 +319,8 @@
                 </nav>
                 <nav id="menuCompras" class="nav-maior separador">
                   
-                    <a href="tipomovimentacao.html"  class="ativo">tipo de movimentações</a>
-                    <a href="#">Movimentações</a>
-                    <a href="#">Receber Lavanderia</a>
-                    <a href="#">Enviar reparo</a>
-                    <a href="#">Receber reparo</a>
+                    <!-- <a href="tipomovimentacao.html"  class="ativo">tipo de movimentações</a> -->
+                    <a href="movimentacao.html">Movimentações</a>
                     <a href="#">Relatório de roupas</a>
                     <a href="#">Descartar roupas</a>
                 </nav>

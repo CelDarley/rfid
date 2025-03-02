@@ -593,11 +593,8 @@
                 </nav>
                 <nav id="menuCompras" class="nav-maior separador">
                   
-                    <a href="tipomovimentacao.html"  class="ativo">tipo de movimentações</a>
-                    <a href="#">Movimentações</a>
-                    <a href="#">Receber Lavanderia</a>
-                    <a href="#">Enviar reparo</a>
-                    <a href="#">Receber reparo</a>
+                    <!-- <a href="tipomovimentacao.html"  class="ativo">tipo de movimentações</a> -->
+                    <a href="movimentacao.html">Movimentações</a>
                     <a href="#">Relatório de roupas</a>
                     <a href="#">Descartar roupas</a>
                 </nav>
@@ -734,14 +731,22 @@
     
         <script>
             function abaMenu(a) {
-                document.getElementById('Compras').classList.remove('ativo');
-                document.getElementById('Apontamento').classList.remove('ativo');
-                document.getElementById('Gestao').classList.remove('ativo');
-                document.getElementById('menuCompras').classList.add('none');
-                document.getElementById('menuApontamento').classList.add('none');
-                document.getElementById('menuGestao').classList.add('none');
-                document.getElementById(a).classList.add('ativo');
-                document.getElementById('menu' + a).classList.remove('none');
+           // Primeiro, remova todas as classes ativas dos ícones
+           document.getElementById('Compras').classList.remove('ativo');
+        document.getElementById('Apontamento').classList.remove('ativo');
+        document.getElementById('Gestao').classList.remove('ativo');
+        
+        // Em seguida, esconda todos os menus
+        document.getElementById('menuCompras').classList.add('none');
+        document.getElementById('menuApontamento').classList.add('none');
+        document.getElementById('menuGestao').classList.add('none');
+        
+        // Por fim, ative o ícone e mostre o menu correspondente
+        document.getElementById(aba).classList.add('ativo');
+        document.getElementById('menu' + aba).classList.remove('none');
+        
+        // Salvar o estado do menu no localStorage
+        localStorage.setItem('menuAtivo', aba);
             }
         
             // Função para abrir a modal
@@ -784,8 +789,22 @@
                         // Abrir a modal
                         openModal();
                     });
-                    
                 });
+                 // Recuperar o estado do menu do localStorage
+                 const menuAtivo = localStorage.getItem('menuAtivo') || 'Compras'; // 'Compras' é o padrão
+                
+                // Aplicar o estado do menu
+                document.getElementById('Compras').classList.remove('ativo');
+                document.getElementById('Apontamento').classList.remove('ativo');
+                document.getElementById('Gestao').classList.remove('ativo');
+                
+                document.getElementById('menuCompras').classList.add('none');
+                document.getElementById('menuApontamento').classList.add('none');
+                document.getElementById('menuGestao').classList.add('none');
+                
+                document.getElementById(menuAtivo).classList.add('ativo');
+                document.getElementById('menu' + menuAtivo).classList.remove('none');
+                
             
                 // Opcional: Fechar a modal ao clicar fora dela (no overlay)
                 document.querySelector('.modal-overlay').addEventListener('click', function(e) {

@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>SPEC - Sistema de Gestão Hoteleira</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="description" content="Sistema de Gestão Hoteleira"/>
+        <link href="css/thalamus.css" rel="stylesheet" type="text/css"/>
+        <style>
+            /* Estilos gerais */
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Estilos da tabela */
+            .tabela {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 1rem;
+                background-color: #fff;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            }
+
+            .tabela thead th {
+                background-color: #f8f9fa;
+                font-weight: 600;
+                text-align: left;
+                padding: 1rem;
+                border-bottom: 2px solid #dee2e6;
+            }
+
+            .tabela td {
+                vertical-align: middle;
+                padding: 0.75rem;
+                border-bottom: 1px solid #dee2e6;
+            }
+
+            /* Estilos para chips e contadores */
+            .chip {
+                display: inline-block;
+                padding: 2px 8px;
+                border-radius: 12px;
+                font-size: 0.75rem;
+                margin-left: 8px;
+                font-weight: 500;
+            }
+
+            .bg-ok {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            .bg-cinza {
+                background-color: #f0f0f0;
+                color: #333;
+            }
+
+            .bg-ausente {
+                background-color: #FFA726;
+                color: white;
+            }
+
+            .contador {
+                min-width: 24px;
+                text-align: center;
+                margin: 0;
+            }
+
+            /* Estilos para elementos clicáveis */
+            .clicavel {
+                cursor: pointer;
+                transition: background-color 0.2s;
+            }
+
+            .clicavel:hover {
+                background-color: #f5f5f5;
+            }
+
+            /* Estilos para textos e fontes */
+            .fonte-menor {
+                font-size: 0.8rem;
+                color: #666;
+                display: block;
+                margin-top: 2px;
+            }
+
+            /* Estilos para o menu lateral */
+            aside {
+                width: 250px;
+                background-color: #fff;
+                border-right: 1px solid #eee;
+                height: 100%;
+                position: fixed;
+                left: 0;
+                top: 60px;
+                overflow-y: auto;
+                transition: all 0.3s ease;
+            }
+
+            .esconde aside {
+                width: 60px;
+            }
+
+            /* Estilos para paginação */
+            .paginacao {
+                display: flex;
+                justify-content: center;
+                gap: 0.5rem;
+                margin-top: 1rem;
+            }
+
+            .paginacao a {
+                padding: 0.5rem 1rem;
+                border: 1px solid #dee2e6;
+                border-radius: 4px;
+                color: #4a6ee0;
+                text-decoration: none;
+                transition: all 0.2s;
+            }
+
+            .paginacao a.ativo {
+                background-color: #4a6ee0;
+                color: white;
+                border-color: #4a6ee0;
+            }
+
+            .paginacao a:hover:not(.ativo) {
+                background-color: #f8f9fa;
+            }
+
+            /* Estilos para pesquisa */
+            .pesquisa {
+                display: flex;
+                align-items: center;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+                padding: 0.5rem;
+            }
+
+            .pesquisa input {
+                border: none;
+                background: none;
+                padding: 0.5rem;
+                width: 200px;
+                outline: none;
+            }
+
+            /* Estilos para ícones */
+            .icone-pesquisa {
+                width: 24px;
+                height: 24px;
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234a6ee0"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>');
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+
+            .icone-inc {
+                width: 24px;
+                height: 24px;
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234a6ee0"><path d="M12 5v14M5 12h14"/></svg>');
+                background-repeat: no-repeat;
+                background-position: center;
+                margin-left: 1rem;
+            }
+            .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none; /* Inicialmente escondida */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    z-index: 1001;
+    position: relative;
+    width: 80%;
+    max-width: 800px;
+}
+
+    .modal-mask {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        max-height: 90vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .jm {
+    padding: 2rem; /* Adiciona margens internas */
+    box-sizing: border-box; /* Garante que o padding seja incluído no tamanho total */
+}
+
+            /* Responsividade */
+            @media (max-width: 768px) {
+                aside {
+                    width: 60px;
+                }
+
+                section {
+                    margin-left: 60px;
+                }
+
+                .tabela {
+                    font-size: 0.9rem;
+                }
+
+                .chip {
+                    font-size: 0.7rem;
+                }
+            }
+            .icone-adicionar-header {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%234a6ee0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 24px 24px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: background-color 0.3s ease;
+}
+
+.icone-adicionar-header:hover {
+    background-color: #f0f5ff;
+    border-radius: 4px;
+}
+
+        </style>
+        
+    </head>
+    <body>
+        <header>
+            <div class="linha">
+                <div class="coluna">
+                    <nav class="jm jm-menu nav-maior none" id="menu">
+                        <div class="separador">
+                            <a href="hospedagem.html">Configurações</a>
+                            <a href="projetos.html" class="ativo">Gestão de Hóspedes</a>
+                            <a href="monitoramento.html">Monitoramento</a>
+                            <a href="#">Sair</a>
+                        </div>
+                    </nav>
+                    <a href="inicial.html" class="logo logo-menor">Thalamus</a>
+                    <a href="#" class="icone-avancar negrito com-texto" onclick="document.getElementById('menu').classList.toggle('none');this.classList.toggle('ativo');return false">Gestão de Hóspedes</a>
+                </div>
+                <div class="coluna direita">
+                    <a href="#" class="icone-adicionar-header" title="Adicionar Hóspede" onclick="abrirModal()"></a>
+                    <a href="#" class="avatar" onclick="document.getElementById('usuario').classList.toggle('none');this.classList.toggle('ativo');return false" title="Usuário">
+                        <img src="img/avatar.png"/>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <main id="main">    
+            <aside>
+                <div class="titulo margem efeito">
+                    <div class="m-icone"><a href="#" class="icone-menu" title="Menu" onclick="document.getElementById('main').classList.toggle('esconde');return false"></a></div>
+                    <nav class="jm jm-inc none" id="menuIncluir">
+                        <div class="separador">
+                            <a href="#">Incluir hóspede</a>
+                            <a href="#">Incluir roupa</a>
+                        </div>
+                    </nav>
+                </div>
+                <div class="separador margem">
+                    <div class="m-icone">
+                        <a href="javascript:abaMenu('Compras')" class="icone-compras " title="Lavanderia" id="Compras"></a>
+                        <a href="javascript:abaMenu('Apontamento')" class="icone-gestao" title="Cadastros" id="Apontamento"></a>
+                        <a href="javascript:abaMenu('Gestao')" class="icone-alvo" title="Gestão" id="Gestao"></a>
+                    </div>
+                </div>
+                <nav class="nav-maior separador none">
+                    <a href="#" class="icone-compras">Lavanderia</a>
+                    <a href="#" class="icone-alvo ativo">Cadastros</a>
+                    <a href="#" class="icone-gestao">Gestão</a>
+                </nav>
+                <nav id="menuCompras" class="nav-maior separador">
+                  
+                    <a href="tipomovimentacao.html"  class="ativo">tipo de movimentações</a>
+                    <a href="#">Movimentações</a>
+                    <a href="#">Receber Lavanderia</a>
+                    <a href="#">Enviar reparo</a>
+                    <a href="#">Receber reparo</a>
+                    <a href="#">Relatório de roupas</a>
+                    <a href="#">Descartar roupas</a>
+                </nav>
+                <nav id="menuApontamento" class="nav-maior separador none">
+                    <a href="hospedagem.html" class="ativo">Hospedagem </a>
+                    <a href="hospede.html"><span class="chip direita bg-cinza contador ">22</span>Hospede </a>
+                    <a href="quarto.html"><span class="chip direita bg-cinza contador ">12</span>Quarto </a>
+                    <a href="blocoPredio.html"><span class="chip direita bg-cinza contador">4</span>Blocos/Prédios</a>
+                    <a href="hospedeQuarto.html" >Hóspede quarto</a>
+                    <a href="roupasHospede.html">Roupas hóspede</a>
+                    <a href="lavanderias.html"><span class="chip direita bg-cinza contador">4</span>Lavanderias</a>
+                    <a href="enxoval.html">Enxoval do quarto</a>
+                </nav>
+                <nav id="menuGestao" class="nav-maior separador none">
+                    <a href="#">Relatórios</a>
+                    <a href="#">Fornecedor</a>
+                    <a href="#">Material</a>
+                    <a href="#">Serviço</a>
+                    <a href="#">Setor</a>
+                    <a href="#">Colaborador</a>
+                    <a href="#">Usuários</a>
+                    <a href="#">Gerenciar Permissões</a>
+                </nav>
+            </aside>
+            <section>
+                <div class="titulo">
+                    <div class="margem container">
+                        <div class="m-icone direita">
+                            <div class="pesquisa">
+                                <input type="text" placeholder="Pesquise aqui" id="searchInput" onkeyup="pesquisarHospedes()">
+                                <a href="#" class="icone-pesquisa" title="Pesquise"></a>
+                            </div>
+                            <a href="#" class="icone-adicionar-header" title="Adicionar Hóspede" onclick="abrirModal()"></a>
+                        </div>
+                        <h2>Hóspedes</h2> 
+                    </div>
+                </div>
+                <div class="margem container">
+                    <div class="bloco margem">
+                        <table class="tabela">
+                            <thead>
+                                <tr>
+                                    <th>Nome do Hóspede</th>
+                                    <th>Sexo</th>
+                                    <th>Idade</th>
+                                    <th>Data Nascimento</th>
+                                    <th>Nome Responsável</th>
+                                    <th>Contato Responsável</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaHospedes">
+                                <!-- Dados serão inseridos via JavaScript -->
+                            </tbody>
+                        </table>
+                        <div class="paginacao">
+                            <a href="#" class="ativo">1</a>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
+                            <span>...</span>
+                            <a href="#">5</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Modal para Adicionar/Editar Hóspede -->
+            <div class="modal-overlay" id="modalHospede">
+                <div class="modal">
+                    <div class="modal-mask">
+                        <div class="jm">
+                            <div class="modal-header">
+                                <h3 id="modalTitle">Adicionar Hóspede</h3>
+                            </div>
+                            
+                            <form id="formHospede" onsubmit="salvarHospede(event)">
+                                <!-- Campo: Nome do Hóspede -->
+                                <div class="form-group margem">
+                                    <label for="nomeHospede">Nome do Hóspede*</label>
+                                    <input type="text" id="nomeHospede" required>
+                                </div>
+            
+                                <!-- Campos: Sexo e Data de Nascimento -->
+                                <div class="grid-2">
+                                    <div class="form-group">
+                                        <label for="sexo">Sexo*</label>
+                                        <select id="sexo" required>
+                                            <option value="">Selecione</option>
+                                            <option value="Masculino">Masculino</option>
+                                            <option value="Feminino">Feminino</option>
+                                            <option value="Outro">Outro</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dataNascimento">Data Nascimento*</label>
+                                        <input type="date" id="dataNascimento" required onchange="calcularIdadeAutomatica()">
+                                    </div>
+                                </div>
+            
+                                <!-- Campo: Idade (calculada automaticamente) -->
+                                <div class="form-group margem">
+                                    <label for="idade">Idade</label>
+                                    <input type="number" id="idade" readonly>
+                                    <small>A idade será calculada automaticamente com base na data de nascimento</small>
+                                </div>
+            
+                                <!-- Campos: Nome do Responsável e Contato do Responsável -->
+                                <div class="grid-2">
+                                    <div class="form-group">
+                                        <label for="nomeResponsavel">Nome do Responsável</label>
+                                        <input type="text" id="nomeResponsavel">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contatoResponsavel">Contato do Responsável</label>
+                                        <input type="text" id="contatoResponsavel" placeholder="(00) 00000-0000">
+                                    </div>
+                                </div>
+            <br>
+                                <!-- Botões de ação -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn-secundario" onclick="fecharModal()">Cancelar</button>
+                                    <button type="submit" class="btn-primario">Salvar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <script>
+            // Dados dos hóspedes (simulando um banco de dados)
+            let hospedes = [
+                {
+                    id: 1,
+                    nome: "Ana Carolina Silva",
+                    sexo: "Feminino",
+                    idade: 32,
+                    dataNascimento: "1991-05-15",
+                    nomeResponsavel: "Carlos Silva",
+                    contatoResponsavel: "(11) 98765-4321"
+                },
+                {
+                    id: 2,
+                    nome: "João Pedro Santos",
+                    sexo: "Masculino",
+                    idade: 28,
+                    dataNascimento: "1995-03-20",
+                    nomeResponsavel: "Maria Santos",
+                    contatoResponsavel: "(11) 97654-3210"
+                }
+            ];
+
+            let editandoId = null;
+
+            // Função para controlar o menu lateral
+            function abaMenu(aba) {
+                document.getElementById('Compras').classList.remove('ativo');
+                document.getElementById('Apontamento').classList.remove('ativo');
+                document.getElementById('Gestao').classList.remove('ativo');
+                
+                document.getElementById('menuCompras').classList.add('none');
+                document.getElementById('menuApontamento').classList.add('none');
+                document.getElementById('menuGestao').classList.add('none');
+                
+                document.getElementById(aba).classList.add('ativo');
+                document.getElementById('menu' + aba).classList.remove('none');
+            }
+
+            // Função para renderizar a tabela
+            function renderizarTabela() {
+                const tbody = document.getElementById('tabelaHospedes');
+                tbody.innerHTML = '';
+
+                hospedes.forEach(hospede => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${hospede.nome}</td>
+                        <td>${hospede.sexo}</td>
+                        <td>${hospede.idade}</td>
+                        <td>${formatarData(hospede.dataNascimento)}</td>
+                        <td>${hospede.nomeResponsavel}</td>
+                        <td>${hospede.contatoResponsavel}</td>
+                        <td class="acoes">
+                            <a href="#" class="icone-editar" onclick="editarHospede(${hospede.id})"></a>
+                            <a href="#" class="icone-excluir" onclick="excluirHospede(${hospede.id})"></a>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            // Função para pesquisar hóspedes
+            function pesquisarHospedes() {
+                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                const tbody = document.getElementById('tabelaHospedes');
+                tbody.innerHTML = '';
+
+                hospedes.filter(hospede => 
+                    hospede.nome.toLowerCase().includes(searchTerm) ||
+                    hospede.nomeResponsavel.toLowerCase().includes(searchTerm)
+                ).forEach(hospede => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${hospede.nome}</td>
+                        <td>${hospede.sexo}</td>
+                        <td>${hospede.idade}</td>
+                        <td>${formatarData(hospede.dataNascimento)}</td>
+                        <td>${hospede.nomeResponsavel}</td>
+                        <td>${hospede.contatoResponsavel}</td>
+                        <td class="acoes">
+                            <a href="#" class="icone-editar" onclick="editarHospede(${hospede.id})"></a>
+                            <a href="#" class="icone-excluir" onclick="excluirHospede(${hospede.id})"></a>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+            function formatarData(data) {
+                return new Date(data).toLocaleDateString('pt-BR');
+            }
+
+            function abrirModal() {
+    // Exibe a modal alterando o estilo de exibição
+    const modal = document.getElementById('modalHospede');
+    if (modal) {
+        modal.style.display = 'flex'; // Mostra a modal
+    } else {
+        console.error('Modal não encontrada!');
+    }
+}
+function fecharModal() {
+    // Oculta a modal alterando o estilo de exibição
+    const modal = document.getElementById('modalHospede');
+    if (modal) {
+        modal.style.display = 'none'; // Esconde a modal
+    } else {
+        console.error('Modal não encontrada!');
+    }
+}
+
+            function limparFormulario() {
+                document.getElementById('formHospede').reset();
+                editandoId = null;
+            }
+
+            function editarHospede(id) {
+                editandoId = id;
+                const hospede = hospedes.find(h => h.id === id);
+                
+                // Preencher campos básicos
+                document.getElementById('nomeHospede').value = hospede.nome;
+                document.getElementById('cpf').value = hospede.cpf || '';
+                document.getElementById('dataNascimento').value = hospede.dataNascimento;
+                document.getElementById('sexo').value = hospede.sexo;
+                document.getElementById('estadoCivil').value = hospede.estadoCivil || '';
+                document.getElementById('telefone').value = hospede.telefone || '';
+                document.getElementById('email').value = hospede.email || '';
+                
+                // Preencher endereço
+                if(hospede.endereco) {
+                    document.getElementById('cep').value = hospede.endereco.cep || '';
+                    document.getElementById('logradouro').value = hospede.endereco.logradouro || '';
+                    document.getElementById('numero').value = hospede.endereco.numero || '';
+                    document.getElementById('complemento').value = hospede.endereco.complemento || '';
+                    document.getElementById('bairro').value = hospede.endereco.bairro || '';
+                    document.getElementById('cidade').value = hospede.endereco.cidade || '';
+                    document.getElementById('estado').value = hospede.endereco.estado || '';
+                }
+                
+                // Preencher informações adicionais
+                if(hospede.responsavel) {
+                    document.getElementById('nomeResponsavel').value = hospede.responsavel.nome || '';
+                    document.getElementById('telefoneResponsavel').value = hospede.responsavel.telefone || '';
+                }
+                document.getElementById('observacoes').value = hospede.observacoes || '';
+                
+                document.getElementById('modalTitle').textContent = 'Editar Hóspede';
+                document.getElementById('modalHospede').style.display = 'flex';
+            }
+
+            function excluirHospede(id) {
+                if (confirm('Deseja realmente excluir este hóspede?')) {
+                    hospedes = hospedes.filter(h => h.id !== id);
+                    renderizarTabela();
+                }
+            }
+
+            function salvarHospede(event) {
+                event.preventDefault();
+                
+                // Validar campos obrigatórios
+                const camposObrigatorios = [
+                    'nomeHospede', 'cpf', 'dataNascimento', 'sexo',
+                    'telefone', 'cep', 'logradouro', 'numero',
+                    'bairro', 'cidade', 'estado'
+                ];
+                
+                for(let campo of camposObrigatorios) {
+                    if(!document.getElementById(campo).value) {
+                        alert(`O campo ${document.getElementById(campo).previousElementSibling.innerText} é obrigatório!`);
+                        return;
+                    }
+                }
+
+                const novoHospede = {
+                    id: editandoId || Date.now(),
+                    nome: document.getElementById('nomeHospede').value,
+                    cpf: document.getElementById('cpf').value,
+                    dataNascimento: document.getElementById('dataNascimento').value,
+                    sexo: document.getElementById('sexo').value,
+                    estadoCivil: document.getElementById('estadoCivil').value,
+                    telefone: document.getElementById('telefone').value,
+                    email: document.getElementById('email').value,
+                    endereco: {
+                        cep: document.getElementById('cep').value,
+                        logradouro: document.getElementById('logradouro').value,
+                        numero: document.getElementById('numero').value,
+                        complemento: document.getElementById('complemento').value,
+                        bairro: document.getElementById('bairro').value,
+                        cidade: document.getElementById('cidade').value,
+                        estado: document.getElementById('estado').value
+                    },
+                    responsavel: {
+                        nome: document.getElementById('nomeResponsavel').value,
+                        telefone: document.getElementById('telefoneResponsavel').value
+                    },
+                    observacoes: document.getElementById('observacoes').value,
+                    idade: calcularIdade(document.getElementById('dataNascimento').value)
+                };
+
+                if(editandoId) {
+                    const index = hospedes.findIndex(h => h.id === editandoId);
+                    hospedes[index] = novoHospede;
+                } else {
+                    hospedes.push(novoHospede);
+                }
+
+                renderizarTabela();
+                fecharModal();
+            }
+
+            function calcularIdade(dataNascimento) {
+                const nascimento = new Date(dataNascimento);
+                const hoje = new Date();
+                const idade = hoje.getFullYear() - nascimento.getFullYear();
+                const mes = hoje.getMonth() - nascimento.getMonth();
+                
+                if (mes < 0 || (mes === 0 && hoje.getDate() < nascimento.getDate())) {
+                    return idade - 1;
+                }
+                return idade;
+            }
+
+            // Inicializar quando a página carregar
+            document.addEventListener('DOMContentLoaded', function() {
+                renderizarTabela();
+                
+                // Configurar o menu inicial
+                document.getElementById('menuCompras').classList.remove('none');
+                document.getElementById('Compras').classList.add('ativo');
+                
+                // Adicionar máscaras aos campos (opcional)
+                // Você pode incluir uma biblioteca de máscaras como vanilla-masker se necessário
+            });
+
+            // Adicionar evento de fechar modal ao clicar fora
+            document.querySelector('.modal-overlay').addEventListener('click', function(e) {
+                if(e.target === this) {
+                    fecharModal();
+                }
+            });
+            // Função para calcular a idade com base na data de nascimento
+function calcularIdadeAutomatica() {
+    const dataNascimento = document.getElementById('dataNascimento').value;
+    if (dataNascimento) {
+        const hoje = new Date();
+        const nascimento = new Date(dataNascimento);
+        let idade = hoje.getFullYear() - nascimento.getFullYear();
+        const m = hoje.getMonth() - nascimento.getMonth();
+        
+        if (m < 0 || (m === 0 && hoje.getDate() < nascimento.getDate())) {
+            idade--;
+        }
+        
+        document.getElementById('idade').value = idade;
+    } else {
+        document.getElementById('idade').value = '';
+    }
+}
+
+// Função para abrir a modal
+function abrirModal() {
+    editandoId = null;
+    document.getElementById('modalTitle').textContent = 'Adicionar Hóspede';
+    limparFormulario();
+    document.getElementById('modalHospede').style.display = 'flex';
+}
+
+// Função para fechar a modal
+function fecharModal() {
+    document.getElementById('modalHospede').style.display = 'none';
+    limparFormulario();
+}
+
+// Função para limpar o formulário
+function limparFormulario() {
+    document.getElementById('formHospede').reset();
+    document.getElementById('idade').value = '';
+    editandoId = null;
+}
+
+// Função para salvar o hóspede
+function salvarHospede(event) {
+    event.preventDefault();
+    
+    // Validar campos obrigatórios
+    const camposObrigatorios = ['nomeHospede', 'sexo', 'dataNascimento'];
+    
+    for(let campo of camposObrigatorios) {
+        if(!document.getElementById(campo).value) {
+            alert(`O campo ${document.getElementById(campo).previousElementSibling.innerText} é obrigatório!`);
+            return;
+        }
+    }
+
+    const novoHospede = {
+        id: editandoId || Date.now(),
+        nome: document.getElementById('nomeHospede').value,
+        sexo: document.getElementById('sexo').value,
+        dataNascimento: document.getElementById('dataNascimento').value,
+        idade: document.getElementById('idade').value,
+        nomeResponsavel: document.getElementById('nomeResponsavel').value,
+        contatoResponsavel: document.getElementById('contatoResponsavel').value
+    };
+
+    if(editandoId) {
+        const index = hospedes.findIndex(h => h.id === editandoId);
+        hospedes[index] = novoHospede;
+    } else {
+        hospedes.push(novoHospede);
+    }
+
+    renderizarTabela();
+    fecharModal();
+}
+
+// Função para editar um hóspede
+function editarHospede(id) {
+    editandoId = id;
+    const hospede = hospedes.find(h => h.id === id);
+    
+    document.getElementById('nomeHospede').value = hospede.nome;
+    document.getElementById('sexo').value = hospede.sexo;
+    document.getElementById('dataNascimento').value = hospede.dataNascimento;
+    document.getElementById('idade').value = hospede.idade;
+    document.getElementById('nomeResponsavel').value = hospede.nomeResponsavel || '';
+    document.getElementById('contatoResponsavel').value = hospede.contatoResponsavel || '';
+    
+    document.getElementById('modalTitle').textContent = 'Editar Hóspede';
+    document.getElementById('modalHospede').style.display = 'flex';
+}
+        </script>
+    </body>
+</html>

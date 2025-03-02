@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>SPEC - Sistema de Gestão Hoteleira</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="description" content="Sistema de Gestão Hoteleira"/>
+        <link href="css/thalamus.css" rel="stylesheet" type="text/css"/>
+        <style>
+            /* Estilos gerais */
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Estilos da tabela */
+            .tabela {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 1rem;
+                background-color: #fff;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            }
+
+            .tabela thead th {
+                background-color: #f8f9fa;
+                font-weight: 600;
+                text-align: left;
+                padding: 1rem;
+                border-bottom: 2px solid #dee2e6;
+            }
+
+            .tabela td {
+                vertical-align: middle;
+                padding: 0.75rem;
+                border-bottom: 1px solid #dee2e6;
+            }
+
+            /* Estilos para chips e contadores */
+            .chip {
+                display: inline-block;
+                padding: 2px 8px;
+                border-radius: 12px;
+                font-size: 0.75rem;
+                margin-left: 8px;
+                font-weight: 500;
+            }
+
+            .bg-ok {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            .bg-cinza {
+                background-color: #f0f0f0;
+                color: #333;
+            }
+
+            .bg-ausente {
+                background-color: #FFA726;
+                color: white;
+            }
+
+            .contador {
+                min-width: 24px;
+                text-align: center;
+                margin: 0;
+            }
+
+            /* Estilos para elementos clicáveis */
+            .clicavel {
+                cursor: pointer;
+                transition: background-color 0.2s;
+            }
+
+            .clicavel:hover {
+                background-color: #f5f5f5;
+            }
+
+            /* Estilos para textos e fontes */
+            .fonte-menor {
+                font-size: 0.8rem;
+                color: #666;
+                display: block;
+                margin-top: 2px;
+            }
+
+            /* Estilos para o menu lateral */
+            aside {
+                width: 250px;
+                background-color: #fff;
+                border-right: 1px solid #eee;
+                height: 100%;
+                position: fixed;
+                left: 0;
+                top: 60px;
+                overflow-y: auto;
+                transition: all 0.3s ease;
+            }
+
+            .esconde aside {
+                width: 60px;
+            }
+
+            /* Estilos para paginação */
+            .paginacao {
+                display: flex;
+                justify-content: center;
+                gap: 0.5rem;
+                margin-top: 1rem;
+            }
+
+            .paginacao a {
+                padding: 0.5rem 1rem;
+                border: 1px solid #dee2e6;
+                border-radius: 4px;
+                color: #4a6ee0;
+                text-decoration: none;
+                transition: all 0.2s;
+            }
+
+            .paginacao a.ativo {
+                background-color: #4a6ee0;
+                color: white;
+                border-color: #4a6ee0;
+            }
+
+            .paginacao a:hover:not(.ativo) {
+                background-color: #f8f9fa;
+            }
+
+            /* Estilos para pesquisa */
+            .pesquisa {
+                display: flex;
+                align-items: center;
+                background-color: #f8f9fa;
+                border-radius: 4px;
+                padding: 0.5rem;
+            }
+
+            .pesquisa input {
+                border: none;
+                background: none;
+                padding: 0.5rem;
+                width: 200px;
+                outline: none;
+            }
+
+            /* Estilos para ícones */
+            .icone-pesquisa {
+                width: 24px;
+                height: 24px;
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234a6ee0"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>');
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+
+            .icone-inc {
+                width: 24px;
+                height: 24px;
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234a6ee0"><path d="M12 5v14M5 12h14"/></svg>');
+                background-repeat: no-repeat;
+                background-position: center;
+                margin-left: 1rem;
+            }
+
+            /* Responsividade */
+            @media (max-width: 768px) {
+                aside {
+                    width: 60px;
+                }
+
+                section {
+                    margin-left: 60px;
+                }
+
+                .tabela {
+                    font-size: 0.9rem;
+                }
+
+                .chip {
+                    font-size: 0.7rem;
+                }
+            }
+
+        </style>
+         <script>
+            
+
+
+            
+            // Função para controle do menu
+            function abaMenu(aba) {
+                document.getElementById('Compras').classList.remove('ativo');
+                document.getElementById('Apontamento').classList.remove('ativo');
+                document.getElementById('Gestao').classList.remove('ativo');
+                document.getElementById('menuCompras').classList.add('none');
+                document.getElementById('menuApontamento').classList.add('none');
+                document.getElementById('menuGestao').classList.add('none');
+                document.getElementById(aba).classList.add('ativo');
+                document.getElementById('menu' + aba).classList.remove('none');
+            }
+
+            // Função para pesquisa de hóspedes
+            function pesquisarHospedes() {
+                const termo = document.getElementById('pesquisaHospede').value.toLowerCase();
+                const linhas = document.getElementById('tabelaHospedes').getElementsByTagName('tr');
+                
+                for (let linha of linhas) {
+                    const nomeHospede = linha.cells[0].textContent.toLowerCase();
+                    linha.style.display = nomeHospede.includes(termo) ? '' : 'none';
+                }
+            }
+
+            // Função para abrir modal de novo hóspede (a ser implementada)
+            function abrirModalNovoHospede() {
+                alert('Funcionalidade de adicionar novo hóspede a ser implementada');
+            }
+
+            // Inicialização
+            document.addEventListener('DOMContentLoaded', function() {
+            const paginaAtual = window.location.pathname.split('/').pop();
+            
+            // Mapear páginas para os IDs dos ícones
+            const mapaPaginas = {
+                'hospedagem.html': 'Compras',
+                'hospede.html': 'Apontamento',
+                'quarto.html': 'Apontamento',
+                'blocoPredio.html': 'Apontamento',
+                'hospedeQuarto.html': 'Apontamento',
+                'roupasHospede.html': 'Apontamento',
+                'lavanderias.html': 'Apontamento',
+                'enxoval.html': 'Apontamento',
+                'tipomovimentacao.html': 'Apontamento'
+                // Adicione mais páginas conforme necessário
+            };
+            
+            // Obter o ID do ícone correspondente à página atual
+            const abaAtiva = mapaPaginas[paginaAtual] || 'Compras'; // 'Compras' como padrão
+            
+            // Chamar a função abaMenu com a aba correta
+            abaMenu(abaAtiva);
+            });
+        </script>
+    </head>
+    <body>
+        <header>
+            <div class="linha">
+                <div class="coluna">
+                    <nav class="jm jm-menu nav-maior none" id="menu">
+                        <div class="separador">
+                            <a href="hospedagem.html" class="ativo">Gestão de ILPI</a>
+                            <a href="projetos.html">Projetos</a>
+                            <a href="monitoramento.html">Monitoramento</a>
+                            <a href="#">Acesso</a>
+                            <a href="#">Indicadores</a>
+                            <a href="injetora.html">Painel Injetora</a>
+                        </div>
+                    </nav>
+                    <a href="inicial.html" class="logo logo-menor">SPEC</a>
+                    <a href="#" class="icone-avancar negrito com-texto" onclick="document.getElementById('menu').classList.toggle('none');this.classList.toggle('ativo');return false">Gestão Hoteleira</a>
+                </div>
+                <div class="coluna">
+                    <a href="#" class="avatar direita" onclick="document.getElementById('usuario').classList.toggle('none');this.classList.toggle('ativo');return false" title="Usuário"><img src="img/avatar.png"/></a>
+                    <nav class="jm jm-avatar none" id="usuario">
+                        <div class="separador margem alinha-centro negrito">
+                            Usuário Logado
+                        </div>
+                        <div class="separador">
+                            <a href="#" onclick="document.documentElement.classList.toggle('dark');this.classList.toggle('ativo');return false"><span class="direita toggle"></span>Tema escuro</a>
+                        </div>
+                        <div class="separador bg-cinza">
+                            <a href="#">Ajuda</a>
+                            <a href="nova-senha.html">Alterar senha</a>
+                            <a href="login.html">Sair</a>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <main id="main">
+            <aside>
+                <div class="titulo margem efeito">
+                    <div class="m-icone"><a href="#" class="icone-menu" title="Menu" onclick="document.getElementById('main').classList.toggle('esconde');return false"></a></div>
+                    <nav class="jm jm-inc none" id="menuIncluir">
+                        <div class="separador">
+                            <a href="#">Incluir projeto</a>
+                            <a href="monitoramento.html">Incluir projeto</a>
+                        </div>
+                    </nav>
+                </div>
+                <div class="separador margem">
+                    <div class="m-icone">
+                        <a href="javascript:abaMenu('Compras')" class="icone-compras " title="Lavanderia" id="Compras"></a>
+                        <a href="javascript:abaMenu('Apontamento')" class="icone-gestao" title="Cadastros" id="Apontamento"></a>
+                        <a href="javascript:abaMenu('Gestao')" class="icone-alvo" title="Gestão" id="Gestao"></a>
+                    </div>
+                </div>
+                <nav class="nav-maior separador none">
+                    <a href="#" class="icone-compras">Lavanderia</a>
+                    <a href="#" class="icone-alvo ativo">Cadastros</a>
+                    <a href="#" class="icone-gestao">Gestão</a>
+                </nav>
+                <nav id="menuCompras" class="nav-maior separador">
+                  
+                    <a href="tipomovimentacao.html"  class="ativo">tipo de movimentações</a>
+                    <a href="#">Movimentações</a>
+                    <a href="#">Receber Lavanderia</a>
+                    <a href="#">Enviar reparo</a>
+                    <a href="#">Receber reparo</a>
+                    <a href="#">Relatório de roupas</a>
+                    <a href="#">Descartar roupas</a>
+                </nav>
+                <nav id="menuApontamento" class="nav-maior separador none">
+                    <a href="hospedagem.html" class="ativo">Hospedagem </a>
+                    <a href="hospede.html"><span class="chip direita bg-cinza contador ">22</span>Hospede </a>
+                    <a href="quarto.html"><span class="chip direita bg-cinza contador ">12</span>Quarto </a>
+                    <a href="blocoPredio.html"><span class="chip direita bg-cinza contador">4</span>Blocos/Prédios</a>
+                    <a href="hospedeQuarto.html" >Hóspede quarto</a>
+                    <a href="roupasHospede.html">Roupas hóspede</a>
+                    <a href="lavanderias.html"><span class="chip direita bg-cinza contador">4</span>Lavanderias</a>
+                    <a href="enxoval.html">Enxoval do quarto</a>
+                </nav>
+                <nav id="menuGestao" class="nav-maior separador none">
+                    <a href="#">Relatórios</a>
+                    <a href="#">Fornecedor</a>
+                    <a href="#">Material</a>
+                    <a href="#">Serviço</a>
+                    <a href="#">Setor</a>
+                    <a href="#">Colaborador</a>
+                    <a href="#">Usuários</a>
+                    <a href="#">Gerenciar Permissões</a>
+                </nav>
+            </aside>
+            <section>
+                <div class="titulo">
+                    <div class="margem container">
+                        <div class="m-icone direita">
+                            <div class="pesquisa">
+                                <input type="text" id="pesquisaHospede" placeholder="Pesquisar hóspede..." onkeyup="pesquisarHospedes()"/>
+                                <a href="#" class="icone-pesquisa" title="Pesquisar"></a>
+                            </div>
+                            <a href="#" class="icone-inc" title="Adicionar Novo Hóspede" onclick="abrirModalNovoHospede()"></a>
+                        </div>
+                        <h2>Controle de Roupas por Hóspede</h2>
+                    </div>
+                </div>
+                <div class="margem container">
+                    <div class="bloco margem">
+                        <table class="tabela">
+                            <thead>
+                                <tr>
+                                    <th>Nome do Hóspede</th>
+                                    <th>Nº Quarto</th>
+                                    <th>Roupas do Quarto</th>
+                                    <th>Roupas do Hóspede</th>
+                                    <th>Lavando (Quarto)</th>
+                                    <th>Lavando (Hóspede)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaHospedes">
+                                <tr>
+                                    <td class="clicavel">
+                                        Lauro Oliveria 
+                                        <span class="chip bg-ok">Hospedado</span>
+                                    </td>
+                                    <td class="clicavel">07</td>
+                                    <td><span class="chip bg-cinza contador">8</span></td>
+                                    <td><span class="chip bg-cinza contador">5</span></td>
+                                    <td>
+                                        <span class="chip bg-cinza contador">3</span>
+                                        <span class="fonte-menor">12/05/2024</span>
+                                    </td>
+                                    <td>
+                                        <span class="chip bg-cinza contador">2</span>
+                                        <span class="fonte-menor">12/05/2024</span>
+                                    </td>
+                                </tr>
+                                <!-- Adicione mais linhas conforme necessário -->
+                            </tbody>
+                        </table>
+                        <div class="paginacao">
+                            <a href="#" class="ativo">1</a>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
+                            <span>...</span>
+                            <a href="#">16</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+       
+    </body>
+</html>

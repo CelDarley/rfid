@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>SPEC</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="description" content="Thalamus"/>
+        <link href="css/thalamus.css" rel="stylesheet" type="text/css"/>
+        <style>
+            /* Overlay que cobre toda a tela */
+            .modal-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                display: none; /* Inicialmente oculta */
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            }
+      
+            /* Container da modal */
+            .modal {
+                z-index: 1001;
+                position: relative;
+                width: 80%; /* Aumentado para 80% da largura da tela */
+                max-width: 800px; /* Definido um valor máximo */
+            }
+      
+            /* Máscara da modal */
+            .modal-mask {
+                background-color: white;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                max-height: 90vh;
+                width: 100%; /* Garante que ocupe toda a largura do container */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+      
+            /* Container de conteúdo */
+            .jm {
+                background-color: white;
+                border-radius: 8px;
+                width: 100%; /* Ocupa toda a largura disponível */
+                padding: 2rem;
+                box-sizing: border-box;
+            }
+      
+            /* Cabeçalho da modal */
+            .modal-header {
+                border-bottom: 1px solid #eee;
+                margin-bottom: 1.5rem;
+                padding-bottom: 0.5rem;
+                width: 100%;
+            }
+      
+            .modal-header h3 {
+                margin: 0;
+                color: #333;
+            }
+      
+            /* Grid para os campos de formulário */
+            .grid-2 {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+                margin-bottom: 2rem;
+                width: 100%;
+            }
+      
+            /* Estilo para os campos de formulário */
+            label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 500;
+                text-align: left;
+            }
+      
+            input[type="text"] {
+                width: 100%;
+                padding: 0.75rem;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                font-size: 1rem;
+                box-sizing: border-box;
+            }
+      
+            /* Estilo para os botões */
+            .margem {
+                margin-top: 1.5rem;
+            }
+      
+            .linha {
+                display: flex;
+            }
+      
+            .alinha-v {
+                align-items: center;
+            }
+      
+            .alinha-centro {
+                justify-content: center;
+                gap: 1rem;
+            }
+      
+            button {
+                padding: 0.75rem 1.5rem;
+                border: none;
+                border-radius: 4px;
+                font-size: 1rem;
+                cursor: pointer;
+                background-color: #4a6ee0;
+                color: white;
+            }
+      
+            button.acao-secundaria {
+                background-color: transparent;
+                border: 1px solid #4a6ee0;
+                color: #4a6ee0;
+            }
+        </style>
+        <script>
+     // Dados simulados dos quartos
+     const dadosQuartos = {
+         'quarto-01': { 
+             numero: '01', 
+             tipo: 'masculino', 
+             leitos: 3, 
+             predio: '1',
+             hospedes: [] // Array vazio, será preenchido com objetos {id, leito}
+         },
+         'quarto-02': { 
+             numero: '02', 
+             tipo: 'feminino', 
+             leitos: 3, 
+             predio: '2',
+             hospedes: [
+                 {id: 1, leito: 1},
+                 {id: 3, leito: 3}
+             ]
+         },
+         'quarto-03': { 
+             numero: '03', 
+             tipo: 'casal', 
+             leitos: 2, 
+             predio: '3',
+             hospedes: [
+                 {id: 5, leito: 1}
+             ]
+         },
+         'quarto-04': { 
+             numero: '04', 
+             tipo: 'misto', 
+             leitos: 2, 
+             predio: '4',
+             hospedes: []
+         },
+         'quarto-05': { 
+             numero: '05', 
+             tipo: 'masculino', 
+             leitos: 3, 
+             predio: '5',
+             hospedes: [
+                 {id: 7, leito: 1},
+                 {id: 8, leito: 2},
+                 {id: 9, leito: 3}
+             ]
+         },
+         'quarto-06': { 
+             numero: '06', 
+             tipo: 'feminino', 
+             leitos: 3, 
+             predio: '6',
+             hospedes: [
+                 {id: 2, leito: 2}
+             ]
+         }
+     };
+     
+     // Dados simulados dos hóspedes
+     const dadosHospedes = {
+         1: { nome: "Ana Carolina Silva", sexo: "Feminino", idade: 32 },
+         2: { nome: "Roberto Almeida", sexo: "Masculino", idade: 45 },
+         3: { nome: "Carla Mendes", sexo: "Feminino", idade: 28 },
+         4: { nome: "Paulo Rodrigues", sexo: "Masculino", idade: 52 },
+         5: { nome: "Mariana Costa", sexo: "Feminino", idade: 37 },
+         6: { nome: "Fernando Santos", sexo: "Masculino", idade: 41 },
+         7: { nome: "Juliana Ferreira", sexo: "Feminino", idade: 29 },
+         8: { nome: "Ricardo Oliveira", sexo: "Masculino", idade: 38 },
+         9: { nome: "Patrícia Lima", sexo: "Feminino", idade: 44 },
+         10: { nome: "Lucas Martins", sexo: "Masculino", idade: 33 }
+     };
+     
+     // Variável para armazenar o ID do quarto atualmente aberto na modal
+     let quartoAtualId = null;
+     
+     // Função para abrir a modal
+     function openModal(quartoId) {
+         // Armazenar o ID do quarto atual
+         quartoAtualId = quartoId;
+         
+         // Obter os dados do quarto
+         const quarto = dadosQuartos[quartoId];
+         
+         if (quarto) {
+             // Atualizar o título da modal
+             document.querySelector('.modal-header h3').textContent = 'Gerenciar Hóspedes do Quarto ' + quarto.numero;
+             
+             // Preencher as informações do quarto
+             document.getElementById('info-numero-quarto').textContent = quarto.numero;
+             document.getElementById('info-tipo-quarto').textContent = quarto.tipo.charAt(0).toUpperCase() + quarto.tipo.slice(1); // Capitalizar
+             document.getElementById('info-leitos-quarto').textContent = quarto.leitos;
+             document.getElementById('info-predio-quarto').textContent = 'Prédio ' + quarto.predio;
+             document.getElementById('info-ocupacao-quarto').textContent = quarto.hospedes.length + ' de ' + quarto.leitos;
+             
+             // Renderizar a lista de hóspedes associados
+             renderizarHospedesAssociados(quarto);
+             
+             // Preencher o select de hóspedes disponíveis
+             preencherSelectHospedes(quarto);
+             
+             // Preencher o select de leitos disponíveis
+             preencherSelectLeitos(quarto);
+         }
+         
+         // Exibir a modal
+         document.querySelector('.modal-overlay').style.display = 'flex';
+     }
+     
+     // Função para renderizar a lista de hóspedes associados ao quarto
+     function renderizarHospedesAssociados(quarto) {
+         const tabelaHospedes = document.getElementById('tabela-hospedes');
+         tabelaHospedes.innerHTML = ''; // Limpar a tabela
+         
+         if (quarto.hospedes.length === 0) {
+             // Se não houver hóspedes, exibir mensagem
+             const tr = document.createElement('tr');
+             tr.innerHTML = '<td colspan="5" style="padding: 0.75rem; text-align: center;">Nenhum hóspede associado a este quarto.</td>';
+             tabelaHospedes.appendChild(tr);
+         } else {
+             // Ordenar hóspedes por número de leito
+             const hospedesOrdenados = [...quarto.hospedes].sort((a, b) => a.leito - b.leito);
+             
+             // Adicionar cada hóspede à tabela
+             hospedesOrdenados.forEach(hospede => {
+                 const dadosHospede = dadosHospedes[hospede.id];
+                 if (dadosHospede) {
+                     const tr = document.createElement('tr');
+                     tr.innerHTML = `
+                         <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">${dadosHospede.nome}</td>
+                         <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">${dadosHospede.sexo}</td>
+                         <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">${dadosHospede.idade}</td>
+                         <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">Leito ${hospede.leito}</td>
+                         <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">
+                             <button type="button" class="btn-remover-hospede" data-id="${hospede.id}" 
+                                 style="background-color: #dc3545; color: white; border: none; border-radius: 4px; padding: 0.5rem; cursor: pointer;">
+                                 Remover
+                             </button>
+                         </td>
+                     `;
+                     tabelaHospedes.appendChild(tr);
+                 }
+             });
+             
+             // Adicionar eventos aos botões de remover
+             const botoesRemover = document.querySelectorAll('.btn-remover-hospede');
+             botoesRemover.forEach(botao => {
+                 botao.addEventListener('click', function() {
+                     const hospedeId = parseInt(this.getAttribute('data-id'));
+                     removerHospede(hospedeId);
+                 });
+             });
+         }
+     }
+     
+     // Função para preencher o select de hóspedes disponíveis
+     function preencherSelectHospedes(quarto) {
+         const selectHospede = document.getElementById('select-hospede');
+         selectHospede.innerHTML = '<option value="">Selecione um hóspede</option>'; // Resetar o select
+         
+         // Verificar se o quarto está cheio
+         if (quarto.hospedes.length >= quarto.leitos) {
+             selectHospede.disabled = true;
+             document.getElementById('btnAssociarHospede').disabled = true;
+             document.getElementById('select-leito').disabled = true;
+             
+             const option = document.createElement('option');
+             option.textContent = 'Quarto lotado';
+             selectHospede.appendChild(option);
+             return;
+         }
+         
+         // Habilitar o select e o botão
+         selectHospede.disabled = false;
+         document.getElementById('btnAssociarHospede').disabled = false;
+         document.getElementById('select-leito').disabled = false;
+         
+         // Filtrar hóspedes que não estão associados a este quarto
+         // e que correspondem ao tipo do quarto (se não for misto)
+         Object.keys(dadosHospedes).forEach(id => {
+             const hospedeId = parseInt(id);
+             const hospede = dadosHospedes[hospedeId];
+             
+             // Verificar se o hóspede já está associado a este quarto
+             const jaAssociado = quarto.hospedes.some(h => h.id === hospedeId);
+             
+             if (!jaAssociado) {
+                 // Verificar compatibilidade de sexo com o tipo do quarto
+                 let compativel = true;
+                 if (quarto.tipo === 'masculino' && hospede.sexo !== 'Masculino') {
+                     compativel = false;
+                 } else if (quarto.tipo === 'feminino' && hospede.sexo !== 'Feminino') {
+                     compativel = false;
+                 }
+                 
+                 // Se for compatível, adicionar ao select
+                 if (compativel) {
+                     const option = document.createElement('option');
+                     option.value = hospedeId;
+                     option.textContent = hospede.nome + ' (' + hospede.sexo + ', ' + hospede.idade + ' anos)';
+                     selectHospede.appendChild(option);
+                 }
+             }
+         });
+         
+         // Se não houver hóspedes disponíveis compatíveis
+         if (selectHospede.options.length === 1) { // Apenas a opção padrão
+             const option = document.createElement('option');
+             option.textContent = 'Não há hóspedes disponíveis compatíveis';
+             selectHospede.appendChild(option);
+             selectHospede.disabled = true;
+             document.getElementById('btnAssociarHospede').disabled = true;
+             document.getElementById('select-leito').disabled = true;
+         }
+     }
+     
+     // Função para preencher o select de leitos disponíveis
+     function preencherSelectLeitos(quarto) {
+         const selectLeito = document.getElementById('select-leito');
+         selectLeito.innerHTML = '<option value="">Selecione um leito</option>'; // Resetar o select
+         
+         // Criar um array com os números de leitos ocupados
+         const leitosOcupados = quarto.hospedes.map(h => h.leito);
+         
+         // Adicionar opções para cada leito disponível
+         for (let i = 1; i <= quarto.leitos; i++) {
+             if (!leitosOcupados.includes(i)) {
+                 const option = document.createElement('option');
+                 option.value = i;
+                 option.textContent = 'Leito ' + i;
+                 selectLeito.appendChild(option);
+             }
+         }
+         
+         // Se não houver leitos disponíveis
+         if (selectLeito.options.length === 1) { // Apenas a opção padrão
+             const option = document.createElement('option');
+             option.textContent = 'Não há leitos disponíveis';
+             selectLeito.appendChild(option);
+             selectLeito.disabled = true;
+         } else {
+             selectLeito.disabled = false;
+         }
+     }
+     
+     // Função para associar um hóspede ao quarto
+     function associarHospede() {
+         const selectHospede = document.getElementById('select-hospede');
+         const selectLeito = document.getElementById('select-leito');
+         const hospedeId = parseInt(selectHospede.value);
+         const leito = parseInt(selectLeito.value);
+         
+         if (!hospedeId) {
+             alert('Por favor, selecione um hóspede.');
+             return;
+         }
+         
+         if (!leito) {
+             alert('Por favor, selecione um leito.');
+             return;
+         }
+         
+         const quarto = dadosQuartos[quartoAtualId];
+         
+         // Verificar se o quarto está cheio
+         if (quarto.hospedes.length >= quarto.leitos) {
+             alert('Este quarto já está com a capacidade máxima.');
+             return;
+         }
+         
+         // Verificar se o hóspede já está associado a este quarto
+         const jaAssociado = quarto.hospedes.some(h => h.id === hospedeId);
+         if (jaAssociado) {
+             alert('Este hóspede já está associado a este quarto.');
+             return;
+         }
+         
+         // Verificar se o leito já está ocupado
+         const leitoOcupado = quarto.hospedes.some(h => h.leito === leito);
+         if (leitoOcupado) {
+             alert('Este leito já está ocupado.');
+             return;
+         }
+         
+         // Associar o hóspede ao quarto
+         quarto.hospedes.push({id: hospedeId, leito: leito});
+         
+         // Atualizar a interface
+         document.getElementById('info-ocupacao-quarto').textContent = quarto.hospedes.length + ' de ' + quarto.leitos;
+         renderizarHospedesAssociados(quarto);
+         preencherSelectHospedes(quarto);
+         preencherSelectLeitos(quarto);
+         
+         // Atualizar o chip de contagem no bloco do quarto
+         atualizarChipQuarto(quartoAtualId);
+         
+         alert('Hóspede associado com sucesso!');
+     }
+     
+     // Função para remover um hóspede do quarto
+     function removerHospede(hospedeId) {
+         const quarto = dadosQuartos[quartoAtualId];
+         
+         // Encontrar o hóspede no array
+         const hospede = quarto.hospedes.find(h => h.id === hospedeId);
+         if (!hospede) return;
+         
+         // Confirmar a remoção
+         if (!confirm(`Deseja realmente remover ${dadosHospedes[hospedeId].nome} do Leito ${hospede.leito}?`)) {
+             return;
+         }
+         
+         // Remover o hóspede do array
+         const index = quarto.hospedes.findIndex(h => h.id === hospedeId);
+         if (index !== -1) {
+             quarto.hospedes.splice(index, 1);
+         }
+         
+         // Atualizar a interface
+         document.getElementById('info-ocupacao-quarto').textContent = quarto.hospedes.length + ' de ' + quarto.leitos;
+         renderizarHospedesAssociados(quarto);
+         preencherSelectHospedes(quarto);
+         preencherSelectLeitos(quarto);
+         
+         // Atualizar o chip de contagem no bloco do quarto
+         atualizarChipQuarto(quartoAtualId);
+         
+         alert('Hóspede removido com sucesso!');
+     }
+     
+     // Função para atualizar o chip de contagem no bloco do quarto
+     function atualizarChipQuarto(quartoId) {
+         const quarto = dadosQuartos[quartoId];
+         const blocoQuarto = document.getElementById(quartoId);
+         
+         if (blocoQuarto) {
+             const chip = blocoQuarto.querySelector('.chip');
+             if (chip) {
+                 // Se houver hóspedes, mostrar a contagem
+                 if (quarto.hospedes.length > 0) {
+                     chip.textContent = quarto.hospedes.length;
+                     chip.classList.add('ativo');
+                 } else {
+                     chip.textContent = '';
+                     chip.classList.remove('ativo');
+                 }
+             }
+         }
+     }
+     
+     // Função para fechar a modal
+     function closeModal() {
+         document.querySelector('.modal-overlay').style.display = 'none';
+         quartoAtualId = null;
+     }
+     
+     // Inicializar os eventos quando o DOM estiver carregado
+     document.addEventListener('DOMContentLoaded', function() {
+         // Garantir que a modal esteja oculta inicialmente
+         document.querySelector('.modal-overlay').style.display = 'none';
+         
+         // Configurar o evento de clique para o botão Cancelar/Fechar
+         const btnCancelar = document.getElementById('btnCancelar');
+         if (btnCancelar) {
+             btnCancelar.addEventListener('click', closeModal);
+         }
+         
+         // Configurar o evento de clique para o botão Associar Hóspede
+         const btnAssociarHospede = document.getElementById('btnAssociarHospede');
+         if (btnAssociarHospede) {
+             btnAssociarHospede.addEventListener('click', associarHospede);
+         }
+         
+         // Adicionar evento de clique a todos os blocos de quartos
+         const blocosQuartos = document.querySelectorAll('.grid-4 .bloco');
+         blocosQuartos.forEach(function(bloco) {
+             bloco.addEventListener('click', function(e) {
+                 e.preventDefault(); // Previne o comportamento padrão do link
+                 
+                 // Obter o ID do quarto
+                 const quartoId = this.id;
+                 
+                 // Abrir a modal com os dados do quarto
+                 openModal(quartoId);
+             });
+             
+             // Inicializar os chips de contagem
+             atualizarChipQuarto(bloco.id);
+         });
+         
+         // Opcional: Fechar a modal ao clicar fora dela (no overlay)
+         document.querySelector('.modal-overlay').addEventListener('click', function(e) {
+             // Verifica se o clique foi diretamente no overlay e não em seus filhos
+             if (e.target === this) {
+                 closeModal();
+             }
+         });
+     });
+    </script>
+    </head>
+    <body>
+        <header>
+            <div class="linha">
+                <div class="coluna">
+                    <nav class="jm jm-menu nav-maior none" id="menu">
+                        <div class="separador">
+                            <a href="hospedagem.html" class="ativo">Configurações </a>
+                            <a href="projetos.html">Gestao de roupas</a>
+                            <a href="monitoramento.html">Monitoramento de saida de hospedes</a>
+                            <a href="#">Sair</a>
+                        </div>
+                    </nav>
+                    <a href="inicial.html" class="logo logo-menor">Thalamus</a>
+                    <a href="#" class="icone-avancar negrito com-texto" onclick="document.getElementById('menu').classList.toggle('none');this.classList.toggle('ativo');return false">Hospedagem</a>
+                </div>
+                <div class="coluna">
+                    <a href="#" class="avatar direita" onclick="document.getElementById('usuario').classList.toggle('none');this.classList.toggle('ativo');return false" title="Usuário"><img src="img/avatar.png"/></a>
+                    <nav class="jm jm-avatar none" id="usuario">
+                        <div class="separador margem alinha-centro negrito">
+                            Jorge Moreira de Souza
+                        </div>
+                        <div class="separador">
+                            <a href="#" onclick="document.documentElement.classList.toggle('dark');this.classList.toggle('ativo');return false"><span class="direita toggle"></span>Tema escuro</a>
+                        </div>
+                        <div class="separador bg-cinza">
+                            <a href="#">Ajuda</a>
+                            <a href="nova-senha.html">Alterar senha</a>
+                            <a href="login.html">Sair</a>
+                        </div>
+                    </nav>
+                    <a href="#" class="icone-notif direita" title="Notificações" rel="2" onclick="document.getElementById('notificacoes').classList.toggle('none');this.classList.toggle('ativo');return false"></a>
+                    <nav class="jm jm-notif none" id="notificacoes">
+                        <div class="separador">
+                            <a href="#"><span class="fonte-fraca fonte-menor direita">12min</span>Título da notificação</a>
+                            <a href="#"><span class="fonte-fraca fonte-menor direita">2h</span>Título da notificação</a>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <main id="main">
+            <aside>
+                <div class="titulo margem efeito">
+                    <div class="m-icone"><a href="#" class="icone-menu" title="Menu" onclick="document.getElementById('main').classList.toggle('esconde');return false"></a></div>
+                    <nav class="jm jm-inc none" id="menuIncluir">
+                        <div class="separador">
+                            <a href="#">Incluir projeto</a>
+                            <a href="monitoramento.html">Incluir projeto</a>
+                        </div>
+                    </nav>
+                </div>
+                <div class="separador margem">
+                    <div class="m-icone">
+                        <a href="javascript:abaMenu('Compras')" class="icone-compras " title="Lavanderia" id="Compras"></a>
+                        <a href="javascript:abaMenu('Apontamento')" class="icone-gestao" title="Cadastros" id="Apontamento"></a>
+                        <a href="javascript:abaMenu('Gestao')" class="icone-alvo" title="Gestão" id="Gestao"></a>
+                    </div>
+                </div>
+                <nav class="nav-maior separador none">
+                    <a href="#" class="icone-compras">Lavanderia</a>
+                    <a href="#" class="ic        <div class="separador margem">
+                        <div class="m-icone">
+                            <a href="javascript:abaMenu('Compras')" class="icone-alvo" title="Lavanderia" id="Compras"></a>
+                            <a href="javascript:abaMenu('Apontamento')" class="icone-compras ativo" title="Cadastros" id="Apontamento"></a>
+                            <a href="javascript:abaMenu('Gestao')" class="icone-gestao" title="Gestão" id="Gestao"></a>
+                        </div>
+                    </div>one-alvo ativo">Cadastros</a>
+                    <a href="#" class="icone-gestao">Gestão</a>
+                </nav>
+                <nav id="menuCompras" class="nav-maior separador">
+                  
+                    <a href="tipomovimentacao.html"  class="ativo">tipo de movimentações</a>
+                    <a href="#">Movimentações</a>
+                    <a href="#">Receber Lavanderia</a>
+                    <a href="#">Enviar reparo</a>
+                    <a href="#">Receber reparo</a>
+                    <a href="#">Relatório de roupas</a>
+                    <a href="#">Descartar roupas</a>
+                </nav>
+                <nav id="menuApontamento" class="nav-maior separador none">
+                    <a href="hospedagem.html" class="ativo">Hospedagem </a>
+                    <a href="hospede.html"><span class="chip direita bg-cinza contador ">22</span>Hospede </a>
+                    <a href="quarto.html"><span class="chip direita bg-cinza contador ">12</span>Quarto </a>
+                    <a href="blocoPredio.html"><span class="chip direita bg-cinza contador">4</span>Blocos/Prédios</a>
+                    <a href="hospedeQuarto.html" >Hóspede quarto</a>
+                    <a href="roupasHospede.html">Roupas hóspede</a>
+                    <a href="lavanderias.html"><span class="chip direita bg-cinza contador">4</span>Lavanderias</a>
+                    <a href="enxoval.html">Enxoval do quarto</a>
+                </nav>
+                <nav id="menuGestao" class="nav-maior separador none">
+                    <a href="#">Relatórios</a>
+                    <a href="#">Fornecedor</a>
+                    <a href="#">Material</a>
+                    <a href="#">Serviço</a>
+                    <a href="#">Setor</a>
+                    <a href="#">Colaborador</a>
+                    <a href="#">Usuários</a>
+                    <a href="#">Gerenciar Permissões</a>
+                </nav>
+            </aside>
+            <section>
+                <div class="titulo">
+                    <div class="margem container">
+                        <div class="m-icone direita">
+                            <div class="pesquisa">
+                                <input type="text" placeholder="Pesquise aqui"/>
+                                <a href="#" class="icone-pesquisa" title="Pesquise"></a>
+                            </div>
+                        </div>
+                        <h2>Hóspede</h2> 
+                    </div>
+                </div>
+                <div class="margem container">
+                    <div class="bloco margem">
+                        <!-- <div class="tags m-b">
+                            <a href="#" class="ativo">Pendentes</a>
+                            <a href="#" class="ativo">Editáveis</a>
+                            <a href="#">Concluídas</a>
+                        </div> -->
+                    
+                        <div class="grid-4">
+                            <a href="#" id="quarto-01" class="bloco margem"><span class="chip direita"></span><h3>Quarto 01</h3>Prédio 1<div class="fonte-menor fonte-fraca">03 Leitos</div></a>
+                            <a href="#" id="quarto-02" class="bloco margem"><span class="chip direita"></span><h3>Quarto 02</h3>Prédio 2<div class="fonte-menor fonte-fraca">03 Leitos</div></a>
+                            <a href="#" id="quarto-03" class="bloco margem"><span class="chip direita"></span><h3>Quarto 03</h3>Prédio 3<div class="fonte-menor fonte-fraca">02 Leitos</div></a>
+                            <a href="#" id="quarto-04" class="bloco margem"><span class="chip direita"></span><h3>Quarto 04</h3>Prédio 4<div class="fonte-menor fonte-fraca">02 Leitos</div></a>
+                            <a href="#" id="quarto-05" class="bloco margem"><span class="chip direita"></span><h3>Quarto 05</h3>Prédio 5<div class="fonte-menor fonte-fraca">03 Leitos</div></a>
+                            <a href="#" id="quarto-06" class="bloco margem"><span class="chip direita"></span><h3>Quarto 06</h3>Prédio 6<div class="fonte-menor fonte-fraca">03 Leitos</div></a>
+                        </div>
+                        <div class="paginacao">
+                            <a href="#" class="ativo">1</a>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
+                            <span>...</span>
+                            <a href="#">16</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    
+        <!-- Estrutura HTML da modal -->
+<!-- Estrutura HTML da modal -->
+<div class="modal-overlay" style="display: none;">
+    <div class="modal">
+        <div class="modal-mask">
+            <div class="jm">
+                <div class="modal-header"><h3>Gerenciar Hóspedes do Quarto</h3></div>
+                
+                <!-- Informações do quarto -->
+                <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem;">
+                    <p><strong>Número do Quarto:</strong> <span id="info-numero-quarto"></span></p>
+                    <p><strong>Tipo:</strong> <span id="info-tipo-quarto"></span></p>
+                    <p><strong>Quantidade de Leitos:</strong> <span id="info-leitos-quarto"></span></p>
+                    <p><strong>Bloco/Prédio:</strong> <span id="info-predio-quarto"></span></p>
+                    <p><strong>Ocupação:</strong> <span id="info-ocupacao-quarto"></span></p>
+                </div>
+                
+                <!-- Lista de hóspedes associados ao quarto -->
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="margin-top: 0; margin-bottom: 1rem;">Hóspedes Associados</h4>
+                    <div id="lista-hospedes" style="max-height: 200px; overflow-y: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background-color: #f8f9fa; text-align: left;">
+                                    <th style="padding: 0.75rem; border-bottom: 1px solid #ddd;">Nome</th>
+                                    <th style="padding: 0.75rem; border-bottom: 1px solid #ddd;">Sexo</th>
+                                    <th style="padding: 0.75rem; border-bottom: 1px solid #ddd;">Idade</th>
+                                    <th style="padding: 0.75rem; border-bottom: 1px solid #ddd;">Leito</th>
+                                    <th style="padding: 0.75rem; border-bottom: 1px solid #ddd;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-hospedes">
+                                <!-- Os hóspedes serão inseridos aqui dinamicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Formulário para associar novo hóspede -->
+                <div style="margin-top: 1.5rem; border-top: 1px solid #eee; padding-top: 1.5rem;">
+                    <h4 style="margin-top: 0; margin-bottom: 1rem;">Associar Novo Hóspede</h4>
+                    <div class="grid-2">
+                        <div>
+                            <label for="select-hospede">Selecionar Hóspede</label>
+                            <select id="select-hospede" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; box-sizing: border-box;">
+                                <option value="">Selecione um hóspede</option>
+                                <!-- Opções serão preenchidas dinamicamente -->
+                            </select>
+                        </div>
+                        <div>
+                            <label for="select-leito">Selecionar Leito</label>
+                            <select id="select-leito" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; box-sizing: border-box;">
+                                <option value="">Selecione um leito</option>
+                                <!-- Opções serão preenchidas dinamicamente -->
+                            </select>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1rem; text-align: right;">
+                        <button type="button" id="btnAssociarHospede" style="padding: 0.75rem 1.5rem;">Associar Hóspede</button>
+                    </div>
+                </div>
+                
+                <div class="margem linha alinha-v alinha-centro">
+                    <button type="button" class="acao-secundaria" id="btnCancelar">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+        <script>
+            function abaMenu(a) {
+                document.getElementById('Compras').classList.remove('ativo');
+                document.getElementById('Apontamento').classList.remove('ativo');
+                document.getElementById('Gestao').classList.remove('ativo');
+                document.getElementById('menuCompras').classList.add('none');
+                document.getElementById('menuApontamento').classList.add('none');
+                document.getElementById('menuGestao').classList.add('none');
+                document.getElementById(a).classList.add('ativo');
+                document.getElementById('menu' + a).classList.remove('none');
+            }
+        
+            // Função para abrir a modal
+            function openModal() {
+                document.querySelector('.modal-overlay').style.display = 'flex';
+            }
+        
+            // Função para fechar a modal
+            function closeModal() {
+                document.querySelector('.modal-overlay').style.display = 'none';
+            }
+        
+            // Inicializar os eventos quando o DOM estiver carregado
+            document.addEventListener('DOMContentLoaded', function() {
+                // Garantir que a modal esteja oculta inicialmente
+                document.querySelector('.modal-overlay').style.display = 'none';
+            
+                // Configurar o evento de clique para o botão Cancelar
+                const btnCancelar = document.querySelector('.acao-secundaria');
+                if (btnCancelar) {
+                    btnCancelar.addEventListener('click', closeModal);
+                }
+            
+                // Adicionar evento de clique a todos os blocos de quartos
+                const blocosQuartos = document.querySelectorAll('.grid-4 .bloco');
+                blocosQuartos.forEach(function(bloco) {
+                    bloco.addEventListener('click', function(e) {
+                        e.preventDefault(); // Previne o comportamento padrão do link
+                    
+                        // Obter o número do quarto do texto do elemento h3
+                        const quartoNumero = this.querySelector('h3').textContent;
+                    
+                        // Atualizar o título da modal
+                        document.querySelector('.modal-header h3').textContent = 'Detalhes do ' + quartoNumero;
+                    
+                        // Você pode também preencher os campos da modal com dados específicos
+                        // document.getElementById('nome').value = quartoNumero;
+                        // document.getElementById('sigla').value = 'Prédio';
+                    
+                        // Abrir a modal
+                        openModal();
+                    });
+                    
+                });
+            
+                // Opcional: Fechar a modal ao clicar fora dela (no overlay)
+                document.querySelector('.modal-overlay').addEventListener('click', function(e) {
+                    // Verifica se o clique foi diretamente no overlay e não em seus filhos
+                    if (e.target === this) {
+                        closeModal();
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

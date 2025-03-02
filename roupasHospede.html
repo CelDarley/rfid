@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Thalamus - Gestão de Roupas</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="description" content="Thalamus"/>
+        <link href="css/thalamus.css" rel="stylesheet" type="text/css"/>
+        <style>
+            /* Overlay que cobre toda a tela */
+            .modal-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                display: none; /* Inicialmente oculta */
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            }
+      
+            /* Container da modal */
+            .modal {
+                z-index: 1001;
+                position: relative;
+                width: 80%; /* Aumentado para 80% da largura da tela */
+                max-width: 800px; /* Definido um valor máximo */
+            }
+      
+            /* Máscara da modal */
+            .modal-mask {
+                background-color: white;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                max-height: 90vh;
+                width: 100%; /* Garante que ocupe toda a largura do container */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+      
+            /* Container de conteúdo */
+            .jm {
+                background-color: white;
+                border-radius: 8px;
+                width: 100%; /* Ocupa toda a largura disponível */
+                padding: 2rem;
+                box-sizing: border-box;
+            }
+      
+            /* Cabeçalho da modal */
+            .modal-header {
+                border-bottom: 1px solid #eee;
+                margin-bottom: 1.5rem;
+                padding-bottom: 0.5rem;
+                width: 100%;
+            }
+      
+            .modal-header h3 {
+                margin: 0;
+                color: #333;
+            }
+      
+            /* Grid para os campos de formulário */
+            .grid-2 {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+                margin-bottom: 2rem;
+                width: 100%;
+            }
+      
+            /* Estilo para os campos de formulário */
+            label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 500;
+                text-align: left;
+            }
+      
+            input[type="text"], select {
+                width: 100%;
+                padding: 0.75rem;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                font-size: 1rem;
+                box-sizing: border-box;
+            }
+      
+            /* Estilo para os botões */
+            .margem {
+                margin-top: 1.5rem;
+            }
+      
+            .linha {
+                display: flex;
+            }
+      
+            .alinha-v {
+                align-items: center;
+            }
+      
+            .alinha-centro {
+                justify-content: center;
+                gap: 1rem;
+            }
+      
+            button {
+                padding: 0.75rem 1.5rem;
+                border: none;
+                border-radius: 4px;
+                font-size: 1rem;
+                cursor: pointer;
+                background-color: #4a6ee0;
+                color: white;
+            }
+      
+            button.acao-secundaria {
+                background-color: transparent;
+                border: 1px solid #4a6ee0;
+                color: #4a6ee0;
+            }
+
+            /* Estilo para linhas clicáveis na tabela */
+            .tabela tr.clicavel {
+                cursor: pointer;
+            }
+
+            .tabela tr.clicavel:hover {
+                background-color: #f5f5f5;
+            }
+            
+            /* Ícone de associação */
+            .icone-associar {
+                display: inline-block;
+                width: 24px;
+                height: 24px;
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234a6ee0"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>');
+                background-repeat: no-repeat;
+                background-position: center;
+                cursor: pointer;
+            }
+            
+            /* Botão de ler tag */
+            .btn-ler-tag {
+                background-color: #28a745;
+                width: 100%;
+                margin-top: 1rem;
+                padding: 1rem;
+                font-weight: bold;
+            }
+            
+            /* Informações do hóspede na modal */
+            .info-hospede {
+                background-color: #f8f9fa;
+                padding: 1rem;
+                border-radius: 4px;
+                margin-bottom: 1.5rem;
+            }
+            
+            .info-hospede p {
+                margin: 0.5rem 0;
+            }
+            
+            .info-hospede strong {
+                font-weight: bold;
+            }
+            .pesquisa {
+    display: flex; /* Garante que os elementos fiquem alinhados horizontalmente */
+    align-items: center; /* Alinha verticalmente os elementos */
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    padding: 0.5rem;
+    gap: 0.5rem; /* Espaçamento entre os elementos */
+    width: 100%; /* Ajusta a largura para evitar que o conteúdo quebre */
+    box-sizing: border-box; /* Inclui o padding no tamanho total */
+}
+
+.pesquisa input {
+    flex: 1; /* Faz o campo de texto ocupar o espaço restante */
+    border: none;
+    background: none;
+    padding: 0.5rem;
+    outline: none;
+    font-size: 1rem;
+}
+
+.pesquisa a {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+        </style>
+    </head>
+    <body>
+        <header>
+            <div class="linha">
+                <div class="coluna">
+                    <nav class="jm jm-menu nav-maior none" id="menu">
+                        <div class="separador">
+                            <a href="hospedagem.html">Configurações</a>
+                            <a href="projetos.html" class="ativo">Gestão de roupas</a>
+                            <a href="monitoramento.html">Monitoramento de saída de hóspedes</a>
+                            <a href="#">Sair</a>
+                        </div>
+                    </nav>
+                    <a href="inicial.html" class="logo logo-menor">Thalamus</a>
+                    <a href="#" class="icone-avancar negrito com-texto" onclick="document.getElementById('menu').classList.toggle('none');this.classList.toggle('ativo');return false">Gestão de Roupas</a>
+                </div>
+                <div class="coluna">
+                    <a href="#" class="avatar direita" onclick="document.getElementById('usuario').classList.toggle('none');this.classList.toggle('ativo');return false" title="Usuário"><img src="img/avatar.png"/></a>
+                    <nav class="jm jm-avatar none" id="usuario">
+                        <div class="separador margem alinha-centro negrito">
+                            Jorge Moreira de Souza
+                        </div>
+                        <div class="separador">
+                            <a href="#" onclick="document.documentElement.classList.toggle('dark');this.classList.toggle('ativo');return false"><span class="direita toggle"></span>Tema escuro</a>
+                        </div>
+                        <div class="separador bg-cinza">
+                            <a href="#">Ajuda</a>
+                            <a href="nova-senha.html">Alterar senha</a>
+                            <a href="login.html">Sair</a>
+                        </div>
+                    </nav>
+                    <a href="#" class="icone-notif direita" title="Notificações" rel="2" onclick="document.getElementById('notificacoes').classList.toggle('none');this.classList.toggle('ativo');return false"></a>
+                    <nav class="jm jm-notif none" id="notificacoes">
+                        <div class="separador">
+                            <a href="#"><span class="fonte-fraca fonte-menor direita">12min</span>Título da notificação</a>
+                            <a href="#"><span class="fonte-fraca fonte-menor direita">2h</span>Título da notificação</a>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <main id="main">
+            <aside>
+                <div class="titulo margem efeito">
+                    <div class="m-icone"><a href="#" class="icone-menu" title="Menu" onclick="document.getElementById('main').classList.toggle('esconde');return false"></a></div>
+                    <nav class="jm jm-inc none" id="menuIncluir">
+                        <div class="separador">
+                            <a href="#">Incluir hóspede</a>
+                            <a href="#">Incluir roupa</a>
+                        </div>
+                    </nav>
+                </div>
+                <div class="separador margem">
+                    <div class="m-icone">
+                        <a href="javascript:abaMenu('Compras')" class="icone-compras " title="Lavanderia" id="Compras"></a>
+                        <a href="javascript:abaMenu('Apontamento')" class="icone-gestao" title="Cadastros" id="Apontamento"></a>
+                        <a href="javascript:abaMenu('Gestao')" class="icone-alvo" title="Gestão" id="Gestao"></a>
+                    </div>
+                </div>
+                <nav class="nav-maior separador none">
+                    <a href="#" class="icone-compras">Lavanderia</a>
+                    <a href="#" class="icone-alvo ativo">Cadastros</a>
+                    <a href="#" class="icone-gestao">Gestão</a>
+                </nav>
+                <nav id="menuCompras" class="nav-maior separador">
+                  
+                    <a href="tipomovimentacao.html"  class="ativo">tipo de movimentações</a>
+                    <a href="#">Movimentações</a>
+                    <a href="#">Receber Lavanderia</a>
+                    <a href="#">Enviar reparo</a>
+                    <a href="#">Receber reparo</a>
+                    <a href="#">Relatório de roupas</a>
+                    <a href="#">Descartar roupas</a>
+                </nav>
+                <nav id="menuApontamento" class="nav-maior separador none">
+                    <a href="hospedagem.html" class="ativo">Hospedagem </a>
+                    <a href="hospede.html"><span class="chip direita bg-cinza contador ">22</span>Hospede </a>
+                    <a href="quarto.html"><span class="chip direita bg-cinza contador ">12</span>Quarto </a>
+                    <a href="blocoPredio.html"><span class="chip direita bg-cinza contador">4</span>Blocos/Prédios</a>
+                    <a href="hospedeQuarto.html" >Hóspede quarto</a>
+                    <a href="roupasHospede.html">Roupas hóspede</a>
+                    <a href="lavanderias.html"><span class="chip direita bg-cinza contador">4</span>Lavanderias</a>
+                    <a href="enxoval.html">Enxoval do quarto</a>
+                </nav>
+                <nav id="menuGestao" class="nav-maior separador none">
+                    <a href="#">Relatórios</a>
+                    <a href="#">Fornecedor</a>
+                    <a href="#">Material</a>
+                    <a href="#">Serviço</a>
+                    <a href="#">Setor</a>
+                    <a href="#">Colaborador</a>
+                    <a href="#">Usuários</a>
+                    <a href="#">Gerenciar Permissões</a>
+                </nav>
+            </aside>
+            <section>
+                <div class="titulo">
+                    <div class="margem container">
+                        <div class="m-icone direita">
+                            <div class="pesquisa">
+                                <input type="text" placeholder="Pesquise aqui" id="searchInput" onkeyup="pesquisarLavanderias()">
+                                <a href="#" class="icone-pesquisa" title="Pesquise"></a>
+                            </div>
+                        </div>
+                        <h2>Hóspedes</h2> 
+                    </div>
+                </div>
+                <div class="margem container">
+                    <div class="bloco margem">
+                        <table class="tabela">
+                            <tr>
+                                <th>Nome do Hóspede</th>
+                                <th>Sexo</th>
+                                <th>Idade</th>
+                                <th>Número do Quarto</th>
+                                <th>Associar Roupa</th>
+                            </tr>
+                            <tr>
+                                <td>Ana Carolina Silva</td>
+                                <td>Feminino</td>
+                                <td>32</td>
+                                <td>101</td>
+                                <td><a href="#" class="icone-associar" data-id="1"></a></td>
+                            </tr>
+                            <tr>
+                                <td>Roberto Almeida</td>
+                                <td>Masculino</td>
+                                <td>45</td>
+                                <td>102</td>
+                                <td><a href="#" class="icone-associar" data-id="2"></a></td>
+                            </tr>
+                            <tr>
+                                <td>Carla Mendes</td>
+                                <td>Feminino</td>
+                                <td>28</td>
+                                <td>103</td>
+                                <td><a href="#" class="icone-associar" data-id="3"></a></td>
+                            </tr>
+                            <tr>
+                                <td>Paulo Rodrigues</td>
+                                <td>Masculino</td>
+                                <td>52</td>
+                                <td>104</td>
+                                <td><a href="#" class="icone-associar" data-id="4"></a></td>
+                            </tr>
+                            <tr>
+                                <td>Mariana Costa</td>
+                                <td>Feminino</td>
+                                <td>37</td>
+                                <td>105</td>
+                                <td><a href="#" class="icone-associar" data-id="5"></a></td>
+                            </tr>
+                            <tr>
+                                <td>Fernando Santos</td>
+                                <td>Masculino</td>
+                                <td>41</td>
+                                <td>106</td>
+                                <td><a href="#" class="icone-associar" data-id="6"></a></td>
+                            </tr>
+                            <tr>
+                                <td>Juliana Ferreira</td>
+                                <td>Feminino</td>
+                                <td>29</td>
+                                <td>107</td>
+                                <td><a href="#" class="icone-associar" data-id="7"></a></td>
+                            </tr>
+                            <tr>
+                                <td>Ricardo Oliveira</td>
+                                <td>Masculino</td>
+                                <td>38</td>
+                                <td>108</td>
+                                <td><a href="#" class="icone-associar" data-id="8"></a></td>
+                            </tr>
+                            <tr>
+                                <td>Patrícia Lima</td>
+                                <td>Feminino</td>
+                                <td>44</td>
+                                <td>109</td>
+                                <td><a href="#" class="icone-associar" data-id="9"></a></td>
+                            </tr>
+                            <tr>
+                                <td>Lucas Martins</td>
+                                <td>Masculino</td>
+                                <td>33</td>
+                                <td>110</td>
+                                <td><a href="#" class="icone-associar" data-id="10"></a></td>
+                            </tr>
+                        </table>
+                        <div class="paginacao">
+                            <a href="#" class="ativo">1</a>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
+                            <span>...</span>
+                            <a href="#">5</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Estrutura HTML da modal de associação de roupas -->
+        <div class="modal-overlay">
+            <div class="modal">
+                <div class="modal-mask">
+                    <div class="jm">
+                        <div class="modal-header"><h3>Associar Roupa ao Hóspede</h3></div>
+                        
+                        <!-- Informações do hóspede -->
+                        <div class="info-hospede">
+                            <p><strong>Hóspede:</strong> <span id="hospede-nome"></span></p>
+                            <p><strong>Quarto:</strong> <span id="hospede-quarto"></span></p>
+                            <p><strong>Sexo:</strong> <span id="hospede-sexo"></span></p>
+                        </div>
+                        
+                        <div style="text-align: center; width: 100%;">
+                            <div class="grid-2">
+                                <div>
+                                    <label for="tipo-roupa">Tipo de Roupa</label>
+                                    <select id="tipo-roupa">
+                                        <option value="">Selecione o tipo de roupa</option>
+                                        <option value="camisa">Camisa</option>
+                                        <option value="calca">Calça</option>
+                                        <option value="bermuda">Bermuda</option>
+                                        <option value="camiseta">Camiseta</option>
+                                        <option value="cueca">Cueca</option>
+                                        <option value="calcinha">Calcinha</option>
+                                        <option value="blusa">Blusa</option>
+                                        <option value="paleto">Paletó</option>
+                                        <option value="camisola">Camisola</option>
+                                        <option value="pijama">Pijama</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="cor-roupa">Cor</label>
+                                    <select id="cor-roupa">
+                                        <option value="">Selecione a cor</option>
+                                        <option value="branco">Branco</option>
+                                        <option value="preto">Preto</option>
+                                        <option value="azul">Azul</option>
+                                        <option value="vermelho">Vermelho</option>
+                                        <option value="verde">Verde</option>
+                                        <option value="amarelo">Amarelo</option>
+                                        <option value="rosa">Rosa</option>
+                                        <option value="roxo">Roxo</option>
+                                        <option value="laranja">Laranja</option>
+                                        <option value="marrom">Marrom</option>
+                                        <option value="cinza">Cinza</option>
+                                        <option value="bege">Bege</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Novo campo para tamanho de roupa -->
+    <div style="margin-top: 1rem;">
+        <label for="tamanho-roupa">Tamanho</label>
+        <select id="tamanho-roupa" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; box-sizing: border-box;">
+            <option value="">Selecione o tamanho</option>
+            <option value="XS">XS</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+            <option value="2XL">2XL</option>
+            <option value="3XL">3XL</option>
+            <option value="4XL">4XL</option>
+            <option value="5XL">5XL</option>
+            <option value="6XL">6XL</option>
+            <option value="7XL">7XL</option>
+            <option value="8XL">8XL</option>
+            <option value="9XL">9XL</option>
+            <option value="10XL">10XL</option>
+            <option value="11KL">11KL</option>
+        </select>
+    </div>
+                            <!-- Botão de ler tag -->
+                            <button type="button" class="btn-ler-tag">LER TAG</button>
+                        </div>
+                        
+                        <div class="margem linha alinha-v alinha-centro">
+                            <button type="button" class="acao-secundaria" id="btnCancelar">Cancelar</button>
+                            <button type="button" id="btnAssociar">Associar Roupa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function abaMenu(a) {
+                document.getElementById('Compras').classList.remove('ativo');
+                document.getElementById('Apontamento').classList.remove('ativo');
+                document.getElementById('Gestao').classList.remove('ativo');
+                document.getElementById('menuCompras').classList.add('none');
+                document.getElementById('menuApontamento').classList.add('none');
+                document.getElementById('menuGestao').classList.add('none');
+                document.getElementById(a).classList.add('ativo');
+                document.getElementById('menu' + a).classList.remove('none');
+            }
+        
+            // Dados dos hóspedes (simulando um banco de dados)
+            const hospedes = {
+                1: { nome: "Ana Carolina Silva", sexo: "Feminino", idade: 32, quarto: "101" },
+                2: { nome: "Roberto Almeida", sexo: "Masculino", idade: 45, quarto: "102" },
+                3: { nome: "Carla Mendes", sexo: "Feminino", idade: 28, quarto: "103" },
+                4: { nome: "Paulo Rodrigues", sexo: "Masculino", idade: 52, quarto: "104" },
+                5: { nome: "Mariana Costa", sexo: "Feminino", idade: 37, quarto: "105" },
+                6: { nome: "Fernando Santos", sexo: "Masculino", idade: 41, quarto: "106" },
+                7: { nome: "Juliana Ferreira", sexo: "Feminino", idade: 29, quarto: "107" },
+                8: { nome: "Ricardo Oliveira", sexo: "Masculino", idade: 38, quarto: "108" },
+                9: { nome: "Patrícia Lima", sexo: "Feminino", idade: 44, quarto: "109" },
+                10: { nome: "Lucas Martins", sexo: "Masculino", idade: 33, quarto: "110" }
+            };
+            
+            // Função para abrir a modal de associação
+            function openModal(hospedeId) {
+                const hospede = hospedes[hospedeId];
+                
+                // Preencher as informações do hóspede na modal
+                document.getElementById('hospede-nome').textContent = hospede.nome;
+                document.getElementById('hospede-quarto').textContent = hospede.quarto;
+                document.getElementById('hospede-sexo').textContent = hospede.sexo;
+                
+                // Ajustar o select de tipo de roupa com base no sexo
+                const tipoRoupaSel = document.getElementById('tipo-roupa');
+                
+                // Resetar o select
+                tipoRoupaSel.value = "";
+                
+                // Habilitar/desabilitar opções específicas por sexo
+                Array.from(tipoRoupaSel.options).forEach(option => {
+                    if (hospede.sexo === "Masculino" && (option.value === "calcinha" || option.value === "camisola")) {
+                        option.disabled = true;
+                    } else if (hospede.sexo === "Feminino" && option.value === "cueca") {
+                        option.disabled = true;
+                    } else {
+                        option.disabled = false;
+                    }
+                });
+                
+                // Resetar o select de cor
+                document.getElementById('cor-roupa').value = "";
+                
+                // Exibir a modal
+                document.querySelector('.modal-overlay').style.display = 'flex';
+            }
+            
+            // Função para fechar a modal
+            function closeModal() {
+                document.querySelector('.modal-overlay').style.display = 'none';
+            }
+            
+            // Função para simular a leitura de tag
+            function lerTag() {
+                alert("Simulando leitura de tag RFID...\nTag lida com sucesso: RF2023456789");
+            }
+// Função para associar a roupa
+function associarRoupa() {
+    const tipoRoupa = document.getElementById('tipo-roupa').value;
+    const corRoupa = document.getElementById('cor-roupa').value;
+    const tamanhoRoupa = document.getElementById('tamanho-roupa').value;
+    
+    if (!tipoRoupa || !corRoupa || !tamanhoRoupa) {
+        alert("Por favor, selecione o tipo de roupa, a cor e o tamanho.");
+        return;
+    }
+    
+    alert(`Roupa associada com sucesso!\nTipo: ${tipoRoupa}\nCor: ${corRoupa}\nTamanho: ${tamanhoRoupa}\nHóspede: ${document.getElementById('hospede-nome').textContent}\nQuarto: ${document.getElementById('hospede-quarto').textContent}`);
+    
+    closeModal();
+}
+            
+            // Inicializar os eventos quando o DOM estiver carregado
+            document.addEventListener('DOMContentLoaded', function() {
+                // Garantir que a modal esteja oculta inicialmente
+                document.querySelector('.modal-overlay').style.display = 'none';
+                
+                // Configurar o evento de clique para o botão Cancelar
+                document.getElementById('btnCancelar').addEventListener('click', closeModal);
+                
+                // Configurar o evento de clique para o botão Associar
+                document.getElementById('btnAssociar').addEventListener('click', associarRoupa);
+                
+                // Configurar o evento de clique para o botão Ler Tag
+                document.querySelector('.btn-ler-tag').addEventListener('click', lerTag);
+                
+                // Adicionar evento de clique a todos os ícones de associação
+                const iconesAssociar = document.querySelectorAll('.icone-associar');
+                iconesAssociar.forEach(function(icone) {
+                    icone.addEventListener('click', function(e) {
+                        e.preventDefault(); // Previne o comportamento padrão do link
+                        
+                        // Obter o ID do hóspede do atributo data-id
+                        const hospedeId = this.getAttribute('data-id');
+                        
+                        // Abrir a modal com os dados do hóspede
+                        openModal(hospedeId);
+                    });
+                });
+                
+                // Fechar a modal ao clicar fora dela (no overlay)
+                document.querySelector('.modal-overlay').addEventListener('click', function(e) {
+                    // Verifica se o clique foi diretamente no overlay e não em seus filhos
+                    if (e.target === this) {
+                        closeModal();
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

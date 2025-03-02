@@ -200,6 +200,49 @@
                 padding: 2rem; /* Adiciona margens internas */
                 box-sizing: border-box; /* Garante que o padding seja incluído no tamanho total */
             }
+            .roupa-retornou {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.roupa-pendente {
+    color: #FF5722;
+    font-weight: bold;
+}
+.roupa-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    margin-bottom: 0.25rem;
+    border-radius: 4px;
+}
+
+.roupa-retornou {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.roupa-pendente {
+    color: #FF5722;
+    font-weight: bold;
+}
+
+.roupa-item.roupa-retornou {
+    background-color: rgba(76, 175, 80, 0.1);
+}
+
+.roupa-item.roupa-pendente {
+    background-color: rgba(255, 87, 34, 0.1);
+}
+
+.embalagem-status {
+    font-size: 0.9rem;
+}
+
+.hospede-roupas {
+    display: flex;
+    flex-direction: column;
+}
 
             /* Responsividade */
             @media (max-width: 768px) {
@@ -454,6 +497,190 @@
                 outline: none;
                 color: #495057;
             }
+
+            /* Estilos para as abas */
+            .tabs-container {
+                margin-bottom: 1.5rem;
+                border-bottom: 1px solid #dee2e6;
+            }
+
+            .tabs {
+                display: flex;
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .tab-item {
+                padding: 1rem 1.5rem;
+                cursor: pointer;
+                font-weight: 500;
+                color: #495057;
+                border-bottom: 3px solid transparent;
+                transition: all 0.3s ease;
+            }
+
+            .tab-item:hover {
+                color: #4a6ee0;
+            }
+
+            .tab-item.active {
+                color: #4a6ee0;
+                border-bottom-color: #4a6ee0;
+            }
+
+            .tab-content {
+                display: none;
+                padding: 1.5rem 0;
+            }
+
+            .tab-content.active {
+                display: block;
+            }
+
+            /* Estilos para leitura de tags */
+            .tags-container {
+                background-color: #f8f9fa;
+                border-radius: 8px;
+                padding: 1rem;
+                margin-top: 0.5rem;
+            }
+
+            .tags-actions {
+                display: flex;
+                gap: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .tags-status {
+                padding: 0.75rem;
+                background-color: #e9ecef;
+                border-radius: 4px;
+                margin-bottom: 1rem;
+            }
+
+            .tags-status.leitura-ativa {
+                background-color: #d4edda;
+                color: #155724;
+            }
+
+            .tags-list {
+                max-height: 200px;
+                overflow-y: auto;
+                border: 1px solid #dee2e6;
+                border-radius: 4px;
+                padding: 0.5rem;
+                background-color: white;
+            }
+
+            .tag-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.5rem;
+                border-bottom: 1px solid #f0f0f0;
+            }
+
+            .tag-item:last-child {
+                border-bottom: none;
+            }
+
+            .icone-tag {
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%234a6ee0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>');
+                background-repeat: no-repeat;
+                background-position: center;
+                margin-right: 8px;
+            }
+
+            /* Estilos para embalagens */
+            .embalagens-container {
+                margin-top: 1.5rem;
+                border: 1px solid #dee2e6;
+                border-radius: 8px;
+                padding: 1rem;
+            }
+
+            .embalagem {
+                background-color: #f8f9fa;
+                border-radius: 4px;
+                padding: 1rem;
+                margin-bottom: 1rem;
+                border-left: 4px solid #4a6ee0;
+            }
+
+            .embalagem-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 0.5rem;
+            }
+
+            .embalagem-titulo {
+                font-weight: 600;
+                color: #333;
+            }
+
+            .embalagem-tags {
+                margin-top: 0.5rem;
+                padding-left: 1rem;
+            }
+
+            .embalagem-tag {
+                display: flex;
+                justify-content: space-between;
+                padding: 0.25rem 0;
+                border-bottom: 1px dashed #dee2e6;
+            }
+
+            .embalagem-tag:last-child {
+                border-bottom: none;
+            }
+            .roupas-container {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.roupas-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.tipo-roupa {
+    flex: 1;
+    min-width: 200px;
+    background-color: white;
+    border-radius: 6px;
+    padding: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.tipo-titulo {
+    font-weight: 600;
+    color: #4a6ee0;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.tipo-itens {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.roupa-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0;
+}
         </style>
     </head>
     <body>
@@ -477,7 +704,6 @@
                     <a href="#" class="icone-avancar negrito com-texto" onclick="document.getElementById('menu').classList.toggle('none');this.classList.toggle('ativo');return false">Movimentações de Roupas</a>
                 </div>
                 <div class="coluna direita">
-                    <button class="icone-adicionar-header" id="btnAdicionarHeader" title="Adicionar Movimentação" onclick="abrirModal()"></button>
                     <a href="#" class="avatar" onclick="document.getElementById('usuario').classList.toggle('none');this.classList.toggle('ativo');return false" title="Usuário">
                         <img src="img/avatar.png"/>
                     </a>
@@ -544,116 +770,531 @@
                                 <input type="text" placeholder="Pesquise aqui" id="searchInput" onkeyup="pesquisarMovimentacoes()">
                                 <a href="#" class="icone-pesquisa" title="Pesquise"></a>
                             </div>
-                            <button class="icone-adicionar-header" title="Adicionar Movimentação" onclick="abrirModal()"></button>
                         </div>
                         <h2>Movimentações de Roupas</h2> 
                     </div>
                 </div>
+                
                 <div class="margem container">
-                    <div class="filtros">
-                        <div class="filtro">
-                            <label for="filtroData">Data:</label>
-                            <input type="date" id="filtroData" onchange="filtrarMovimentacoes()">
-                        </div>
-                        <div class="filtro">
-                            <label for="filtroTipo">Tipo:</label>
-                            <select id="filtroTipo" onchange="filtrarMovimentacoes()">
-                                <option value="">Todos</option>
-                                <option value="Entrada de Roupa">Entrada de Roupa</option>
-                                <option value="Saída para Lavanderia">Saída para Lavanderia</option>
-                                <option value="Retorno da Lavanderia">Retorno da Lavanderia</option>
-                                <option value="Entrega ao Hóspede">Entrega ao Hóspede</option>
-                                <option value="Descarte">Descarte</option>
-                            </select>
-                        </div>
-                        <button class="btn-secundario" onclick="limparFiltros()">Limpar Filtros</button>
+                    <!-- Abas no topo da tela -->
+                    <div class="tabs-container">
+                        <ul class="tabs">
+                            <li class="tab-item active" onclick="mudarAba('entrada-roupa')">Entrada de Roupa</li>
+                            <li class="tab-item" onclick="mudarAba('saida-lavanderia')">Saída para Lavanderia</li>
+                            <li class="tab-item" onclick="mudarAba('retorno-lavanderia')">Retorno da Lavanderia</li>
+                            <li class="tab-item" onclick="mudarAba('devolucao-hospede')">Devolução para o Hóspede</li>
+                        </ul>
                     </div>
                     
-                    <div id="listaMovimentacoes">
-                        <!-- Os blocos de movimentações serão renderizados aqui -->
+                    <!-- Conteúdo da aba Entrada de Roupa -->
+                    <div id="entrada-roupa" class="tab-content active">
+                        <div class="form-group">
+                            <label for="dataEntrada">Data*</label>
+                            <input type="date" id="dataEntrada" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="usuarioEntrada">Usuário*</label>
+                            <input type="text" id="usuarioEntrada" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="descricaoEntrada">Descrição*</label>
+                            <textarea id="descricaoEntrada" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Tags de Roupas</label>
+                            <div class="tags-container">
+                                <div class="tags-actions">
+                                    <button type="button" class="btn-secundario" onclick="iniciarLeituraTags('entrada')">
+                                        <span class="icone-tag"></span> Ler Tags
+                                    </button>
+                                    <button type="button" class="btn-secundario" id="btnFinalizarLeituraEntrada" onclick="finalizarLeituraTags('entrada')" disabled>
+                                        Finalizar Leitura
+                                    </button>
+                                </div>
+                                <div class="tags-status" id="statusLeituraEntrada">
+                                    Nenhuma tag lida. Clique em "Ler Tags" para iniciar.
+                                </div>
+                                <div class="tags-list" id="tagsLidasEntrada">
+                                    <p>Nenhuma tag lida.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="modal-footer">
+                            <button type="button" class="btn-primario" onclick="salvarEntradaRoupa()">Salvar Entrada</button>
+                        </div>
                     </div>
-                </div>
-            </section>
+                    
+                    <!-- Conteúdo da aba Saída para Lavanderia -->
+                    <div id="saida-lavanderia" class="tab-content">
+                        <div class="filtros">
+                            <div class="filtro">
+                                <label for="filtroDataSaida">Data:</label>
+                                <input type="date" id="filtroDataSaida" onchange="filtrarSaidasLavanderia()">
+                            </div>
+                            <div class="filtro">
+                                <label for="filtroLavanderia">Lavanderia:</label>
+                                <select id="filtroLavanderia" onchange="filtrarSaidasLavanderia()">
+                                    <option value="">Todas</option>
+                                    <option value="Lavanderia A">Lavanderia A</option>
+                                    <option value="Lavanderia B">Lavanderia B</option>
+                                    <option value="Lavanderia C">Lavanderia C</option>
+                                </select>
+                            </div>
+                            <button class="btn-secundario" onclick="limparFiltrosSaida()">Limpar Filtros</button>
+                            <button class="btn-primario" onclick="abrirModalSaidaLavanderia()">Nova Saída</button>
+                        </div>
+                        
+                        <div id="listaSaidasLavanderia">
+                            <!-- Os blocos de saídas para lavanderia serão renderizados aqui -->
+                        </div>
+                    </div>
+                    
+                    <!-- Conteúdo da aba Retorno da Lavanderia -->
+                <!-- Conteúdo da aba Retorno da Lavanderia -->
+<div id="retorno-lavanderia" class="tab-content">
+    <div class="filtros">
+        <div class="filtro">
+            <label for="filtroDataRetorno">Data:</label>
+            <input type="date" id="filtroDataRetorno" onchange="filtrarRetornosLavanderia()">
+        </div>
+        <div class="filtro">
+            <label for="filtroLavanderiaRetorno">Lavanderia:</label>
+            <select id="filtroLavanderiaRetorno" onchange="filtrarRetornosLavanderia()">
+                <option value="">Todas</option>
+                <option value="Lavanderia A">Lavanderia A</option>
+                <option value="Lavanderia B">Lavanderia B</option>
+                <option value="Lavanderia C">Lavanderia C</option>
+            </select>
+        </div>
+        <button class="btn-secundario" onclick="limparFiltrosRetorno()">Limpar Filtros</button>
+        <button class="btn-primario" onclick="abrirModalRetornoLavanderia()">Registrar Retorno</button>
+    </div>
     
-            <!-- Modal para Adicionar Movimentação -->
-         <!-- Modal para Adicionar Movimentação -->
-<div class="modal-overlay" id="modalMovimentacao">
+    <div id="listaRetornosLavanderia">
+        <!-- Os blocos de retornos da lavanderia serão renderizados aqui -->
+    </div>
+</div>
+
+<!-- Modal para Registrar Retorno da Lavanderia -->
+<div class="modal-overlay" id="modalRetornoLavanderia">
     <div class="modal">
         <div class="modal-mask">
             <div class="jm">
                 <div class="modal-header">
-                    <h3 id="modalTitle">Adicionar Movimentação</h3>
+                    <h3>Registrar Retorno da Lavanderia</h3>
                 </div>
                 
-                <form id="formMovimentacao" onsubmit="salvarMovimentacao(event)">
+                <form id="formRetornoLavanderia" onsubmit="salvarRetornoLavanderia(event)">
                     <div class="grid-2">
                         <div class="form-group">
-                            <label for="tipoMovimentacao">Tipo de Movimentação*</label>
-                            <select id="tipoMovimentacao" required onchange="verificarTipoMovimentacao()">
-                                <option value="">Selecione</option>
-                                <option value="Entrada de Roupa">Entrada de Roupa</option>
-                                <option value="Saída para Lavanderia">Saída para Lavanderia</option>
-                                <option value="Retorno da Lavanderia">Retorno da Lavanderia</option>
-                                <option value="Entrega ao Hóspede">Entrega ao Hóspede</option>
-                                <option value="Descarte">Descarte</option>
-                            </select>
+                            <label for="dataRetorno">Data*</label>
+                            <input type="date" id="dataRetorno" required>
                         </div>
                         <div class="form-group">
-                            <label for="dataMovimentacao">Data*</label>
-                            <input type="date" id="dataMovimentacao" required>
+                            <label for="horaRetorno">Hora*</label>
+                            <input type="time" id="horaRetorno" required>
                         </div>
                     </div>
                     
-                    <div class="grid-2">
-                        <div class="form-group">
-                            <label for="horaMovimentacao">Hora*</label>
-                            <input type="time" id="horaMovimentacao" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="usuario">Usuário*</label>
-                            <input type="text" id="usuario" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group margem">
-                        <label for="descricaoMovimentacao">Descrição*</label>
-                        <textarea id="descricaoMovimentacao" required></textarea>
-                    </div>
-
-                    <!-- Seção de leitura de tags (inicialmente oculta) -->
-                    <div class="form-group margem" id="secaoLeituraTags" style="display: none;">
-                        <label>Tags de Roupas</label>
+                    <div class="form-group">
+                        <label>Embalagens Retornadas</label>
                         <div class="tags-container">
                             <div class="tags-actions">
-                                <button type="button" class="btn-secundario" onclick="iniciarLeituraTags()">
-                                    <span class="icone-tag"></span> Ler Tags
+                                <button type="button" class="btn-secundario" onclick="iniciarLeituraEmbalagens()">
+                                    <span class="icone-tag"></span> Ler Embalagens
                                 </button>
-                                <button type="button" class="btn-secundario" id="btnFinalizarLeitura" onclick="finalizarLeituraTags()" disabled>
+                                <button type="button" class="btn-secundario" id="btnFinalizarLeituraEmbalagens" onclick="finalizarLeituraEmbalagens()" disabled>
                                     Finalizar Leitura
                                 </button>
                             </div>
-                            <div class="tags-status" id="statusLeitura">
-                                Nenhuma tag lida. Clique em "Ler Tags" para iniciar.
+                            <div class="tags-status" id="statusLeituraEmbalagens">
+                                Nenhuma embalagem lida. Clique em "Ler Embalagens" para iniciar.
                             </div>
-                            <div class="tags-list" id="tagsLidas">
-                                <!-- As tags lidas serão exibidas aqui -->
+                            <div class="tags-list" id="embalagensLidas">
+                                <p>Nenhuma embalagem lida.</p>
                             </div>
                         </div>
                     </div>
-    
-                    <!-- Botões de ação -->
+                    
                     <div class="modal-footer">
-                        <button type="button" class="btn-secundario" onclick="fecharModal()">Cancelar</button>
-                        <button type="submit" class="btn-primario">Salvar</button>
+                        <button type="button" class="btn-secundario" onclick="fecharModalRetornoLavanderia()">Cancelar</button>
+                        <button type="submit" class="btn-primario">Finalizar Retorno</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+                    
+                    <!-- Conteúdo da aba Devolução para o Hóspede -->
+                    <div id="devolucao-hospede" class="tab-content">
+                        <div class="filtros">
+                            <div class="filtro">
+                                <label for="filtroDataDevolucao">Data:</label>
+                                <input type="date" id="filtroDataDevolucao" onchange="filtrarDevolucoes()">
+                            </div>
+                            <div class="filtro">
+                                <label for="filtroHospede">Hóspede:</label>
+                                <input type="text" id="filtroHospede" placeholder="Nome do hóspede" onkeyup="filtrarDevolucoes()">
+                            </div>
+                            <button class="btn-secundario" onclick="limparFiltrosDevolucao()">Limpar Filtros</button>
+                            <button class="btn-primario" onclick="abrirModalDevolucaoHospede()">Nova Devolução</button>
+                        </div>
+                        
+                        <div id="listaDevolucoes">
+                            <!-- Os blocos de devoluções para hóspedes serão renderizados aqui -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+    
+            <!-- Modal para Saída para Lavanderia -->
+            <div class="modal-overlay" id="modalSaidaLavanderia">
+                <div class="modal">
+                    <div class="modal-mask">
+                        <div class="jm">
+                            <div class="modal-header">
+                                <h3>Registrar Saída para Lavanderia</h3>
+                            </div>
+                            
+                            <form id="formSaidaLavanderia" onsubmit="salvarSaidaLavanderia(event)">
+                                <div class="grid-2">
+                                    <div class="form-group">
+                                        <label for="dataSaida">Data*</label>
+                                        <input type="date" id="dataSaida" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="horaSaida">Hora*</label>
+                                        <input type="time" id="horaSaida" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid-2">
+                                    <div class="form-group">
+                                        <label for="usuarioSaida">Usuário*</label>
+                                        <input type="text" id="usuarioSaida" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lavanderiaDestino">Lavanderia*</label>
+                                        <select id="lavanderiaDestino" required>
+                                            <option value="">Selecione</option>
+                                            <option value="Lavanderia A">Lavanderia A</option>
+                                            <option value="Lavanderia B">Lavanderia B</option>
+                                            <option value="Lavanderia C">Lavanderia C</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="descricaoSaida">Descrição*</label>
+                                    <textarea id="descricaoSaida" required></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Embalagens</label>
+                                    <div id="embalagensSaida">
+                                        <!-- Lista de embalagens será renderizada aqui -->
+                                    </div>
+                                    <button type="button" class="btn-secundario" onclick="adicionarEmbalagem()">
+                                        <span class="icone-inc"></span> Adicionar Embalagem
+                                    </button>
+                                </div>
+                                
+                                <div class="modal-footer">
+                                    <button type="button" class="btn-secundario" onclick="fecharModalSaidaLavanderia()">Cancelar</button>
+                                    <button type="submit" class="btn-primario">Finalizar Saída</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal para Embalagem -->
+            <div class="modal-overlay" id="modalEmbalagem">
+                <div class="modal">
+                    <div class="modal-mask">
+                        <div class="jm">
+                            <div class="modal-header">
+                                <h3>Adicionar Embalagem</h3>
+                            </div>
+                            
+                            <form id="formEmbalagem" onsubmit="salvarEmbalagem(event)">
+                                <div class="form-group">
+                                    <label for="numeroEmbalagem">Número da Embalagem*</label>
+                                    <input type="text" id="numeroEmbalagem" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Tags de Roupas</label>
+                                    <div class="tags-container">
+                                        <div class="tags-actions">
+                                            <button type="button" class="btn-secundario" onclick="iniciarLeituraTags('embalagem')">
+                                                <span class="icone-tag"></span> Ler Tags
+                                            </button>
+                                            <button type="button" class="btn-secundario" id="btnFinalizarLeituraEmbalagem" onclick="finalizarLeituraTags('embalagem')" disabled>
+                                                Finalizar Leitura
+                                            </button>
+                                        </div>
+                                        <div class="tags-status" id="statusLeituraEmbalagem">
+                                            Nenhuma tag lida. Clique em "Ler Tags" para iniciar.
+                                        </div>
+                                        <div class="tags-list" id="tagsLidasEmbalagem">
+                                            <p>Nenhuma tag lida.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="modal-footer">
+                                    <button type="button" class="btn-secundario" onclick="fecharModalEmbalagem()">Cancelar</button>
+                                    <button type="submit" class="btn-primario">Adicionar Embalagem</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal para Retorno da Lavanderia -->
+            <div class="modal-overlay" id="modalRetornoLavanderia">
+                <div class="modal">
+                    <div class="modal-mask">
+                        <div class="jm">
+                            <div class="modal-header">
+                                <h3>Registrar Retorno da Lavanderia</h3>
+                            </div>
+                            
+                            <form id="formRetornoLavanderia" onsubmit="salvarRetornoLavanderia(event)">
+                                <div class="grid-2">
+                                    <div class="form-group">
+                                        <label for="dataRetorno">Data*</label>
+                                        <input type="date" id="dataRetorno" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="horaRetorno">Hora*</label>
+                                        <input type="time" id="horaRetorno" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid-2">
+                                    <div class="form-group">
+                                        <label for="usuarioRetorno">Usuário*</label>
+                                        <input type="text" id="usuarioRetorno" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lavanderiaOrigem">Lavanderia*</label>
+                                        <select id="lavanderiaOrigem" required>
+                                            <option value="">Selecione</option>
+                                            <option value="Lavanderia A">Lavanderia A</option>
+                                            <option value="Lavanderia B">Lavanderia B</option>
+                                            <option value="Lavanderia C">Lavanderia C</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="descricaoRetorno">Descrição*</label>
+                                    <textarea id="descricaoRetorno" required></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Embalagens Retornadas</label>
+                                    <div class="tags-container">
+                                        <div class="tags-actions">
+                                            <button type="button" class="btn-secundario" onclick="iniciarLeituraEmbalagens()">
+                                                <span class="icone-tag"></span> Ler Embalagens
+                                            </button>
+                                            <button type="button" class="btn-secundario" id="btnFinalizarLeituraEmbalagens" onclick="finalizarLeituraEmbalagens()" disabled>
+                                                Finalizar Leitura
+                                            </button>
+                                        </div>
+                                        <div class="tags-status" id="statusLeituraEmbalagens">
+                                            Nenhuma embalagem lida. Clique em "Ler Embalagens" para iniciar.
+                                        </div>
+                                        <div class="tags-list" id="embalagensLidas">
+                                            <p>Nenhuma embalagem lida.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="modal-footer">
+                                    <button type="button" class="btn-secundario" onclick="fecharModalRetornoLavanderia()">Cancelar</button>
+                                    <button type="submit" class="btn-primario">Finalizar Retorno</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal para Devolução para o Hóspede -->
+            <div class="modal-overlay" id="modalDevolucaoHospede">
+                <div class="modal">
+                    <div class="modal-mask">
+                        <div class="jm">
+                            <div class="modal-header">
+                                <h3>Registrar Devolução para o Hóspede</h3>
+                            </div>
+                            
+                            <form id="formDevolucaoHospede" onsubmit="salvarDevolucaoHospede(event)">
+                                <div class="grid-2">
+                                    <div class="form-group">
+                                        <label for="dataDevolucao">Data*</label>
+                                        <input type="date" id="dataDevolucao" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="horaDevolucao">Hora*</label>
+                                        <input type="time" id="horaDevolucao" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid-2">
+                                    <div class="form-group">
+                                        <label for="usuarioDevolucao">Usuário*</label>
+                                        <input type="text" id="usuarioDevolucao" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hospedeDevolucao">Hóspede*</label>
+                                        <select id="hospedeDevolucao" required>
+                                            <option value="">Selecione</option>
+                                            <option value="1">João Silva - Quarto 101</option>
+                                            <option value="2">Maria Santos - Quarto 102</option>
+                                            <option value="3">Pedro Oliveira - Quarto 103</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="descricaoDevolucao">Descrição*</label>
+                                    <textarea id="descricaoDevolucao" required></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Tags de Roupas</label>
+                                    <div class="tags-container">
+                                        <div class="tags-actions">
+                                            <button type="button" class="btn-secundario" onclick="iniciarLeituraTags('devolucao')">
+                                                <span class="icone-tag"></span> Ler Tags
+                                            </button>
+                                            <button type="button" class="btn-secundario" id="btnFinalizarLeituraDevolucao" onclick="finalizarLeituraTags('devolucao')" disabled>
+                                                Finalizar Leitura
+                                            </button>
+                                        </div>
+                                        <div class="tags-status" id="statusLeituraDevolucao">
+                                            Nenhuma tag lida. Clique em "Ler Tags" para iniciar.
+                                        </div>
+                                        <div class="tags-list" id="tagsLidasDevolucao">
+                                            <p>Nenhuma tag lida.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="modal-footer">
+                                    <button type="button" class="btn-secundario" onclick="fecharModalDevolucaoHospede()">Cancelar</button>
+                                    <button type="submit" class="btn-primario">Finalizar Devolução</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
 
         <script>
+            // Variáveis globais
+            let tagsLidasEntrada = [];
+            let tagsLidasEmbalagem = [];
+            let tagsLidasDevolucao = [];
+            let embalagensLidas = [];
+            let embalagensSaida = [];
+            let leituraAtiva = false;
+            let tipoLeituraAtual = '';
+            
+            // Dados simulados
+            // Substitua a declaração de movimentacoes no seu código por esta versão mais completa:
+let movimentacoes = [
+    { id: 1, tipo: "Entrada de Roupa", data: "2025-03-01", hora: "08:30", descricao: "Entrada de roupas do quarto 101", usuario: "Maria Silva" },
+    { 
+        id: 2, 
+        tipo: "Saída para Lavanderia", 
+        data: "2025-03-01", 
+        hora: "10:00", 
+        descricao: "Roupas enviadas para lavanderia externa", 
+        usuario: "João Santos", 
+        lavanderia: "Lavanderia A",
+        embalagens: [
+            {
+                numero: "EMB001",
+                roupas: [
+                    { id: "TAG00123", descricao: "Camisa", hospede: "João Silva", quarto: "101", tipo: "Camisa", retornou: false },
+                    { id: "TAG00124", descricao: "Calça", hospede: "João Silva", quarto: "101", tipo: "Calça", retornou: true },
+                    { id: "TAG00125", descricao: "Meia", hospede: "Maria Santos", quarto: "102", tipo: "Meia", retornou: false }
+                ]
+            },
+            {
+                numero: "EMB002",
+                roupas: [
+                    { id: "TAG00126", descricao: "Toalha", hospede: "Pedro Oliveira", quarto: "103", tipo: "Toalha", retornou: false },
+                    { id: "TAG00127", descricao: "Lençol", hospede: "Pedro Oliveira", quarto: "103", tipo: "Lençol", retornou: true }
+                ]
+            }
+        ]
+    },
+    { id: 3, tipo: "Retorno da Lavanderia", data: "2025-03-01", hora: "15:00", descricao: "Roupas retornadas da lavanderia", usuario: "Maria Silva", lavanderia: "Lavanderia A" },
+    { id: 4, tipo: "Devolução para o Hóspede", data: "2025-03-02", hora: "09:00", descricao: "Roupas entregues ao hóspede do quarto 102", usuario: "Carlos Oliveira", hospede: "Maria Santos" },
+    { 
+        id: 5, 
+        tipo: "Saída para Lavanderia", 
+        data: "2025-03-02", 
+        hora: "11:30", 
+        descricao: "Roupas enviadas para lavanderia", 
+        usuario: "Ana Pereira", 
+        lavanderia: "Lavanderia B",
+        embalagens: [
+            {
+                numero: "EMB003",
+                roupas: [
+                    { id: "TAG00128", descricao: "Fronha", hospede: "Ana Pereira", quarto: "201", tipo: "Fronha", retornou: false },
+                    { id: "TAG00129", descricao: "Travesseiro", hospede: "Ana Pereira", quarto: "201", tipo: "Travesseiro", retornou: false }
+                ]
+            }
+        ]
+    },
+    { id: 6, tipo: "Entrada de Roupa", data: "2025-03-03", hora: "08:00", descricao: "Entrada de roupas do quarto 103", usuario: "João Santos" },
+    { id: 7, tipo: "Retorno da Lavanderia", data: "2025-03-03", hora: "10:15", descricao: "Roupas retornadas da lavanderia", usuario: "Maria Silva", lavanderia: "Lavanderia B" },
+    { 
+        id: 4, 
+        tipo: "Devolução para o Hóspede", 
+        data: "2025-03-02", 
+        hora: "09:00", 
+        descricao: "Roupas entregues ao hóspede do quarto 102", 
+        usuario: "Carlos Oliveira", 
+        hospede: "Maria Santos",
+        quarto: "102",
+        roupas: [
+            { id: "TAG00124", descricao: "Calça", tipo: "Calça" },
+            { id: "TAG00125", descricao: "Meia", tipo: "Meia" }
+        ]
+    },
+    { 
+        id: 8, 
+        tipo: "Devolução para o Hóspede", 
+        data: "2025-03-03", 
+        hora: "14:30", 
+        descricao: "Roupas entregues ao hóspede do quarto 101", 
+        usuario: "Ana Pereira", 
+        hospede: "João Silva",
+        quarto: "101",
+        roupas: [
+            { id: "TAG00123", descricao: "Camisa", tipo: "Camisa" }
+        ]
+    }
+    
+];
             // Função para controlar o menu lateral
             function abaMenu(aba) {
                 document.getElementById('Compras').classList.remove('ativo');
@@ -667,204 +1308,1205 @@
                 document.getElementById(aba).classList.add('ativo');
                 document.getElementById('menu' + aba).classList.remove('none');
             }
-
-            // Dados simulados de movimentações
-            let movimentacoes = [
-                { id: 1, tipo: "Entrada de Roupa", data: "2025-03-01", hora: "08:30", descricao: "Entrada de roupas do quarto 101", usuario: "Maria Silva" },
-                { id: 2, tipo: "Saída para Lavanderia", data: "2025-03-01", hora: "10:00", descricao: "Roupas enviadas para lavanderia externa", usuario: "João Santos" },
-                { id: 3, tipo: "Retorno da Lavanderia", data: "2025-03-01", hora: "15:00", descricao: "Roupas retornadas da lavanderia", usuario: "Maria Silva" },
-                { id: 4, tipo: "Entrega ao Hóspede", data: "2025-03-02", hora: "09:00", descricao: "Roupas entregues ao hóspede do quarto 102", usuario: "Carlos Oliveira" },
-                { id: 5, tipo: "Descarte", data: "2025-03-02", hora: "11:30", descricao: "Roupas descartadas por desgaste", usuario: "Ana Pereira" },
-                { id: 6, tipo: "Entrada de Roupa", data: "2025-03-03", hora: "08:00", descricao: "Entrada de roupas do quarto 103", usuario: "João Santos" },
-                { id: 7, tipo: "Saída para Lavanderia", data: "2025-03-03", hora: "10:15", descricao: "Roupas enviadas para lavanderia", usuario: "Maria Silva" }
-            ];
-
-            // Função para agrupar movimentações por dia e tipo
-            function agruparMovimentacoes(movimentacoes) {
-                const agrupado = {};
-
-                movimentacoes.forEach(mov => {
-                    if (!agrupado[mov.data]) {
-                        agrupado[mov.data] = {};
-                    }
-                    if (!agrupado[mov.data][mov.tipo]) {
-                        agrupado[mov.data][mov.tipo] = [];
-                    }
-                    agrupado[mov.data][mov.tipo].push(mov);
+            
+            // Função para mudar entre as abas
+            function mudarAba(abaId) {
+                // Oculta todas as abas
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.remove('active');
                 });
-
-                return agrupado;
-            }
-
-            // Função para renderizar os blocos de movimentações
-            function renderizarMovimentacoes(movsParaRenderizar = null) {
-                const listaMovimentacoes = document.getElementById("listaMovimentacoes");
-                listaMovimentacoes.innerHTML = "";
-
-                const movsAtuais = movsParaRenderizar || movimentacoes;
                 
-                if (movsAtuais.length === 0) {
-                    listaMovimentacoes.innerHTML = "<p>Nenhuma movimentação encontrada.</p>";
-                    return;
-                }
-
-                const movimentacoesAgrupadas = agruparMovimentacoes(movsAtuais);
-
-                // Ordenar as datas em ordem decrescente (mais recente primeiro)
-                Object.keys(movimentacoesAgrupadas).sort().reverse().forEach(dia => {
-                    const blocoDia = document.createElement("div");
-                    blocoDia.classList.add("bloco-dia");
-
-                    const tituloDia = document.createElement("h3");
-                    tituloDia.textContent = `Dia: ${formatarData(dia)}`;
-                    blocoDia.appendChild(tituloDia);
-
-                    const tipos = movimentacoesAgrupadas[dia];
-                    Object.keys(tipos).forEach(tipo => {
-                        const blocoTipo = document.createElement("div");
-                        blocoTipo.classList.add("bloco-tipo");
-
-                        const tituloTipo = document.createElement("h4");
-                        tituloTipo.textContent = tipo;
-                        blocoTipo.appendChild(tituloTipo);
-
-                        tipos[tipo].sort((a, b) => a.hora.localeCompare(b.hora)).forEach(mov => {
-                            const movimentacao = document.createElement("div");
-                            movimentacao.classList.add("movimentacao");
-
-                            movimentacao.innerHTML = `
-                                <div class="descricao">${mov.descricao}</div>
-                                <div class="info">
-                                    <span class="usuario">Usuário: ${mov.usuario}</span>
-                                    <span class="hora">${mov.hora}</span>
-                                </div>
-                            `;
-                            blocoTipo.appendChild(movimentacao);
-                        });
-
-                        blocoDia.appendChild(blocoTipo);
-                    });
-
-                    listaMovimentacoes.appendChild(blocoDia);
+                // Remove a classe ativa de todos os itens de aba
+                document.querySelectorAll('.tab-item').forEach(item => {
+                    item.classList.remove('active');
                 });
+                
+                // Ativa a aba selecionada
+                document.getElementById(abaId).classList.add('active');
+                
+                // Ativa o item de aba correspondente
+                const abaIndex = ['entrada-roupa', 'saida-lavanderia', 'retorno-lavanderia', 'devolucao-hospede'].indexOf(abaId);
+                document.querySelectorAll('.tab-item')[abaIndex].classList.add('active');
+                
+                // Carrega os dados específicos da aba
+                switch(abaId) {
+                    case 'entrada-roupa':
+                        // Nada a fazer, a aba já está pronta
+                        break;
+                    case 'saida-lavanderia':
+                        renderizarSaidasLavanderia();
+                        break;
+                    case 'retorno-lavanderia':
+                        renderizarRetornosLavanderia();
+                        break;
+                    case 'devolucao-hospede':
+                        renderizarDevolucoes();
+                        break;
+                }
             }
-
+            
             // Função para formatar a data no formato DD/MM/AAAA
             function formatarData(data) {
                 const partes = data.split("-");
                 return `${partes[2]}/${partes[1]}/${partes[0]}`;
             }
-
-            // Função para filtrar movimentações com base nos filtros aplicados
-            function filtrarMovimentacoes() {
-                const filtroData = document.getElementById("filtroData").value;
-                const filtroTipo = document.getElementById("filtroTipo").value;
-
-                const movimentacoesFiltradas = movimentacoes.filter(mov => {
-                    const correspondeData = !filtroData || mov.data === filtroData;
-                    const correspondeTipo = !filtroTipo || mov.tipo === filtroTipo;
-                    return correspondeData && correspondeTipo;
+            
+            // Funções para a aba Entrada de Roupa
+            function iniciarLeituraTags(tipo) {
+                if (leituraAtiva) return;
+                
+                leituraAtiva = true;
+                tipoLeituraAtual = tipo;
+                
+                let statusElement, btnFinalizarElement;
+                
+                switch(tipo) {
+                    case 'entrada':
+                        statusElement = document.getElementById('statusLeituraEntrada');
+                        btnFinalizarElement = document.getElementById('btnFinalizarLeituraEntrada');
+                        break;
+                    case 'embalagem':
+                        statusElement = document.getElementById('statusLeituraEmbalagem');
+                        btnFinalizarElement = document.getElementById('btnFinalizarLeituraEmbalagem');
+                        break;
+                    case 'devolucao':
+                        statusElement = document.getElementById('statusLeituraDevolucao');
+                        btnFinalizarElement = document.getElementById('btnFinalizarLeituraDevolucao');
+                        break;
+                }
+                
+                statusElement.textContent = 'Leitura ativa. Aproxime as tags do leitor...';
+                statusElement.classList.add('leitura-ativa');
+                btnFinalizarElement.disabled = false;
+                
+                // Simulação de leitura de tags (em um sistema real, isso seria substituído pela leitura real do RFID)
+                simulacaoLeituraTags(tipo);
+            }
+            
+            function finalizarLeituraTags(tipo) {
+                if (!leituraAtiva) return;
+                
+                leituraAtiva = false;
+                
+                let statusElement, btnFinalizarElement, tagsLidasElement, tagsArray;
+                
+                switch(tipo) {
+                    case 'entrada':
+                        statusElement = document.getElementById('statusLeituraEntrada');
+                        btnFinalizarElement = document.getElementById('btnFinalizarLeituraEntrada');
+                        tagsLidasElement = document.getElementById('tagsLidasEntrada');
+                        tagsArray = tagsLidasEntrada;
+                        break;
+                    case 'embalagem':
+                        statusElement = document.getElementById('statusLeituraEmbalagem');
+                        btnFinalizarElement = document.getElementById('btnFinalizarLeituraEmbalagem');
+                        tagsLidasElement = document.getElementById('tagsLidasEmbalagem');
+                        tagsArray = tagsLidasEmbalagem;
+                        break;
+                    case 'devolucao':
+                        statusElement = document.getElementById('statusLeituraDevolucao');
+                        btnFinalizarElement = document.getElementById('btnFinalizarLeituraDevolucao');
+                        tagsLidasElement = document.getElementById('tagsLidasDevolucao');
+                        tagsArray = tagsLidasDevolucao;
+                        break;
+                }
+                
+                statusElement.textContent = `Leitura finalizada. ${tagsArray.length} tags lidas.`;
+                statusElement.classList.remove('leitura-ativa');
+                btnFinalizarElement.disabled = true;
+            }
+            
+            function simulacaoLeituraTags(tipo) {
+                // Esta função simula a leitura de tags RFID
+                // Em um sistema real, isso seria substituído pela leitura real
+                
+                let tagsArray, tagsLidasElement;
+                
+                switch(tipo) {
+                    case 'entrada':
+                        tagsArray = tagsLidasEntrada;
+                        tagsLidasElement = document.getElementById('tagsLidasEntrada');
+                        break;
+                    case 'embalagem':
+                        tagsArray = tagsLidasEmbalagem;
+                        tagsLidasElement = document.getElementById('tagsLidasEmbalagem');
+                        break;
+                    case 'devolucao':
+                        tagsArray = tagsLidasDevolucao;
+                        tagsLidasElement = document.getElementById('tagsLidasDevolucao');
+                        break;
+                }
+                
+                // Simula a leitura de 5 tags
+                for (let i = 1; i <= 5; i++) {
+                    const tagId = `TAG${Math.floor(Math.random() * 10000).toString().padStart(5, '0')}`;
+                    const descricao = `Roupa ${i} - ${['Camisa', 'Calça', 'Meia', 'Toalha', 'Lençol'][Math.floor(Math.random() * 5)]}`;
+                    
+                    // Verifica se a tag já foi lida
+                    if (!tagsArray.some(tag => tag.id === tagId)) {
+                        tagsArray.push({ id: tagId, descricao });
+                    }
+                }
+                
+                // Atualiza a exibição das tags lidas
+                renderizarTagsLidas(tipo);
+            }
+            
+            function renderizarTagsLidas(tipo) {
+                let tagsArray, tagsLidasElement;
+                
+                switch(tipo) {
+                    case 'entrada':
+                        tagsArray = tagsLidasEntrada;
+                        tagsLidasElement = document.getElementById('tagsLidasEntrada');
+                        break;
+                    case 'embalagem':
+                        tagsArray = tagsLidasEmbalagem;
+                        tagsLidasElement = document.getElementById('tagsLidasEmbalagem');
+                        break;
+                    case 'devolucao':
+                        tagsArray = tagsLidasDevolucao;
+                        tagsLidasElement = document.getElementById('tagsLidasDevolucao');
+                        break;
+                }
+                
+                if (tagsArray.length === 0) {
+                    tagsLidasElement.innerHTML = '<p>Nenhuma tag lida.</p>';
+                    return;
+                }
+                
+                let html = '';
+                tagsArray.forEach(tag => {
+                    html += `
+                        <div class="tag-item">
+                            <div><span class="icone-tag"></span> ${tag.id}</div>
+                            <div>${tag.descricao}</div>
+                        </div>
+                    `;
                 });
-
-                renderizarMovimentacoes(movimentacoesFiltradas);
+                
+                tagsLidasElement.innerHTML = html;
             }
-
-            // Função para limpar os filtros
-            function limparFiltros() {
-                document.getElementById("filtroData").value = "";
-                document.getElementById("filtroTipo").value = "";
-                renderizarMovimentacoes();
+            
+            function salvarEntradaRoupa() {
+                const data = document.getElementById('dataEntrada').value;
+                const usuario = document.getElementById('usuarioEntrada').value;
+                const descricao = document.getElementById('descricaoEntrada').value;
+                
+                if (!data || !usuario || !descricao) {
+                    alert('Todos os campos obrigatórios devem ser preenchidos!');
+                    return;
+                }
+                
+                if (tagsLidasEntrada.length === 0) {
+                    alert('É necessário ler pelo menos uma tag de roupa!');
+                    return;
+                }
+                
+                // Cria uma nova movimentação
+                const novaMovimentacao = {
+                    id: Date.now(),
+                    tipo: 'Entrada de Roupa',
+                    data,
+                    hora: new Date().toTimeString().slice(0, 5),
+                    descricao,
+                    usuario,
+                    tags: tagsLidasEntrada.map(tag => tag.id)
+                };
+                
+                // Adiciona a movimentação à lista
+                movimentacoes.push(novaMovimentacao);
+                
+                // Limpa o formulário
+                document.getElementById('dataEntrada').value = '';
+                document.getElementById('usuarioEntrada').value = '';
+                document.getElementById('descricaoEntrada').value = '';
+                tagsLidasEntrada = [];
+                document.getElementById('tagsLidasEntrada').innerHTML = '<p>Nenhuma tag lida.</p>';
+                document.getElementById('statusLeituraEntrada').textContent = 'Nenhuma tag lida. Clique em "Ler Tags" para iniciar.';
+                
+                alert('Entrada de roupa registrada com sucesso!');
             }
-
-            // Função para abrir a modal de adicionar movimentação
-        // Função para abrir a modal de adicionar movimentação
-function abrirModal() {
-    document.getElementById("modalMovimentacao").style.display = "flex";
-    document.getElementById("formMovimentacao").reset();
+            
+            // Modificação na função renderizarSaidasLavanderia
+function renderizarSaidasLavanderia(saidasFiltradas = null) {
+    const listaSaidas = document.getElementById('listaSaidasLavanderia');
     
-    // Oculta a seção de leitura de tags inicialmente
-    document.getElementById("secaoLeituraTags").style.display = "none";
+    // Filtra as movimentações do tipo "Saída para Lavanderia"
+    const saidas = saidasFiltradas || movimentacoes.filter(mov => mov.tipo === 'Saída para Lavanderia');
     
-    // Limpa as tags lidas
-    tagsLidas = [];
-    document.getElementById('tagsLidas').innerHTML = '<p>Nenhuma tag lida.</p>';
-    document.getElementById('statusLeitura').textContent = 'Nenhuma tag lida. Clique em "Ler Tags" para iniciar.';
-    document.getElementById('statusLeitura').classList.remove('leitura-ativa');
-}
-
-            // Função para fechar a modal
-            function fecharModal() {
-                document.getElementById("modalMovimentacao").style.display = "none";
-            }
-
-            // Função para salvar uma nova movimentação
-// Modificar a função salvarMovimentacao para incluir as tags apenas quando for entrada de roupas
-function salvarMovimentacao(event) {
-    event.preventDefault();
-
-    const tipo = document.getElementById("tipoMovimentacao").value;
-    const data = document.getElementById("dataMovimentacao").value;
-    const hora = document.getElementById("horaMovimentacao").value;
-    const usuario = document.getElementById("usuario").value;
-    const descricao = document.getElementById("descricaoMovimentacao").value;
-
-    if (!tipo || !data || !hora || !usuario || !descricao) {
-        alert("Todos os campos são obrigatórios!");
+    if (saidas.length === 0) {
+        listaSaidas.innerHTML = '<p>Nenhuma saída para lavanderia registrada.</p>';
         return;
     }
-
-    // Finalizar a leitura de tags se ainda estiver ativa
-    if (leituraAtiva) {
-        finalizarLeituraTags();
-    }
-
-    const novaMovimentacao = {
-        id: Date.now(),
-        tipo,
-        data,
-        hora,
-        usuario,
-        descricao
-    };
-
-    // Adiciona as tags apenas se for entrada de roupas
-    if (tipo === "Entrada de Roupa") {
-        novaMovimentacao.tags = tagsLidas.map(tag => tag.id);
-    }
-
-    movimentacoes.push(novaMovimentacao);
-    fecharModal();
-    renderizarMovimentacoes();
     
-    // Limpar as tags lidas após salvar
-    tagsLidas = [];
-}
-            // Inicializar a renderização ao carregar a página
-            document.addEventListener("DOMContentLoaded", () => {
-                renderizarMovimentacoes();
-            });
-            // Função para verificar o tipo de movimentação e mostrar/ocultar a seção de leitura de tags
-function verificarTipoMovimentacao() {
-    const tipoMovimentacao = document.getElementById("tipoMovimentacao").value;
-    const secaoLeituraTags = document.getElementById("secaoLeituraTags");
+    // Agrupa as saídas por data
+    const saidasPorData = {};
+    saidas.forEach(saida => {
+        if (!saidasPorData[saida.data]) {
+            saidasPorData[saida.data] = [];
+        }
+        saidasPorData[saida.data].push(saida);
+    });
     
-    if (tipoMovimentacao === "Entrada de Roupa") {
-        secaoLeituraTags.style.display = "block";
-    } else {
-        secaoLeituraTags.style.display = "none";
+    // Renderiza as saídas agrupadas por data
+    let html = '';
+    Object.keys(saidasPorData).sort().reverse().forEach(data => {
+        html += `
+            <div class="bloco-dia">
+                <h3>Dia: ${formatarData(data)}</h3>
+        `;
         
-        // Se a leitura estiver ativa, finaliza
-        if (leituraAtiva) {
-            finalizarLeituraTags();
+        saidasPorData[data].forEach(saida => {
+            html += `
+                <div class="bloco-tipo">
+                    <h4>Saída para ${saida.lavanderia}</h4>
+                    <div class="movimentacao">
+                        <div class="descricao">${saida.descricao}</div>
+                        <div class="info">
+                            <span class="usuario">Usuário: ${saida.usuario}</span>
+                            <span class="hora">${saida.hora}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="embalagens-container">
+                        <h5>Embalagens enviadas:</h5>
+            `;
+            
+            // Adiciona informações detalhadas de cada embalagem
+            if (saida.embalagens && saida.embalagens.length > 0) {
+                saida.embalagens.forEach(embalagem => {
+                    html += `
+                        <div class="embalagem">
+                            <div class="embalagem-header">
+                                <div class="embalagem-titulo">Embalagem #${embalagem.numero}</div>
+                                <div class="embalagem-contador">${embalagem.roupas ? embalagem.roupas.length : embalagem.quantidadeTags} itens</div>
+                            </div>
+                    `;
+                    
+                    // Se temos informações detalhadas das roupas
+                    if (embalagem.roupas && embalagem.roupas.length > 0) {
+                        html += `<div class="embalagem-tags">`;
+                        
+                        // Agrupa roupas por hóspede e quarto
+                        const roupasPorHospede = {};
+                        embalagem.roupas.forEach(roupa => {
+                            const chave = `${roupa.hospede} - Quarto ${roupa.quarto}`;
+                            if (!roupasPorHospede[chave]) {
+                                roupasPorHospede[chave] = [];
+                            }
+                            roupasPorHospede[chave].push(roupa);
+                        });
+                        
+                        // Exibe roupas agrupadas por hóspede
+                        Object.keys(roupasPorHospede).forEach(hospedeQuarto => {
+                            html += `
+                                <div class="hospede-grupo">
+                                    <div class="hospede-titulo">${hospedeQuarto}</div>
+                                    <div class="hospede-roupas">
+                            `;
+                            
+                            // Agrupa por tipo de roupa
+                            const roupasPorTipo = {};
+                            roupasPorHospede[hospedeQuarto].forEach(roupa => {
+                                if (!roupasPorTipo[roupa.tipo]) {
+                                    roupasPorTipo[roupa.tipo] = 0;
+                                }
+                                roupasPorTipo[roupa.tipo]++;
+                            });
+                            
+                            // Exibe contagem por tipo de roupa
+                            Object.keys(roupasPorTipo).forEach(tipo => {
+                                html += `
+                                    <div class="roupa-tipo">
+                                        <span class="tipo-nome">${tipo}:</span>
+                                        <span class="tipo-quantidade">${roupasPorTipo[tipo]}</span>
+                                    </div>
+                                `;
+                            });
+                            
+                            html += `
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        
+                        html += `</div>`;
+                    } else {
+                        html += `
+                            <div class="embalagem-tags">
+                                <p>Informações detalhadas não disponíveis</p>
+                            </div>
+                        `;
+                    }
+                    
+                    html += `</div>`;
+                });
+            } else {
+                html += `<p>Nenhuma embalagem registrada para esta saída.</p>`;
+            }
+            
+            html += `
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+    });
+    
+    listaSaidas.innerHTML = html;
+}
+
+// Adicionar estilos CSS para os novos elementos
+const estilosAdicionais = `
+    .hospede-grupo {
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        background-color: #f0f5ff;
+        border-radius: 4px;
+    }
+    
+    .hospede-titulo {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #4a6ee0;
+    }
+    
+    .hospede-roupas {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .roupa-tipo {
+        background-color: #e9ecef;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    
+    .tipo-nome {
+        font-weight: 500;
+    }
+    
+    .tipo-quantidade {
+        background-color: #4a6ee0;
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+    }
+    
+    .embalagem-contador {
+        background-color: #4a6ee0;
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 12px;
+        font-size: 0.8rem;
+    }
+    
+    h5 {
+        margin: 0.5rem 0;
+        font-size: 1rem;
+        color: #495057;
+    }
+`;
+
+// Modificar a função salvarEmbalagem para incluir informações mais detalhadas
+function salvarEmbalagem(event) {
+    event.preventDefault();
+    
+    const numeroEmbalagem = document.getElementById('numeroEmbalagem').value;
+    
+    if (!numeroEmbalagem) {
+        alert('O número da embalagem é obrigatório!');
+        return;
+    }
+    
+    if (tagsLidasEmbalagem.length === 0) {
+        alert('É necessário ler pelo menos uma tag de roupa!');
+        return;
+    }
+    
+    // Verifica se já existe uma embalagem com o mesmo número
+    if (embalagensSaida.some(emb => emb.numero === numeroEmbalagem)) {
+        alert('Já existe uma embalagem com este número!');
+        return;
+    }
+    
+    // Simula informações detalhadas para cada tag
+    const roupasDetalhadas = tagsLidasEmbalagem.map(tag => {
+        // Gera informações simuladas para cada roupa
+        const hospedes = ['João Silva', 'Maria Santos', 'Pedro Oliveira', 'Ana Pereira'];
+        const quartos = ['101', '102', '103', '201', '202'];
+        const tipos = ['Camisa', 'Calça', 'Meia', 'Toalha', 'Lençol', 'Fronha', 'Travesseiro'];
+        
+        return {
+            id: tag.id,
+            descricao: tag.descricao,
+            hospede: hospedes[Math.floor(Math.random() * hospedes.length)],
+            quarto: quartos[Math.floor(Math.random() * quartos.length)],
+            tipo: tipos[Math.floor(Math.random() * tipos.length)]
+        };
+    });
+    
+    // Adiciona a embalagem à lista com informações detalhadas
+    embalagensSaida.push({
+        numero: numeroEmbalagem,
+        tags: [...tagsLidasEmbalagem],
+        roupas: roupasDetalhadas
+    });
+    
+    // Fecha a modal e atualiza a lista de embalagens
+    fecharModalEmbalagem();
+    renderizarEmbalagensSaida();
+}
+
+// Modificar a função renderizarEmbalagensSaida para mostrar informações detalhadas
+function renderizarEmbalagensSaida() {
+    const containerEmbalagens = document.getElementById('embalagensSaida');
+    
+    if (embalagensSaida.length === 0) {
+        containerEmbalagens.innerHTML = '<p>Nenhuma embalagem adicionada.</p>';
+        return;
+    }
+    
+    let html = '<div class="embalagens-container">';
+    embalagensSaida.forEach((embalagem, index) => {
+        html += `
+            <div class="embalagem">
+                <div class="embalagem-header">
+                    <div class="embalagem-titulo">Embalagem #${embalagem.numero}</div>
+                    <div class="embalagem-acoes">
+                        <span class="embalagem-contador">${embalagem.roupas ? embalagem.roupas.length : embalagem.tags.length} itens</span>
+                        <button type="button" class="btn-secundario" onclick="removerEmbalagem(${index})">
+                            <span class="icone-excluir"></span>
+                        </button>
+                    </div>
+                </div>
+        `;
+        
+        // Se temos informações detalhadas das roupas
+        if (embalagem.roupas && embalagem.roupas.length > 0) {
+            html += `<div class="embalagem-tags">`;
+            
+            // Agrupa roupas por hóspede e quarto
+            const roupasPorHospede = {};
+            embalagem.roupas.forEach(roupa => {
+                const chave = `${roupa.hospede} - Quarto ${roupa.quarto}`;
+                if (!roupasPorHospede[chave]) {
+                    roupasPorHospede[chave] = [];
+                }
+                roupasPorHospede[chave].push(roupa);
+            });
+            
+            // Exibe roupas agrupadas por hóspede
+            Object.keys(roupasPorHospede).forEach(hospedeQuarto => {
+                html += `
+                    <div class="hospede-grupo">
+                        <div class="hospede-titulo">${hospedeQuarto}</div>
+                        <div class="hospede-roupas">
+                `;
+                
+                // Agrupa por tipo de roupa
+                const roupasPorTipo = {};
+                roupasPorHospede[hospedeQuarto].forEach(roupa => {
+                    if (!roupasPorTipo[roupa.tipo]) {
+                        roupasPorTipo[roupa.tipo] = 0;
+                    }
+                    roupasPorTipo[roupa.tipo]++;
+                });
+                
+                // Exibe contagem por tipo de roupa
+                Object.keys(roupasPorTipo).forEach(tipo => {
+                    html += `
+                        <div class="roupa-tipo">
+                            <span class="tipo-nome">${tipo}:</span>
+                            <span class="tipo-quantidade">${roupasPorTipo[tipo]}</span>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+        } else {
+            // Exibe apenas as tags sem informações detalhadas
+            html += `
+                <div class="embalagem-tags">
+                    ${embalagem.tags.map(tag => `
+                        <div class="embalagem-tag">
+                            <div>${tag.id}</div>
+                            <div>${tag.descricao}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
         }
         
-        // Limpa as tags lidas
-        tagsLidas = [];
-        document.getElementById('tagsLidas').innerHTML = '<p>Nenhuma tag lida.</p>';
-        document.getElementById('statusLeitura').textContent = 'Nenhuma tag lida. Clique em "Ler Tags" para iniciar.';
-        document.getElementById('statusLeitura').classList.remove('leitura-ativa');
+        html += `</div>`;
+    });
+    html += '</div>';
+    
+    containerEmbalagens.innerHTML = html;
+}
+// Funções para abrir e fechar modais
+function abrirModalSaidaLavanderia() {
+    document.getElementById('modalSaidaLavanderia').style.display = 'flex';
+    document.getElementById('formSaidaLavanderia').reset();
+    embalagensSaida = [];
+    renderizarEmbalagensSaida();
+    
+    // Preenche a data e hora atuais
+    const dataAtual = new Date().toISOString().split('T')[0];
+    const horaAtual = new Date().toTimeString().slice(0, 5);
+    document.getElementById('dataSaida').value = dataAtual;
+    document.getElementById('horaSaida').value = horaAtual;
+    
+    // Preenche o usuário atual (simulado)
+    document.getElementById('usuarioSaida').value = 'Usuário Atual';
+}
+
+function fecharModalSaidaLavanderia() {
+    document.getElementById('modalSaidaLavanderia').style.display = 'none';
+}
+
+function adicionarEmbalagem() {
+    document.getElementById('modalEmbalagem').style.display = 'flex';
+    document.getElementById('formEmbalagem').reset();
+    tagsLidasEmbalagem = [];
+    document.getElementById('tagsLidasEmbalagem').innerHTML = '<p>Nenhuma tag lida.</p>';
+    document.getElementById('statusLeituraEmbalagem').textContent = 'Nenhuma tag lida. Clique em "Ler Tags" para iniciar.';
+}
+
+function fecharModalEmbalagem() {
+    document.getElementById('modalEmbalagem').style.display = 'none';
+}
+
+function removerEmbalagem(index) {
+    if (confirm('Tem certeza que deseja remover esta embalagem?')) {
+        embalagensSaida.splice(index, 1);
+        renderizarEmbalagensSaida();
     }
 }
+
+function salvarSaidaLavanderia(event) {
+    event.preventDefault();
+    
+    const dataSaida = document.getElementById('dataSaida').value;
+    const horaSaida = document.getElementById('horaSaida').value;
+    const usuarioSaida = document.getElementById('usuarioSaida').value;
+    const lavanderiaDestino = document.getElementById('lavanderiaDestino').value;
+    const descricaoSaida = document.getElementById('descricaoSaida').value;
+    
+    if (!dataSaida || !horaSaida || !usuarioSaida || !lavanderiaDestino || !descricaoSaida) {
+        alert('Todos os campos obrigatórios devem ser preenchidos!');
+        return;
+    }
+    
+    if (embalagensSaida.length === 0) {
+        alert('É necessário adicionar pelo menos uma embalagem!');
+        return;
+    }
+    
+    // Cria uma nova movimentação
+    const novaMovimentacao = {
+        id: Date.now(),
+        tipo: 'Saída para Lavanderia',
+        data: dataSaida,
+        hora: horaSaida,
+        descricao: descricaoSaida,
+        usuario: usuarioSaida,
+        lavanderia: lavanderiaDestino,
+        embalagens: embalagensSaida
+    };
+    
+    // Adiciona a movimentação à lista
+    movimentacoes.push(novaMovimentacao);
+    
+    // Fecha a modal e atualiza a lista de saídas
+    fecharModalSaidaLavanderia();
+    renderizarSaidasLavanderia();
+    
+    alert('Saída para lavanderia registrada com sucesso!');
+}
+// Função para abrir a modal de retorno
+function abrirModalRetornoLavanderia() {
+    document.getElementById('modalRetornoLavanderia').style.display = 'flex';
+    document.getElementById('formRetornoLavanderia').reset();
+    embalagensLidas = [];
+    document.getElementById('embalagensLidas').innerHTML = '<p>Nenhuma embalagem lida.</p>';
+    document.getElementById('statusLeituraEmbalagens').textContent = 'Nenhuma embalagem lida. Clique em "Ler Embalagens" para iniciar.';
+}
+
+// Função para fechar a modal de retorno
+function fecharModalRetornoLavanderia() {
+    document.getElementById('modalRetornoLavanderia').style.display = 'none';
+}
+
+// Função para renderizar os retornos da lavanderia
+// Função para renderizar os retornos da lavanderia
+function renderizarRetornosLavanderia(retornosFiltrados = null) {
+    const listaRetornos = document.getElementById('listaRetornosLavanderia');
+    
+    // Filtra as movimentações de saída que têm embalagens
+    const saidasComEmbalagens = movimentacoes.filter(mov => 
+        mov.tipo === 'Saída para Lavanderia' && 
+        mov.embalagens && 
+        mov.embalagens.length > 0
+    );
+    
+    if (saidasComEmbalagens.length === 0) {
+        listaRetornos.innerHTML = '<p>Nenhuma roupa pendente de retorno.</p>';
+        return;
+    }
+    
+    // Agrupa as saídas por data
+    const saidasPorData = {};
+    saidasComEmbalagens.forEach(saida => {
+        if (!saidasPorData[saida.data]) {
+            saidasPorData[saida.data] = [];
+        }
+        saidasPorData[saida.data].push(saida);
+    });
+    
+    // Renderiza as saídas agrupadas por data
+    let html = '';
+    Object.keys(saidasPorData).sort().reverse().forEach(data => {
+        html += `
+            <div class="bloco-dia">
+                <h3>Dia: ${formatarData(data)}</h3>
+        `;
+        
+        saidasPorData[data].forEach(saida => {
+            html += `
+                <div class="bloco-tipo">
+                    <h4>Saída para ${saida.lavanderia}</h4>
+                    <div class="movimentacao">
+                        <div class="descricao">${saida.descricao}</div>
+                        <div class="info">
+                            <span class="usuario">Usuário: ${saida.usuario}</span>
+                            <span class="hora">${saida.hora}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="embalagens-container">
+                        <h5>Roupas enviadas:</h5>
+            `;
+            
+            // Adiciona informações detalhadas de cada embalagem
+            saida.embalagens.forEach(embalagem => {
+                // Conta quantas roupas retornaram e quantas estão pendentes
+                const totalRoupas = embalagem.roupas ? embalagem.roupas.length : 0;
+                const roupasRetornadas = embalagem.roupas ? embalagem.roupas.filter(r => r.retornou).length : 0;
+                const roupasPendentes = totalRoupas - roupasRetornadas;
+                
+                html += `
+                    <div class="embalagem">
+                        <div class="embalagem-header">
+                            <div class="embalagem-titulo">Embalagem #${embalagem.numero}</div>
+                            <div class="embalagem-status">
+                                <span class="roupa-retornou">${roupasRetornadas} retornadas</span> / 
+                                <span class="roupa-pendente">${roupasPendentes} pendentes</span>
+                            </div>
+                        </div>
+                        <div class="embalagem-tags">
+                `;
+                
+                if (embalagem.roupas && embalagem.roupas.length > 0) {
+                    // Agrupa roupas por hóspede e quarto
+                    const roupasPorHospede = {};
+                    embalagem.roupas.forEach(roupa => {
+                        const chave = `${roupa.hospede} - Quarto ${roupa.quarto}`;
+                        if (!roupasPorHospede[chave]) {
+                            roupasPorHospede[chave] = [];
+                        }
+                        roupasPorHospede[chave].push(roupa);
+                    });
+                    
+                    // Exibe roupas agrupadas por hóspede
+                    Object.keys(roupasPorHospede).forEach(hospedeQuarto => {
+                        html += `
+                            <div class="hospede-grupo">
+                                <div class="hospede-titulo">${hospedeQuarto}</div>
+                                <div class="hospede-roupas">
+                        `;
+                        
+                        // Lista cada roupa com seu status
+                        roupasPorHospede[hospedeQuarto].forEach(roupa => {
+                            const statusClass = roupa.retornou ? 'roupa-retornou' : 'roupa-pendente';
+                            const statusText = roupa.retornou ? '✓ Retornou' : '⏱ Pendente';
+                            
+                            html += `
+                                <div class="roupa-item ${statusClass}">
+                                    <span class="roupa-descricao">${roupa.tipo} (${roupa.id})</span>
+                                    <span class="roupa-status">${statusText}</span>
+                                </div>
+                            `;
+                        });
+                        
+                        html += `
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    html += `<p>Nenhuma informação detalhada disponível</p>`;
+                }
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+    });
+    
+    listaRetornos.innerHTML = html;
+}
+
+// Função para iniciar a leitura de embalagens
+function iniciarLeituraEmbalagens() {
+    if (leituraAtiva) return;
+    
+    leituraAtiva = true;
+    
+    const statusElement = document.getElementById('statusLeituraEmbalagens');
+    const btnFinalizarElement = document.getElementById('btnFinalizarLeituraEmbalagens');
+    
+    statusElement.textContent = 'Leitura ativa. Aproxime as embalagens do leitor...';
+    statusElement.classList.add('leitura-ativa');
+    btnFinalizarElement.disabled = false;
+    
+    // Simulação de leitura de embalagens
+    simulacaoLeituraEmbalagens();
+}
+
+// Função para finalizar a leitura de embalagens
+function finalizarLeituraEmbalagens() {
+    if (!leituraAtiva) return;
+    
+    leituraAtiva = false;
+    
+    const statusElement = document.getElementById('statusLeituraEmbalagens');
+    const btnFinalizarElement = document.getElementById('btnFinalizarLeituraEmbalagens');
+    
+    statusElement.textContent = `Leitura finalizada. ${embalagensLidas.length} embalagens lidas.`;
+    statusElement.classList.remove('leitura-ativa');
+    btnFinalizarElement.disabled = true;
+}
+
+// Função para simular a leitura de embalagens
+function simulacaoLeituraEmbalagens() {
+    // Busca embalagens existentes nas movimentações
+    const embalagensPossiveis = [];
+    movimentacoes.forEach(mov => {
+        if (mov.tipo === 'Saída para Lavanderia' && mov.embalagens) {
+            mov.embalagens.forEach(emb => {
+                embalagensPossiveis.push({
+                    numero: emb.numero,
+                    lavanderia: mov.lavanderia,
+                    data: mov.data
+                });
+            });
+        }
+    });
+    
+    // Se não houver embalagens, cria algumas simuladas
+    if (embalagensPossiveis.length === 0) {
+        embalagensPossiveis.push(
+            { numero: 'EMB001', lavanderia: 'Lavanderia A', data: '2025-03-01' },
+            { numero: 'EMB002', lavanderia: 'Lavanderia A', data: '2025-03-01' },
+            { numero: 'EMB003', lavanderia: 'Lavanderia B', data: '2025-03-02' }
+        );
+    }
+    
+    // Simula a leitura de 1 a 3 embalagens aleatórias
+    const quantidadeEmbalagens = Math.floor(Math.random() * 3) + 1;
+    
+    for (let i = 0; i < quantidadeEmbalagens; i++) {
+        const embalagemAleatoria = embalagensPossiveis[Math.floor(Math.random() * embalagensPossiveis.length)];
+        
+        // Verifica se a embalagem já foi lida
+        if (!embalagensLidas.some(emb => emb.numero === embalagemAleatoria.numero)) {
+            embalagensLidas.push(embalagemAleatoria);
+        }
+    }
+    
+    // Atualiza a exibição das embalagens lidas
+    renderizarEmbalagensLidas();
+}
+
+// Função para renderizar as embalagens lidas
+function renderizarEmbalagensLidas() {
+    const embalagensLidasElement = document.getElementById('embalagensLidas');
+    
+    if (embalagensLidas.length === 0) {
+        embalagensLidasElement.innerHTML = '<p>Nenhuma embalagem lida.</p>';
+        return;
+    }
+    
+    let html = '';
+    embalagensLidas.forEach(embalagem => {
+        html += `
+            <div class="tag-item">
+                <div><span class="icone-tag"></span> ${embalagem.numero}</div>
+                <div>${embalagem.lavanderia} - ${formatarData(embalagem.data)}</div>
+            </div>
+        `;
+    });
+    
+    embalagensLidasElement.innerHTML = html;
+}
+
+// Função para filtrar retornos da lavanderia
+function filtrarRetornosLavanderia() {
+    const dataFiltro = document.getElementById('filtroDataRetorno').value;
+    const lavanderiaFiltro = document.getElementById('filtroLavanderiaRetorno').value;
+    
+    // Filtra as movimentações de saída que têm embalagens
+    let saidasFiltradas = movimentacoes.filter(mov => 
+        mov.tipo === 'Saída para Lavanderia' && 
+        mov.embalagens && 
+        mov.embalagens.length > 0
+    );
+    
+    // Aplica filtros adicionais se especificados
+    if (dataFiltro) {
+        saidasFiltradas = saidasFiltradas.filter(mov => mov.data === dataFiltro);
+    }
+    
+    if (lavanderiaFiltro) {
+        saidasFiltradas = saidasFiltradas.filter(mov => mov.lavanderia === lavanderiaFiltro);
+    }
+    
+    renderizarRetornosLavanderia(saidasFiltradas);
+}
+
+// Função para limpar filtros de retorno
+function limparFiltrosRetorno() {
+    document.getElementById('filtroDataRetorno').value = '';
+    document.getElementById('filtroLavanderiaRetorno').value = '';
+    renderizarRetornosLavanderia();
+}
+// Função para salvar o retorno da lavanderia
+function salvarRetornoLavanderia(event) {
+    event.preventDefault();
+    
+    const dataRetorno = document.getElementById('dataRetorno').value;
+    const horaRetorno = document.getElementById('horaRetorno').value;
+    
+    if (!dataRetorno || !horaRetorno || embalagensLidas.length === 0) {
+        alert('Preencha todos os campos obrigatórios e leia pelo menos uma embalagem!');
+        return;
+    }
+    
+    // Atualiza o status das roupas retornadas
+    embalagensLidas.forEach(embalagemLida => {
+        movimentacoes.forEach(mov => {
+            if (mov.tipo === 'Saída para Lavanderia') {
+                mov.embalagens.forEach(emb => {
+                    if (emb.numero === embalagemLida.numero) {
+                        emb.roupas.forEach(roupa => {
+                            roupa.retornou = true;
+                        });
+                    }
+                });
+            }
+        });
+    });
+    
+    fecharModalRetornoLavanderia();
+    renderizarRetornosLavanderia();
+    alert('Retorno registrado com sucesso!');
+}
+// Função para renderizar as devoluções para hóspedes
+function renderizarDevolucoes(devolucoesFiltradas = null) {
+    const listaDevolucoes = document.getElementById('listaDevolucoes');
+    
+    // Filtra as movimentações do tipo "Devolução para o Hóspede"
+    const devolucoes = devolucoesFiltradas || movimentacoes.filter(mov => mov.tipo === 'Devolução para o Hóspede');
+    
+    if (devolucoes.length === 0) {
+        listaDevolucoes.innerHTML = '<p>Nenhuma devolução para hóspede registrada.</p>';
+        return;
+    }
+    
+    // Agrupa as devoluções por data
+    const devolucoesPorData = {};
+    devolucoes.forEach(devolucao => {
+        if (!devolucoesPorData[devolucao.data]) {
+            devolucoesPorData[devolucao.data] = [];
+        }
+        devolucoesPorData[devolucao.data].push(devolucao);
+    });
+    
+    // Renderiza as devoluções agrupadas por data
+    let html = '';
+    Object.keys(devolucoesPorData).sort().reverse().forEach(data => {
+        html += `
+            <div class="bloco-dia">
+                <h3>Dia: ${formatarData(data)}</h3>
+        `;
+        
+        devolucoesPorData[data].forEach(devolucao => {
+            html += `
+                <div class="bloco-tipo">
+                    <h4>Devolução para ${devolucao.hospede} - Quarto ${devolucao.quarto}</h4>
+                    <div class="movimentacao">
+                        <div class="descricao">${devolucao.descricao}</div>
+                        <div class="info">
+                            <span class="usuario">Usuário: ${devolucao.usuario}</span>
+                            <span class="hora">${devolucao.hora}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="roupas-container">
+                        <h5>Roupas devolvidas:</h5>
+                        <div class="roupas-lista">
+            `;
+            
+            // Lista as roupas devolvidas
+            if (devolucao.roupas && devolucao.roupas.length > 0) {
+                // Agrupa roupas por tipo
+                const roupasPorTipo = {};
+                devolucao.roupas.forEach(roupa => {
+                    if (!roupasPorTipo[roupa.tipo]) {
+                        roupasPorTipo[roupa.tipo] = [];
+                    }
+                    roupasPorTipo[roupa.tipo].push(roupa);
+                });
+                
+                // Exibe roupas agrupadas por tipo
+                Object.keys(roupasPorTipo).forEach(tipo => {
+                    html += `
+                        <div class="tipo-roupa">
+                            <div class="tipo-titulo">${tipo} (${roupasPorTipo[tipo].length})</div>
+                            <div class="tipo-itens">
+                    `;
+                    
+                    roupasPorTipo[tipo].forEach(roupa => {
+                        html += `
+                            <div class="roupa-item">
+                                <span class="icone-tag"></span>
+                                <span>${roupa.id} - ${roupa.descricao}</span>
+                            </div>
+                        `;
+                    });
+                    
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                html += `<p>Nenhuma roupa registrada para esta devolução.</p>`;
+            }
+            
+            html += `
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+    });
+    
+    listaDevolucoes.innerHTML = html;
+}
+// Função para abrir a modal de devolução
+function abrirModalDevolucaoHospede() {
+    document.getElementById('modalDevolucaoHospede').style.display = 'flex';
+    document.getElementById('formDevolucaoHospede').reset();
+    tagsLidasDevolucao = [];
+    document.getElementById('tagsLidasDevolucao').innerHTML = '<p>Nenhuma tag lida.</p>';
+    document.getElementById('statusLeituraDevolucao').textContent = 'Nenhuma tag lida. Clique em "Ler Tags" para iniciar.';
+    
+    // Preenche a data e hora atuais
+    const dataAtual = new Date().toISOString().split('T')[0];
+    const horaAtual = new Date().toTimeString().slice(0, 5);
+    document.getElementById('dataDevolucao').value = dataAtual;
+    document.getElementById('horaDevolucao').value = horaAtual;
+    
+    // Preenche o usuário atual (simulado)
+    document.getElementById('usuarioDevolucao').value = 'Usuário Atual';
+}
+
+// Função para fechar a modal de devolução
+function fecharModalDevolucaoHospede() {
+    document.getElementById('modalDevolucaoHospede').style.display = 'none';
+}
+
+// Função para salvar a devolução para o hóspede
+function salvarDevolucaoHospede(event) {
+    event.preventDefault();
+    
+    const dataDevolucao = document.getElementById('dataDevolucao').value;
+    const horaDevolucao = document.getElementById('horaDevolucao').value;
+    const usuarioDevolucao = document.getElementById('usuarioDevolucao').value;
+    const hospedeDevolucao = document.getElementById('hospedeDevolucao').value;
+    const descricaoDevolucao = document.getElementById('descricaoDevolucao').value;
+    
+    if (!dataDevolucao || !horaDevolucao || !usuarioDevolucao || !hospedeDevolucao || !descricaoDevolucao) {
+        alert('Todos os campos obrigatórios devem ser preenchidos!');
+        return;
+    }
+    
+    if (tagsLidasDevolucao.length === 0) {
+        alert('É necessário ler pelo menos uma tag de roupa!');
+        return;
+    }
+    
+    // Obtém informações do hóspede selecionado
+    const hospedeInfo = document.getElementById('hospedeDevolucao').options[document.getElementById('hospedeDevolucao').selectedIndex].text;
+    const partes = hospedeInfo.split(' - Quarto ');
+    const nomeHospede = partes[0];
+    const quartoHospede = partes[1];
+    
+    // Cria uma nova movimentação
+    const novaMovimentacao = {
+        id: Date.now(),
+        tipo: 'Devolução para o Hóspede',
+        data: dataDevolucao,
+        hora: horaDevolucao,
+        descricao: descricaoDevolucao,
+        usuario: usuarioDevolucao,
+        hospede: nomeHospede,
+        quarto: quartoHospede,
+        roupas: tagsLidasDevolucao.map(tag => ({
+            id: tag.id,
+            descricao: tag.descricao,
+            tipo: tag.descricao.split(' - ')[1] // Extrai o tipo da descrição
+        }))
+    };
+    
+    // Adiciona a movimentação à lista
+    movimentacoes.push(novaMovimentacao);
+    
+    // Fecha a modal e atualiza a lista de devoluções
+    fecharModalDevolucaoHospede();
+    renderizarDevolucoes();
+    
+    alert('Devolução para o hóspede registrada com sucesso!');
+}
+
+// Função para filtrar devoluções
+function filtrarDevolucoes() {
+    const dataFiltro = document.getElementById('filtroDataDevolucao').value;
+    const hospedeFiltro = document.getElementById('filtroHospede').value.toLowerCase();
+    
+    let devolucoesFiltradas = movimentacoes.filter(mov => mov.tipo === 'Devolução para o Hóspede');
+    
+    if (dataFiltro) {
+        devolucoesFiltradas = devolucoesFiltradas.filter(mov => mov.data === dataFiltro);
+    }
+    
+    if (hospedeFiltro) {
+        devolucoesFiltradas = devolucoesFiltradas.filter(mov => 
+            mov.hospede.toLowerCase().includes(hospedeFiltro) || 
+            mov.quarto.toLowerCase().includes(hospedeFiltro)
+        );
+    }
+    
+    renderizarDevolucoes(devolucoesFiltradas);
+}
+
+// Função para limpar filtros de devolução
+function limparFiltrosDevolucao() {
+    document.getElementById('filtroDataDevolucao').value = '';
+    document.getElementById('filtroHospede').value = '';
+    renderizarDevolucoes();
+}
+// Adiciona os estilos CSS adicionais para a aba de devolução
+const styleDevolution = document.createElement('style');
+    styleDevolution.textContent = `
+        .roupas-container {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .roupas-lista {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .tipo-roupa {
+            flex: 1;
+            min-width: 200px;
+            background-color: white;
+            border-radius: 6px;
+            padding: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .tipo-titulo {
+            font-weight: 600;
+            color: #4a6ee0;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.25rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .tipo-itens {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .roupa-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0;
+        }
+    `;
+    document.head.appendChild(styleDevolution);
+// Adicionar os estilos ao documento
+document.addEventListener('DOMContentLoaded', function() {
+    // Adiciona os estilos CSS adicionais
+    const style = document.createElement('style');
+    style.textContent = estilosAdicionais;
+    document.head.appendChild(style);
+    // Inicializa as abas e carrega os dados iniciais
+mudarAba('entrada-roupa');
+
+// Preenche a data atual nos campos de data
+const dataAtual = new Date().toISOString().split('T')[0];
+document.getElementById('dataEntrada').value = dataAtual;
+
+// Preenche o usuário atual (simulado)
+const usuarioAtual = 'Usuário Atual';
+document.getElementById('usuarioEntrada').value = usuarioAtual;
+
+// Carrega os dados iniciais para todas as abas
+renderizarSaidasLavanderia();
+renderizarRetornosLavanderia();
+renderizarDevolucoes();
+            });
         </script>
     </body>
 </html>
